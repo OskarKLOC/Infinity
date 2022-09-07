@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Content index{% endblock %}
+
+{% block body %}
+    <h1>Content index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content_name</th>
+                <th>Content_type</th>
+                <th>Caption</th>
+                <th>URL</th>
+                <th>Creation_date</th>
+                <th>Edit_time</th>
+                <th>Contenus_status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for content in contents %}
+            <tr>
+                <td>{{ content.id }}</td>
+                <td>{{ content.contentName }}</td>
+                <td>{{ content.contentType }}</td>
+                <td>{{ content.caption }}</td>
+                <td>{{ content.URL }}</td>
+                <td>{{ content.creationDate ? content.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ content.editTime ? content.editTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ content.contenusStatus }}</td>
+                <td>
+                    <a href="{{ path('app_content_show', {'id': content.id}) }}">show</a>
+                    <a href="{{ path('app_content_edit', {'id': content.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_content_new') }}">Create new</a>
+{% endblock %}
