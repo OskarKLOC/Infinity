@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Capsule index{% endblock %}
+
+{% block body %}
+    <h1>Capsule index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Capsule_status</th>
+                <th>Mailing_date</th>
+                <th>Format</th>
+                <th>Creation_date</th>
+                <th>Seal_date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for capsule in capsules %}
+            <tr>
+                <td>{{ capsule.id }}</td>
+                <td>{{ capsule.name }}</td>
+                <td>{{ capsule.capsuleStatus }}</td>
+                <td>{{ capsule.mailingDate ? capsule.mailingDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ capsule.format }}</td>
+                <td>{{ capsule.creationDate ? capsule.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ capsule.sealDate ? capsule.sealDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_capsule_show', {'id': capsule.id}) }}">show</a>
+                    <a href="{{ path('app_capsule_edit', {'id': capsule.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_capsule_new') }}">Create new</a>
+{% endblock %}

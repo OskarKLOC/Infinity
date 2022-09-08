@@ -1,45 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Capsule index{% endblock %}
+{% block title %}Capsule Memories - Edition de ma capsule{% endblock %}
 
 {% block body %}
-    <h1>Capsule index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Capsule_status</th>
-                <th>Mailing_date</th>
-                <th>Format</th>
-                <th>Creation_date</th>
-                <th>Seal_date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for capsule in capsules %}
-            <tr>
-                <td>{{ capsule.id }}</td>
-                <td>{{ capsule.name }}</td>
-                <td>{{ capsule.capsuleStatus }}</td>
-                <td>{{ capsule.mailingDate ? capsule.mailingDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ capsule.format }}</td>
-                <td>{{ capsule.creationDate ? capsule.creationDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ capsule.sealDate ? capsule.sealDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_capsule_show', {'id': capsule.id}) }}">show</a>
-                    <a href="{{ path('app_capsule_edit', {'id': capsule.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h1>Edition de ma capsule</h1>
 
-    <a href="{{ path('app_capsule_new') }}">Create new</a>
+    <div id="capsule-root"></div>
+
+    {{ form_start(form) }}
+        {{ form_errors(form.name)}}
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        <div>Date de création : {{ capsule.getCreationDate().format('d/m/Y') }} </div>
+        {{ form_label(form.capsule_status) }}
+        {{ form_widget(form.capsule_status) }}
+        {{ capsule.getSealDate().format('d/m/Y H:i') }}
+        {{ form_label(form.format) }}
+        {{ form_widget(form.format) }}
+        {{ form_label(form.mailing_date) }}
+        {{ form_widget(form.mailing_date) }}
+        {{ form_label(form.user) }}
+        {{ form_widget(form.user) }}
+        <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form, {render_rest: true}) }}
+
+    <a href="{{ path('app_capsule_list') }}">Revenir à ma liste de capsules</a>
+
+    {{ include('capsule/_delete_form.html.twig') }}
 {% endblock %}

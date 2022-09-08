@@ -39,6 +39,16 @@ class CapsuleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneById($id): ?Capsule
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }    
+
 //    /**
 //     * @return Capsule[] Returns an array of Capsule objects
 //     */
