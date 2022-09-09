@@ -25,7 +25,5 @@
         <button class="btn">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form, {render_rest: true}) }}
 
-    <a href="{{ path('app_capsule_list') }}">Revenir à ma liste de capsules</a>
-
-    {{ include('capsule/_delete_form.html.twig') }}
+    
 {% endblock %}
