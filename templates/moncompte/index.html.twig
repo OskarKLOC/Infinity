@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MoncompteController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Bienvennue  {{ userData.lastname }} {{ userData.firstname }}!</h1>
+ 
+
+    {# FORMULAIRE servant à consulter et modifier les informations du compte #}
+    <form>
+
+    <br>
+
+    <div>
+        <label> NOM </label>
+        <input type="text" id="lastname" name="user_lastname" value={{ userData.lastname }}> </input>
+
+        <br>
+
+        <label> Prénom </label>
+        <input type="text" id="fisrtname" name="user_firstname" value={{ userData.firstname }}> </input>
+    </div>
+
+    {# Informations concernant la naissance #}
+    <div>
+     
+        <label> Date de naissance </label>
+        <input type="date" id="birthdate" name="user_birthdate" value={{ userData.birthdate }}> </input>
+
+        <br>
+
+        <label> Ville de naissance </label>
+        <input type="text" id="birthplace" name="user_birthplace" value={{ userData.email }}> </input>
+
+    </div>
+   
+    {# Moyen de contact #}
+    <div>
+        <label> Adresse </label>
+        <input type="text" id="address" name="user_address" value={{ userData.email }}> </input>
+    
+        <br>
+
+        <label> Adresse mail </label>
+        <input type="email" id="email" name="user_email" value={{ userData.email }}> </input>
+    
+        <br>
+
+        <label> Numéro de téléphone </label>
+        <input type="tel" id="telnumber" name="user_telnumber" value=
+    {# {{ userData.phone_number }} #}
+    > </input>
+    </div>
+ 
+    <br>
+
+    <p>Forfait choisi {{ userData.email }} </p> 
+
+    {# <label> Ville de naissance </label> #}
+    <input type="submit" value="Valider les informations"> </input>
+  
+    </form>
+
+</div>
+{% endblock %}
