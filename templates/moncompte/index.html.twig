@@ -49,8 +49,9 @@
        
     </div>
    
-    
-{{ form_end(form) }}
+    {# S'occupe des champs qui ont été oubliés  #}
+    {# Le render rest false empèche d'afficher les champs manquants  #}
+{{ form_end(form, {'render_rest': false})  }}
 
 <button class="btn">{{ button_label|default('Save') }}</button>
 
