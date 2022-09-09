@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Capsule{% endblock %}
+
+{% block body %}
+    <h1>Capsule</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ capsule.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ capsule.name }}</td>
+            </tr>
+            <tr>
+                <th>Capsule_status</th>
+                <td>{{ capsule.capsuleStatus }}</td>
+            </tr>
+            <tr>
+                <th>Mailing_date</th>
+                <td>{{ capsule.mailingDate ? capsule.mailingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Format</th>
+                <td>{{ capsule.format }}</td>
+            </tr>
+            <tr>
+                <th>Creation_date</th>
+                <td>{{ capsule.creationDate ? capsule.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Seal_date</th>
+                <td>{{ capsule.sealDate ? capsule.sealDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_capsule_index') }}">back to list</a>
+
+    <a href="{{ path('app_capsule_edit', {'id': capsule.id}) }}">edit</a>
+
+    {{ include('capsule/_delete_form.html.twig') }}
+{% endblock %}
