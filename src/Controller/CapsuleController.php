@@ -48,6 +48,31 @@ class CapsuleController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/photo', name: 'app_capsule_photo', methods: ['GET', 'POST'])]
+    public function photo(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): Response
+    {
+
+        $form = $this->createForm(CapsuleType::class, $capsule);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $newStatus = $capsule->getCapsuleStatus();
+            if ($newStatus == 'SEALED' && $newStatus != $oldStatus) {
+                $capsule->setSealDate(new DateTime());
+            }
+
+            $capsuleRepository->add($capsule, true);
+
+            return $this->redirectToRoute('app_capsule_index', ['id' => $capsule->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('capsule/index.html.twig', [
+            'capsule' => $capsule,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/api_get_capsule/{id}', name: 'app_capsule_api_get', methods: ['GET', 'POST'])]
     public function apiGetCapsule(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): JsonResponse
     {
@@ -64,27 +89,52 @@ class CapsuleController extends AbstractController
     }
 
     #[Route('/api_set_capsule/{id}', name: 'app_capsule_api_set', methods: ['POST'])]
-    public function apiSetCapsule(Request $request, CapsuleRepository $capsuleRepository): JsonResponse
+    public function apiSetCapsule(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): JsonResponse
     {
         // Il faut maintenant faire le dispatch des différentes informations récupérées dans un objet Capsule pour l'injection en BDD
+        // Il faut aussi mettre en place les contrôles
         
-        $capsule = json_decode($request->getContent());
-        dd($capsule);
+        $newCapsule = json_decode($request->getContent());
+        // dd($newCapsule);
+
         // On récupère le statut de la capsule présente en BDD pour comparer ultérieurement dans la fonction
         $oldStatus = $capsuleRepository->findOneById($request->get('id'))->getCapsuleStatus();
-        $newStatus = $capsule->capsuleStatus;
+        $newStatus = $newCapsule->capsuleStatus;
         
+        // Le statut renvoyé fait-il partie des valeurs admissibles ?
+        if($newStatus == 'SEALED' || $newStatus == 'UNSEALED') {
+            $capsule->setCapsuleStatus($newStatus);
+        } else {
+            return new JsonResponse('Erreur - Statut de capsule corrompu');
+        }
+
+        // La capsule est-elle de nouveau scellée ?
         if ($newStatus == 'SEALED' && $newStatus != $oldStatus) {
             $capsule->setSealDate(new DateTime());
         }
 
+        // Le format renvoyé fait-il partie des valeurs admissibles ?
+        if($newCapsule->format == 'VIRTUAL' || $newCapsule->format == 'SOLID') {
+            $capsule->setFormat($newCapsule->format);
+        } else {
+            return new JsonResponse('Erreur - Format de capsule corrompu');
+        }
+
+        // La longueur du nom de la capsule est-il dans la limite attendue ?
+        if (strlen($newCapsule->name < 255)) {
+            $capsule->setName($newCapsule->name);
+        } else {
+            return new JsonResponse('Erreur - Le nom de la capsule est trop long');
+        }
+        
+        // On met à jour les données de la capsule avec les informations reçues
         $capsuleRepository->add($capsule, true);
 
-        // On transmet notre objet qui contient les données d'une capsule
-        return new JsonResponse('test');
+        // On transmet la réponse confirmant que l'enregistrement s'est bien réalisé
+        return new JsonResponse('Modifications de la capsule enregistrées');
     }
 
-    /*#[Route('/list', name: 'app_capsule_list', methods: ['GET'])]
+    #[Route('/list', name: 'app_capsule_list', methods: ['GET'])]
     public function list(CapsuleRepository $capsuleRepository): Response
     {
         return $this->render('capsule/list.html.twig', [
@@ -145,5 +195,5 @@ class CapsuleController extends AbstractController
         }
 
         return $this->redirectToRoute('app_capsule_index', [], Response::HTTP_SEE_OTHER);
-    }*/
+    }
 }

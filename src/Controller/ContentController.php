@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Content;
 use App\Form\ContentType;
 use App\Repository\ContentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Filesystem;
 
 #[Route('/content')]
 class ContentController extends AbstractController
 {
+    
     #[Route('/', name: 'app_content_index', methods: ['GET'])]
     public function index(ContentRepository $contentRepository): Response
     {
@@ -20,6 +24,64 @@ class ContentController extends AbstractController
             'contents' => $contentRepository->findAll(),
         ]);
     }
+
+    #[Route('/api_set_content/{id}', name: 'app_content_api_set', methods: ['POST'])]
+    public function apiSetContent(Request $request, ContentRepository $contentRepository): JsonResponse
+    {        
+        // On récupère les données envoyées en POST et FILE
+        $newContent = json_decode($request->request->get('content'));
+        $newFile = $request->files->get('file');
+
+        // On crée le répertoire qui permet de stocker les fichiers reçus
+        $filesystem = new Filesystem();
+        $filesystem->mkdir('../data/content/' . $newContent->capsuleId . '/images');
+
+        // On déclare l'objet qui va contenir les informations à pousser en BDD
+        $content = new Content();
+
+        // On initie les valeurs prédéfinies
+        // $content->setCapsule($newContent->capsuleId);
+        $content->setCreationDate(new DateTime());
+        $content->setEditTime(new DateTime());
+        $content->setContenusStatus('WAITING_FOR_ADD');
+        
+        // La longueur du titre associé au fichier est-il dans la limite attendue ?
+        if (strlen($newContent->name < 255)) {
+            $content->setContentName($newContent->name);
+        } else {
+            return new JsonResponse('Erreur - Le titre associé au fichier est trop long');
+        }
+
+        // Le format renvoyé fait-il partie des valeurs admissibles ?
+        if($newContent->type == 'Photo' || $newContent->type == 'Audio' || $newContent->type == 'Vidéo') {
+            $content->setContentType($newContent->type);
+        } else {
+            return new JsonResponse('Erreur - Format de contenu non autorisé');
+        }
+
+        // On pousse le contenu de la description
+        // Pour le moment, je ne vois pas quels contrôles je pourrais faire
+        $content->setCaption($newContent->description);
+
+        // La taille du fichier est-il dans la limite autorisée ?
+        if ($newFile->getSize() <= 3000000)
+        {
+            $tmpImagePath = $newFile->getPathName();
+            $destinationImagePath = '../data/content/'. $newContent->capsuleId . '/images/' . $newFile->getFileName() . '.jpg';
+            $content->setURL($destinationImagePath);
+            $succes = move_uploaded_file($tmpImagePath, $destinationImagePath);
+        } else {
+            return new JsonResponse('Erreur - La taille du fichier est trop importante');
+        }
+        
+
+        // On met à jour en BDD les contenus associés à la capsule avec les informations reçues
+        $contentRepository->add($content, true);
+
+        // On transmet la réponse confirmant que l'enregistrement s'est bien réalisé
+        return new JsonResponse('Nouveau contenu ajouté avec succès');
+    }
+
 
     #[Route('/new', name: 'app_content_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ContentRepository $contentRepository): Response
