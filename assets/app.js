@@ -3,16 +3,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import CapsuleParams from './CapsuleParams';
-import CapsulePhoto from './CapsulePhoto';
+import { BrowserRouter } from 'react-router-dom';
+import MaCapsule from './MaCapsule';
 
 const capsuleRoot = ReactDOM.createRoot(document.getElementById('capsule-root'));
 capsuleRoot.render(
     <BrowserRouter>
-        <Routes>
-            <Route path='/capsule/:id' element={<CapsuleParams></CapsuleParams>}></Route>
-            <Route path='/capsule/:id/photo' element={<CapsulePhoto></CapsulePhoto>}></Route>
-        </Routes>
+        <MaCapsule></MaCapsule>
     </BrowserRouter>
 );

@@ -121,7 +121,7 @@ class CapsuleController extends AbstractController
         }
 
         // La longueur du nom de la capsule est-il dans la limite attendue ?
-        if (strlen($newCapsule->name < 255)) {
+        if (strlen($newCapsule->name) < 255) {
             $capsule->setName($newCapsule->name);
         } else {
             return new JsonResponse('Erreur - Le nom de la capsule est trop long');

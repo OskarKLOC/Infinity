@@ -46,7 +46,7 @@ class ContentController extends AbstractController
         $content->setContenusStatus('WAITING_FOR_ADD');
         
         // La longueur du titre associé au fichier est-il dans la limite attendue ?
-        if (strlen($newContent->name < 255)) {
+        if (strlen($newContent->name) < 255) {
             $content->setContentName($newContent->name);
         } else {
             return new JsonResponse('Erreur - Le titre associé au fichier est trop long');
