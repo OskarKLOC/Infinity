@@ -2,10 +2,10 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-function CapsulePhoto () {
+function CapsuleFichier (props) {
     // Variable pour nous permettre d'utiliser l'id passé en GET
     let params = useParams();
-    
+
     const [message, setMessage] = useState('');             // Message contextuel de succès ou d'échec de l'action
     const [messageClass, setMessageClass] = useState('');   // Classe l'affichage bootstrap de notre message
     const [content, setContent] = useState({});             // Objet contenant les informations à passer en POST
@@ -15,7 +15,7 @@ function CapsulePhoto () {
     useEffect(() => {
         let contentParameters = new Object();
         contentParameters.capsuleId = params.id;
-        contentParameters.type = 'Photo';
+        contentParameters.type = props.type;
         setContent(contentParameters);
     },[]);
 
@@ -36,13 +36,13 @@ function CapsulePhoto () {
 
         // On met à jour uniquement la valeur qui a changé
         switch (target.name) {
-            case 'capsule-photo-name':
+            case 'capsule-fichier-title':
                 input.name = target.value; 
                 break;
-            case 'capsule-photo':
+            case 'capsule-fichier':
                 setFile(target.files[0]);
                 break;
-            case 'capsule-photo-text':
+            case 'capsule-fichier-text':
                 input.description = target.value;
                 break;
             default:
@@ -61,16 +61,11 @@ function CapsulePhoto () {
         console.log(content);
 
         let formData = new FormData();
-        // formData.append('capsuleId', params.id);
-        // formData.append('type', 'Photo');
-        // formData.append('name', content.name);
-        // formData.append('description', content.description);
         formData.append('content', JSON.stringify(content));
         formData.append('file', file);
 
         // On fait appel à notre API en POST en passant l'objet qui contient nos données
-        //fetch('/content/api_set_content/1', { method: 'POST', headers: {'content-type': 'multipart/form-data'}, body: JSON.stringify(content)})
-        fetch('/content/api_set_content/1', { method: 'POST', body: formData})
+        fetch('/content/api_set_content/' + content.capsuleId, { method: 'POST', body: formData})
         .then((headers) => {
             return headers.json();
         }).then((data) => {
@@ -79,29 +74,27 @@ function CapsulePhoto () {
         })
     }
 
-
     return (
         <>
-            <h2>Ajout d'une photo à ma capsule</h2>
+            <h2>Ajout d'un message {props.type} à ma capsule</h2>
             <div className={messageClass}>{message}</div>
             <form onSubmit={handleSubmit} method="post" encType="multipart/form-data">
                 <div>
-                    <label htmlFor="capsule-photo-name">Titre de votre photo : </label>
-                    <input type="text" id="capsule-photo-name" name="capsule-photo-name" onChange={handleChange} />
+                    <label htmlFor="capsule-fichier-title">Titre de votre {props.type} : </label>
+                    <input type="text" id="capsule-fichier-title" name="capsule-fichier-title" onChange={handleChange} />
                 </div>
                 <div>
-                    <label htmlFor="capsule-photo">Photo à charger : </label>
-                    <input type="file" accept="image/png, image/jpeg, capture" capture="user" id="capsule-photo" name="capsule-photo" onChange={handleChange} />
+                    <label htmlFor="capsule-fichier">Chargement de votre {props.type} : </label>
+                    <input type="file" accept="image/png, image/jpeg, capture" capture="user" id="capsule-fichier" name="capsule-fichier" onChange={handleChange} />
                 </div>
                 <div>
-                    <label htmlFor="capsule-photo-text">Commentaire sur votre photo : </label>
-                    <textarea name="capsule-photo-text" id="capsule-photo-text" onChange={handleChange}></textarea>
+                    <label htmlFor="capsule-fichier-text">Commentaire sur votre {props.type} : </label>
+                    <textarea name="capsule-fichier-text" id="capsule-fichier-text" onChange={handleChange}></textarea>
                 </div>
                 <button type="submit">Enregistrer</button>
-                <p> </p>
             </form>
         </>
     );
 }
 
-export default CapsulePhoto;
+export default CapsuleFichier;

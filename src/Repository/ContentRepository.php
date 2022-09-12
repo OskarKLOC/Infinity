@@ -39,6 +39,20 @@ class ContentRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Content[] Returns an array of Content objects
+     */
+    public function findAllByCapsuleId($id): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.capsule = :id')
+            ->setParameter('id', $id)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Content[] Returns an array of Content objects
 //     */

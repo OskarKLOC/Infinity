@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -48,31 +49,6 @@ class CapsuleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/photo', name: 'app_capsule_photo', methods: ['GET', 'POST'])]
-    public function photo(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): Response
-    {
-
-        $form = $this->createForm(CapsuleType::class, $capsule);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $newStatus = $capsule->getCapsuleStatus();
-            if ($newStatus == 'SEALED' && $newStatus != $oldStatus) {
-                $capsule->setSealDate(new DateTime());
-            }
-
-            $capsuleRepository->add($capsule, true);
-
-            return $this->redirectToRoute('app_capsule_index', ['id' => $capsule->getId()], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('capsule/index.html.twig', [
-            'capsule' => $capsule,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/api_get_capsule/{id}', name: 'app_capsule_api_get', methods: ['GET', 'POST'])]
     public function apiGetCapsule(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): JsonResponse
     {
@@ -81,8 +57,8 @@ class CapsuleController extends AbstractController
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
 
-        // On sérialise l'objet à transmettre
-        $data = $serializer->serialize($capsule, 'json');
+        // On sérialise l'objet à transmettre, en sélectionnant les valeurs sans relations
+        $data = $serializer->serialize($capsule, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'name', 'capsuleStatus', 'mailingDate', 'format', 'creationDate', 'sealDate']]);
 
         // On transmet notre objet qui contient les données d'une capsule
         return new JsonResponse($data);

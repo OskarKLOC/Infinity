@@ -88,31 +88,30 @@ function CapsuleParams () {
             <h2>Paramètres de ma capsule</h2>
             <div className={messageClass}>{message}</div>
             <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="capsule-name">Nom de ma capsule : </label>
-                <input type="text" id="capsule-name" name="capsule-name" value={capsule.name} onChange={handleChange} />
-            </div>
-            <div>
-                <p>Date de création : {creationDate}</p>
-            </div>
-            <div>
-                <p>Verrouillage de ma capsule</p>
-                <input type="radio" name="capsule-status" value="SEALED" id="SEALED" checked={capsule.capsuleStatus === "SEALED"} onChange={handleChange}/>
-                <label htmlFor="SEALED">Scellée</label>
-                <input type="radio" name="capsule-status" value="UNSEALED" id="UNSEALED" checked={capsule.capsuleStatus === "UNSEALED"} onChange={handleChange}/>
-                <label htmlFor="UNSEALED">Descellée</label>
-                <p>Date de dernier verrouillage: {sealDate}</p>
-            </div>
-            <div>
-                <p>Format de ma capsule</p>
-                <input type="radio" name="capsule-type" value="VIRTUAL" id="VIRTUAL" checked={capsule.format === "VIRTUAL"} onChange={handleChange}/>
-                <label htmlFor="VIRTUAL">Numérique</label>
-                <input type="radio" name="capsule-type" value="SOLID" id="SOLID" checked={capsule.format === "SOLID"} onChange={handleChange}/>
-                <label htmlFor="SOLID">Physique</label>
-            </div>
-            <button type="submit">Enregistrer</button>
-            <p> </p>
-        </form>
+                <div>
+                    <label htmlFor="capsule-name">Nom de ma capsule : </label>
+                    <input type="text" id="capsule-name" name="capsule-name" value={capsule.name} onChange={handleChange} />
+                </div>
+                <div>
+                    <p>Date de création : {creationDate}</p>
+                </div>
+                <div>
+                    <p>Verrouillage de ma capsule</p>
+                    <input type="radio" name="capsule-status" value="SEALED" id="SEALED" checked={capsule.capsuleStatus === "SEALED"} onChange={handleChange}/>
+                    <label htmlFor="SEALED">Scellée</label>
+                    <input type="radio" name="capsule-status" value="UNSEALED" id="UNSEALED" checked={capsule.capsuleStatus === "UNSEALED"} onChange={handleChange}/>
+                    <label htmlFor="UNSEALED">Descellée</label>
+                    <p>Date de dernier verrouillage: {sealDate}</p>
+                </div>
+                <div>
+                    <p>Format de ma capsule</p>
+                    <input type="radio" name="capsule-type" value="VIRTUAL" id="VIRTUAL" checked={capsule.format === "VIRTUAL"} onChange={handleChange}/>
+                    <label htmlFor="VIRTUAL">Numérique</label>
+                    <input type="radio" name="capsule-type" value="SOLID" id="SOLID" checked={capsule.format === "SOLID"} onChange={handleChange}/>
+                    <label htmlFor="SOLID">Physique</label>
+                </div>
+                <button type="submit">Enregistrer</button>
+            </form>
         </>
     );
 }
