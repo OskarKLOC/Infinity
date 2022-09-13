@@ -62,9 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true)]
     private ?\DateTimeInterface $registration_date = null;
 
-    #[ORM\ManyToMany(targetEntity: Capsule::class, mappedBy: 'user')]
-    private Collection $capsules;
-
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
@@ -298,30 +295,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Capsule>
-     */
-    public function getCapsules(): Collection
-    {
-        return $this->capsules;
-    }
-
-    public function addCapsule(Capsule $capsule): self
-    {
-        if (!$this->capsules->contains($capsule)) {
-            $this->capsules->add($capsule);
-            $capsule->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCapsule(Capsule $capsule): self
-    {
-        if ($this->capsules->removeElement($capsule)) {
-            $capsule->removeUser($this);
-        }
-
-        return $this;
-    }
 }

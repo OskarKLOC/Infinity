@@ -20,8 +20,7 @@
         {{ form_widget(form.format) }}
         {{ form_label(form.mailing_date) }}
         {{ form_widget(form.mailing_date) }}
-        {{ form_label(form.user) }}
-        {{ form_widget(form.user) }}
+        
         <button class="btn">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form, {render_rest: true}) }}
 
@@ -30,3 +29,6 @@
     {{ include('capsule/_delete_form.html.twig') }}
   
 {% endblock %}
+
+{# {{ form_label(form.user) }}
+        {{ form_widget(form.user) }} #}
