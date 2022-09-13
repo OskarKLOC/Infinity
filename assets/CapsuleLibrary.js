@@ -37,6 +37,17 @@ function CapsuleLibrary () {
         setSelection(listIds);
     },[contents]);
 
+    // Si la variable d'état est alimentée d'un message à afficher
+    useEffect(() => {
+        // On fournit la classe bootstrap pour le style
+        setMessageClass('alert alert-primary');
+        // On lance une commande pour retirer l'affichage du message au bout de quelques secondes
+        setTimeout(() => {
+            setMessage('');
+            setMessageClass('');
+        }, 7000);
+    },[message]);
+
     function handleChange (e) {
         let listIds = [...selection];
         let id = parseInt(e.currentTarget.value);

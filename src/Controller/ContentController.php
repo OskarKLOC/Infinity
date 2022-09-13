@@ -79,7 +79,7 @@ class ContentController extends AbstractController
         }
 
         // Le format renvoyé fait-il partie des valeurs admissibles ?
-        if($newContent->type == 'photo' || $newContent->type == 'audio' || $newContent->type == 'vidéo') {
+        if($newContent->type == 'photo' || $newContent->type == 'audio'  || $newContent->type == 'vidéo'|| $newContent->type == 'texte') {
             $content->setContentType($newContent->type);
         } else {
             return new JsonResponse('Erreur - Format de contenu non autorisé');
@@ -87,17 +87,25 @@ class ContentController extends AbstractController
 
         // On pousse le contenu de la description
         // Pour le moment, je ne vois pas quels contrôles je pourrais faire
-        $content->setCaption($newContent->description);
+        $content->setCaption($newContent->message);
 
-        // La taille du fichier est-il dans la limite autorisée ?
-        if ($newFile->getSize() <= 3000000)
-        {
-            $tmpImagePath = $newFile->getPathName();
-            $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.jpg';
-            $content->setURL($destinationImagePath);
-            $succes = move_uploaded_file($tmpImagePath, $destinationImagePath);
-        } else {
-            return new JsonResponse('Erreur - La taille du fichier est trop importante');
+        // Un fichier a-t-il été transmis ?
+        if ($newFile && $newContent->type != 'texte') {
+            // La taille du fichier est-il dans la limite autorisée ?
+            if ($newFile->getSize() <= 3000000)
+            {
+                $tmpImagePath = $newFile->getPathName();
+                $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.jpg';
+                $content->setURL($destinationImagePath);
+                $succes = move_uploaded_file($tmpImagePath, $destinationImagePath);
+            } else {
+                return new JsonResponse('Erreur - La taille du fichier est trop importante');
+            }
+        }
+
+        // Le contenu est-il de type texte ?
+        if ($newContent->type = 'texte') {
+            $content->setURL('NONE');
         }
         
         // On met à jour en BDD les contenus associés à la capsule avec les informations reçues
