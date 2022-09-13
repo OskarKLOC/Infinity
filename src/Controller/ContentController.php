@@ -111,58 +111,27 @@ class ContentController extends AbstractController
     #[Route('/api_set_selection/{id}', name: 'app_content_api_set_selection', methods: ['POST'])]
     public function apiSetSelection(Request $request, Capsule $capsule, ContentRepository $contentRepository): JsonResponse
     {        
-        // On récupère les données envoyées en POST et FILE
-        $selection = $request->getContent();
-        dd($selection);
-        $newFile = $request->files->get('file');
-
-        // On crée le répertoire qui permet de stocker les fichiers reçus
-        $filesystem = new Filesystem();
-        $filesystem->mkdir('../public/data/content/' . $newContent->capsuleId);
-
-        // On déclare l'objet qui va contenir les informations à pousser en BDD
-        $content = new Content();
-
-        // On initie les valeurs prédéfinies
-        $content->setCapsule($capsule);
-        $content->setCreationDate(new DateTime());
-        $content->setEditTime(new DateTime());
-        $content->setContenusStatus('WAITING_FOR_ADD');
+        // On récupère tous les contenus de la capsule
+        $capsuleId = $request->get('id');
+        $contents = $contentRepository->findAllByCapsuleId($capsuleId);
         
-        // La longueur du titre associé au fichier est-il dans la limite attendue ?
-        if (strlen($newContent->name) < 255) {
-            $content->setContentName($newContent->name);
-        } else {
-            return new JsonResponse('Erreur - Le titre associé au fichier est trop long');
-        }
+        // On récupère les identifiants de contenus sélectionnés passés en POST
+        $selection = json_decode($request->getContent());
 
-        // Le format renvoyé fait-il partie des valeurs admissibles ?
-        if($newContent->type == 'photo' || $newContent->type == 'audio' || $newContent->type == 'vidéo') {
-            $content->setContentType($newContent->type);
-        } else {
-            return new JsonResponse('Erreur - Format de contenu non autorisé');
+        // On boucle sur tous les contenus de la capsule
+        foreach ($contents as $content) {
+            // On réinitialise l'inclusion dans la capsule finale
+            $content->setContenusStatus('WAITING_FOR_ADD');
+            // Si le contenu fait partie de la sélection, on met à jour son inclusion
+            if (in_array($content->getId(), $selection) != false) {
+                $content->setContenusStatus('ADDED');
+            }
+            // On injecte le contenu ajusté
+            $contentRepository->add($content, true);
         }
-
-        // On pousse le contenu de la description
-        // Pour le moment, je ne vois pas quels contrôles je pourrais faire
-        $content->setCaption($newContent->description);
-
-        // La taille du fichier est-il dans la limite autorisée ?
-        if ($newFile->getSize() <= 3000000)
-        {
-            $tmpImagePath = $newFile->getPathName();
-            $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.jpg';
-            $content->setURL($destinationImagePath);
-            $succes = move_uploaded_file($tmpImagePath, $destinationImagePath);
-        } else {
-            return new JsonResponse('Erreur - La taille du fichier est trop importante');
-        }
-        
-        // On met à jour en BDD les contenus associés à la capsule avec les informations reçues
-        $contentRepository->add($content, true);
 
         // On transmet la réponse confirmant que l'enregistrement s'est bien réalisé
-        return new JsonResponse('Nouveau contenu ajouté avec succès');
+        return new JsonResponse('Sélection prise en compte avec succès');
     }
 
 
