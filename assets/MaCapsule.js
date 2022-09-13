@@ -5,6 +5,7 @@ import CapsuleNav from './CapsuleNav';
 import CapsuleParams from './CapsuleParams';
 import CapsuleFichier from './CapsuleFichier';
 import CapsuleLibrary from './CapsuleLibrary';
+import CapsuleText from './CapsuleText';
 
 function MaCapsule () {
     
@@ -15,6 +16,7 @@ function MaCapsule () {
             <CapsuleNav id={id}></CapsuleNav>
             <Routes>
                 <Route path='/capsule/:id' element={<CapsuleParams></CapsuleParams>}></Route>
+                <Route path='/capsule/:id/texte' element={<CapsuleText></CapsuleText>}></Route>
                 <Route path='/capsule/:id/photo' element={<CapsuleFichier type="photo"></CapsuleFichier>}></Route>
                 <Route path='/capsule/:id/audio' element={<CapsuleFichier type="audio"></CapsuleFichier>}></Route>
                 <Route path='/capsule/:id/video' element={<CapsuleFichier type="vidéo"></CapsuleFichier>}></Route>
