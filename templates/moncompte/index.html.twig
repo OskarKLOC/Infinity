@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MoncompteController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+{#  
+{{ form(form)}} #}
+
+{{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.lastname) }}
+        {{ form_widget(form.lastname) }}
+        
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.firstname) }}
+        {{ form_widget(form.firstname) }}
+       
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.birthdate) }}
+        {{ form_widget(form.birthdate) }}
+       
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.birth_city) }}
+        {{ form_widget(form.birth_city) }}
+       
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.phone_number) }}
+        {{ form_widget(form.phone_number) }}
+       
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.user_type) }}
+        {{ form_widget(form.user_type) }}
+       
+    </div>
+   
+    {# S'occupe des champs qui ont été oubliés  #}
+    {# Le render rest false empèche d'afficher les champs manquants  #}
+{{ form_end(form, {'render_rest': false})  }}
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+
+</div>
+{% endblock %}
