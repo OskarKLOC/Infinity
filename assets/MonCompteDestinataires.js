@@ -2,26 +2,27 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import MesCapsules from './MesCapsules';
 
-function MonCompteCapsule () {
+function MonCompteDestinataire () {
 
-    const [capsules, setCapsules] = useState([0]);
+    const [destinataires, setCapsules] = useState([0]);
     const [affichage, setAffichage] = useState('');
     
     // Au chargement du module, on récupère la liste des capsules à afficher
     useEffect(() => {
-        searchAllCapsules();
+        // searchAllCapsules();
+        setAffichage('Vous n\'avez pas encore créé de destinataires...');
     },[]);
 
     // A chaque mise à jour de la liste des capsules
     useEffect(()=>{
         // Est-ce que la liste est vide ?
-        if (!capsules.length) {
-            setAffichage('Vous n\'avez pas encore créé votre première capsule...');
+        if (!destinataires.length) {
+            setAffichage('Vous n\'avez pas encore créé de destinataires...');
         // Sinon, le contenu est-il différent de la valeur par défaut de départ ?
-        } else if (capsules[0] != 0) {
+        } else if (destinataires[0] != 0) {
             setAffichage(<MesCapsules capsules={capsules}></MesCapsules>);
         }
-    },[capsules])
+    },[destinataires])
 
     function searchAllCapsules () {
         // Appel de notre API en l'identifiant de la capsule en paramètre GET
@@ -52,12 +53,19 @@ function MonCompteCapsule () {
             searchAllCapsules();
         })
     }
+
+    // Au clic sur le bouton dédié, on crée une nouvelle capsule
+    function createNewRecipient (e) {
+        // On bloque le comportement par défaut du formulaire
+        e.preventDefault();
+        console.log('test');
+    }
     
     return (
         <>
-            <button onClick={createNewCapsule}>Ajouter une nouvelle capsule</button>
+            <button onClick={createNewRecipient}>Ajouter un nouveau destinataire</button>
 
-            <h3>Vos capsules</h3>
+            <h3>Vos destinataires</h3>
             <div>
                 {affichage}
             </div>
@@ -65,4 +73,4 @@ function MonCompteCapsule () {
     );
 }
 
-export default MonCompteCapsule;
+export default MonCompteDestinataire;

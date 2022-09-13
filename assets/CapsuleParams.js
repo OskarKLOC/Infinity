@@ -25,9 +25,15 @@ function CapsuleParams () {
             let dataObject = JSON.parse(data);
             // On stocke l'objet dans la variable d'état
             setCapsule(dataObject);
-            // On récupère immédiatement les dates à afficher au bon format
+            // On récupère immédiatement les dates à afficher au bon format (si elle existe)
             setCreationDate(new Date(dataObject.creationDate.timestamp * 1000).toLocaleDateString());
-            setSealDate(new Date(dataObject.sealDate.timestamp * 1000).toLocaleDateString());
+            if (dataObject.sealDate) {
+                setSealDate(new Date(dataObject.sealDate.timestamp * 1000).toLocaleDateString());
+            }
+            else {
+                setSealDate('Votre capsule n\'a pas encore été verrouillée une première fois');
+            }
+            
         })
     },[]);
 
@@ -73,7 +79,7 @@ function CapsuleParams () {
         // On bloque le comportement par défaut du formulaire
         e.preventDefault();
         // On fait appel à notre API en POST en passant l'objet qui contient nos données
-        fetch('/capsule/api_set_capsule/1', { method: 'POST', body: JSON.stringify(capsule)})
+        fetch('/capsule/api_set_capsule/' + capsule.id, { method: 'POST', body: JSON.stringify(capsule)})
         .then((headers) => {
             return headers.json();
         }).then((data) => {

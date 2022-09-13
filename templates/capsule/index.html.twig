@@ -12,10 +12,8 @@
         {{ form_errors(form.name)}}
         {{ form_label(form.name) }}
         {{ form_widget(form.name) }}
-        <div>Date de création : {{ capsule.getCreationDate().format('d/m/Y') }} </div>
         {{ form_label(form.capsule_status) }}
         {{ form_widget(form.capsule_status) }}
-        {{ capsule.getSealDate().format('d/m/Y H:i') }}
         {{ form_label(form.format) }}
         {{ form_widget(form.format) }}
         {{ form_label(form.mailing_date) }}
