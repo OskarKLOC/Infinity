@@ -134,11 +134,7 @@ function MonDestinataire (props) {
                         : <button type="submit">Editer ce destinataire</button>
                 }
             </form>
-            {
-                props.mode == 'add'
-                    ? <button onClick={props.toggleAddMode}>Revenir à mes destinataires</button>
-                    : <button onClick={props.toggleEditMode}>Revenir à mes destinataires</button>
-            }
+            <button onClick={props.toggleMode}>Revenir à mes destinataires</button>
         </>
     );
 }

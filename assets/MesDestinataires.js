@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 function MesDestinataires (props) {
     
     const [recipients, setRecipients] = useState([0]);
-    const [affichage, setAffichage] = useState('');
 
     // Au chargement du module, on récupère la liste des capsules à afficher
     useEffect(() => {
@@ -37,7 +36,6 @@ function MesDestinataires (props) {
                             })
                             : ' ')
                         : 'Vous n\'avez pas encore créé de destinataire'
-                    
                 }
             </ul>
             <button onClick={props.toggleAddMode}>Ajouter un nouveau destinataire</button>

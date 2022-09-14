@@ -13,6 +13,12 @@ function CapsuleParams () {
     const [sealDate, setSealDate] = useState('');           // Date de dernier scellé
     const [message, setMessage] = useState('');             // Message contextuel de succès ou d'échec de l'action
     const [messageClass, setMessageClass] = useState('');   // Classe l'affichage bootstrap de notre message
+    const [recipients, setRecipients] = useState([0]);
+
+    useEffect(() => {
+        console.log('Destinataires');
+        console.log(recipients);
+    },[recipients]);
 
     // Au chargement du module, on récupère via l'API les données de la capsule
     useEffect(() => {
@@ -33,8 +39,19 @@ function CapsuleParams () {
             else {
                 setSealDate('Votre capsule n\'a pas encore été verrouillée une première fois');
             }
-            
         })
+
+        // Appel de notre API en l'identifiant de la capsule en paramètre GET
+        fetch('/moncompte/api_get_all_recipients/')
+        .then((headers) => {
+            return headers.json();
+        }).then((data) => {
+            // Il nous est nécessaire de parser le JSON pour récupérer l'objet
+            let dataObject = JSON.parse(data);
+            // On stocke l'objet dans la variable d'état
+            setRecipients(dataObject);
+        })
+
     },[]);
 
     // Si la variable d'état est alimentée d'un message à afficher
@@ -116,6 +133,28 @@ function CapsuleParams () {
                     <input type="radio" name="capsule-type" value="SOLID" id="SOLID" checked={capsule.format === "SOLID"} onChange={handleChange}/>
                     <label htmlFor="SOLID">Physique</label>
                 </div>
+                <div>
+                    <p>Destinataires de ma capsule</p>
+                </div>
+
+                {
+                    recipients.length
+                        ? (recipients[0] != 0
+                            ? recipients.map((recipient, index) => {
+                                return <div key={recipient.id}>
+                                    <label htmlFor={'recipient-' + recipient.id}>
+                                        <div>
+                                            <p>{recipient.firstname} {recipient.lastname}</p>
+                                        </div>
+                                    </label>
+                                    <input type="checkbox" id={'recipient-' + recipient.id} name={'recipient-' + recipient.id} value={recipient.id} onChange={handleChange}></input>
+                                </div>
+                            })
+                            : ' ')
+                        : 'Vous n\'avez pas encore créé de destinataire depuis votre compte'
+
+
+                }
                 <button type="submit">Enregistrer</button>
             </form>
         </>
