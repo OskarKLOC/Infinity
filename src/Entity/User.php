@@ -41,9 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100, nullable:true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true)]
-    private ?\DateTimeInterface $birthdate = null;
-
     #[ORM\Column(length: 255, nullable:true)]
     private ?string $birth_city = null;
 
@@ -64,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Capsule::class, mappedBy: 'user')]
     private Collection $capsules;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $birthdate = null;
 
     public function __construct()
     {
@@ -214,18 +214,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
-    {
-        return $this->birthdate;
-    }
-
-    public function setBirthdate(\DateTimeInterface $birthdate): self
-    {
-        $this->birthdate = $birthdate;
-
-        return $this;
-    }
-
     public function getBirthCity(): ?string
     {
         return $this->birth_city;
@@ -321,6 +309,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->capsules->removeElement($capsule)) {
             $capsule->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(?\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
 
         return $this;
     }

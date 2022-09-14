@@ -28,12 +28,12 @@
                 <td>{{ user.lastname }}</td>
             </tr>
             <tr>
-                <th>Firstname</th>
+                <th>firstname</th>
                 <td>{{ user.firstname }}</td>
             </tr>
             <tr>
                 <th>Birthdate</th>
-                <td>{{ user.birthdate ? user.birthdate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.birthdate ? user.birthdate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Birth_city</th>
