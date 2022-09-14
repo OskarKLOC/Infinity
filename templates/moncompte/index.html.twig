@@ -8,45 +8,56 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+{# Création du bouton de déconnection #}
+<button class="btn"><a href="{{ path('app_logout') }}">Logout</a></button>
+
+
+
 <div class="example-wrapper">
 {#  
 {{ form(form)}} #}
 
+{# Informations "Mon compte" + possibilité de les modifier  #}
 {{ form_start(form) }}
     <div class="form-group">
-        {{ form_label(form.lastname) }}
+        <label> NOM </label>
         {{ form_widget(form.lastname) }}
         
     </div>
 
     <div class="form-group">
-        {{ form_label(form.firstname) }}
+        <label> Prénom </label>
         {{ form_widget(form.firstname) }}
        
     </div>
 
     <div class="form-group">
-        {{ form_label(form.birthdate) }}
+        <label> Date de naissance </label>
         {{ form_widget(form.birthdate) }}
        
     </div>
 
     <div class="form-group">
-        {{ form_label(form.birth_city) }}
+        <label> Ville de naissance </label>
         {{ form_widget(form.birth_city) }}
        
     </div>
 
     <div class="form-group">
-        {{ form_label(form.phone_number) }}
+        <label> Numéro de téléphone </label>
         {{ form_widget(form.phone_number) }}
        
     </div>
 
     <div class="form-group">
-        {{ form_label(form.user_type) }}
-        {{ form_widget(form.user_type) }}
+        <label> Email </label>
+        {{ form_widget(form.email) }}
        
+    </div>
+
+    <div class="form-group">
+        <label> Type d'utilisateur </label>
+        {{ form_widget(form.user_type) }}  
     </div>
    
     {# S'occupe des champs qui ont été oubliés  #}
@@ -57,3 +68,5 @@
 
 </div>
 {% endblock %}
+
+
