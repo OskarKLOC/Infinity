@@ -55,12 +55,11 @@ function MonCompteCapsule () {
     
     return (
         <>
-            <button onClick={createNewCapsule}>Ajouter une nouvelle capsule</button>
-
-            <h3>Vos capsules</h3>
+            <h3>Mes capsules</h3>
             <div>
                 {affichage}
             </div>
+            <button onClick={createNewCapsule}>Ajouter une nouvelle capsule</button>
         </>
     );
 }

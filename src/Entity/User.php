@@ -62,10 +62,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true)]
     private ?\DateTimeInterface $registration_date = null;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'owners')]
+    private Collection $recipients;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recipients')]
+    private Collection $owners;
+
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
         $this->capsules = new ArrayCollection();
+        $this->recipients = new ArrayCollection();
+        $this->owners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -291,6 +299,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRegistrationDate(\DateTimeInterface $registration_date): self
     {
         $this->registration_date = $registration_date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getRecipients(): Collection
+    {
+        return $this->recipients;
+    }
+
+    public function addRecipient(self $recipient): self
+    {
+        if (!$this->recipients->contains($recipient)) {
+            $this->recipients->add($recipient);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipient(self $recipient): self
+    {
+        $this->recipients->removeElement($recipient);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
+
+    public function addOwner(self $owner): self
+    {
+        if (!$this->owners->contains($owner)) {
+            $this->owners->add($owner);
+            $owner->addRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(self $owner): self
+    {
+        if ($this->owners->removeElement($owner)) {
+            $owner->removeRecipient($this);
+        }
 
         return $this;
     }
