@@ -14,15 +14,16 @@ function CapsuleParams () {
     const [message, setMessage] = useState('');             // Message contextuel de succès ou d'échec de l'action
     const [messageClass, setMessageClass] = useState('');   // Classe l'affichage bootstrap de notre message
     const [recipients, setRecipients] = useState([0]);
+    const [selectionRecipients, setSelectionRecipients] = useState([]);
 
-    useEffect(() => {
-        console.log('Destinataires');
+    /* useEffect(() => {
         console.log(recipients);
-    },[recipients]);
+        console.log(selectionRecipients);
+    },[recipients, selectionRecipients]); */
 
     // Au chargement du module, on récupère via l'API les données de la capsule
     useEffect(() => {
-        // Appel de notre API en l'identifiant de la capsule en paramètre GET
+        // On récupère les paramètres de base
         fetch('/capsule/api_get_capsule/' + params.id)
         .then((headers) => {
             return headers.json();
@@ -41,15 +42,14 @@ function CapsuleParams () {
             }
         })
 
-        // Appel de notre API en l'identifiant de la capsule en paramètre GET
-        fetch('/moncompte/api_get_all_recipients/')
+        // On récupère la liste de tous les destinataires
+        fetch('/moncompte/api_get_all_recipients/' + params.id)
         .then((headers) => {
             return headers.json();
         }).then((data) => {
-            // Il nous est nécessaire de parser le JSON pour récupérer l'objet
-            let dataObject = JSON.parse(data);
-            // On stocke l'objet dans la variable d'état
-            setRecipients(dataObject);
+            // On stocke l'objet dans la variable d'état (un JSON Parse est nécessaire pour l'objet correspondant à l'entité)
+            setRecipients(JSON.parse(data.recipients));
+            setSelectionRecipients(data.selection);
         })
 
     },[]);
@@ -70,31 +70,50 @@ function CapsuleParams () {
         let target = e.currentTarget;   // Champ du formulaire à l'origine de l'appel de la fonction
         let input = {...capsule};       // Copie de notre capsule pour pouvoir fournir la valeur saisie
 
-        // On met à jour uniquement la valeur qui a changé
-        switch (target.name) {
-            case 'capsule-name':
-                input.name = target.value; 
-                break;
-            case 'capsule-status':
-                input.capsuleStatus = target.value;
-                break;
-            case 'capsule-type':
-                input.format = target.value;
-                break;
-            default:
-                console.log('Champ non reconnu...');
-                break;
+        if (target.type == 'checkbox') {
+            let listIds = [...selectionRecipients];
+            let id = parseInt(target.value);
+            if (target.checked) {
+                if (!listIds.includes(id)) {
+                    listIds.push(id);
+                }
+            } else {
+                if (listIds.includes(id)) {
+                    let idIndex = listIds.indexOf(id);
+                    listIds.splice(idIndex,1);
+                }
+            }
+            setSelectionRecipients(listIds);
+            input.recipientsSelection = listIds;
+        } else {
+            // On met à jour uniquement la valeur qui a changé
+            switch (target.name) {
+                case 'capsule-name':
+                    input.name = target.value; 
+                    break;
+                case 'capsule-status':
+                    input.capsuleStatus = target.value;
+                    break;
+                case 'capsule-type':
+                    input.format = target.value;
+                    break;
+                default:
+                    console.log('Champ non reconnu...');
+                    break;
+            }
         }
-        
+
         // On met à jour l'objet contenant nos données
         setCapsule(input);
-        console.log(capsule);
     }
 
     // A la validation du formulaire, se charge de faire appel à l'API pour la vérification de la saisie et l'enregistrement des données en BDD
     function handleSubmit (e) {
         // On bloque le comportement par défaut du formulaire
         e.preventDefault();
+
+        console.log(capsule);
+
         // On fait appel à notre API en POST en passant l'objet qui contient nos données
         fetch('/capsule/api_set_capsule/' + capsule.id, { method: 'POST', body: JSON.stringify(capsule)})
         .then((headers) => {
@@ -142,17 +161,14 @@ function CapsuleParams () {
                         ? (recipients[0] != 0
                             ? recipients.map((recipient, index) => {
                                 return <div key={recipient.id}>
+                                    <input type="checkbox" id={'recipient-' + recipient.id} name={'recipient-' + recipient.id} value={recipient.id} defaultChecked={selectionRecipients.includes(recipient.id)} onChange={handleChange}></input>
                                     <label htmlFor={'recipient-' + recipient.id}>
-                                        <div>
                                             <p>{recipient.firstname} {recipient.lastname}</p>
-                                        </div>
                                     </label>
-                                    <input type="checkbox" id={'recipient-' + recipient.id} name={'recipient-' + recipient.id} value={recipient.id} onChange={handleChange}></input>
                                 </div>
                             })
                             : ' ')
                         : 'Vous n\'avez pas encore créé de destinataire depuis votre compte'
-
 
                 }
                 <button type="submit">Enregistrer</button>

@@ -8,25 +8,8 @@
 
     <div id="capsule-root"></div>
 
-    {{ form_start(form) }}
-        {{ form_errors(form.name)}}
-        {{ form_label(form.name) }}
-        {{ form_widget(form.name) }}
-        {{ form_label(form.capsule_status) }}
-        {{ form_widget(form.capsule_status) }}
-        {{ form_label(form.format) }}
-        {{ form_widget(form.format) }}
-        {{ form_label(form.mailing_date) }}
-        {{ form_widget(form.mailing_date) }}
-        
-        <button class="btn">{{ button_label|default('Enregistrer') }}</button>
-    {{ form_end(form, {render_rest: true}) }}
+    
 
     <a href="{{ path('app_capsule_list') }}">Revenir à ma liste de capsules</a>
-
-    {{ include('capsule/_delete_form.html.twig') }}
   
 {% endblock %}
-
-{# {{ form_label(form.user) }}
-        {{ form_widget(form.user) }} #}

@@ -135,9 +135,13 @@ class MoncompteController extends AbstractController
         return new JsonResponse($response);
     }
 
-    #[Route('/api_get_all_recipients', name: 'app_moncompte_recipient_get_all', methods: ['GET', 'POST'])]
-    public function findAllRecipients(Request $request, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+    #[Route('/api_get_all_recipients/{id}', name: 'app_moncompte_recipient_get_all', methods: ['GET', 'POST'])]
+    public function findAllRecipients(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
     {
+        
+        // On prépare la variable qui nous servira de réponse
+        $response = new stdClass();
+        
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {
 
@@ -151,11 +155,22 @@ class MoncompteController extends AbstractController
             $serializer = new Serializer($normalizers, $encoders);
             $data = $serializer->serialize($recipients, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'email', 'roles', 'lastname', 'firstname', 'phoneNumber']]);
 
-            // On envoie la réponse de l'API
-            return new JsonResponse($data);
+            $recipientsSelection = $capsuleUserRepository->findAllRecipients($capsule->getId());
+            $dataSelection = [];
+            foreach ($recipientsSelection as $recipientSelected) {
+                array_push($dataSelection, $recipientSelected->getUser()->getId());
+            }
+            // $dataSelection = $serializer->serialize($selection, 'json', [AbstractNormalizer::ATTRIBUTES => ['user']]);
+
+            // On prépare la donnée à renvoyer
+            $response->succes = true;
+            $response->recipients = $data;
+            $response->selection = $dataSelection;
         } else {
-            return new JsonResponse('Impossible de récupérer les capsules - Utilisateur non connecté');
+            $response->succes = false;
+            $response->message = 'Impossible de récupérer les capsules - Utilisateur non connecté';
         }
+        return new JsonResponse($response);
     }
 
     #[Route('/api_new_recipient', name: 'app_moncompte_recipient_new', methods: ['GET', 'POST'])]
@@ -285,6 +300,12 @@ class MoncompteController extends AbstractController
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
+
+        /* try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        } */
 
         // On récupère les informations passées en POST
         $newUser = json_decode($request->getContent());

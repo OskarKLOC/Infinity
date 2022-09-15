@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+
+use App\Entity\CapsuleUser;
 use App\Entity\Capsule;
+use App\Entity\User;
 use App\Form\CapsuleType;
 use App\Repository\CapsuleRepository;
+use App\Repository\CapsuleUserRepository;
 use DateTime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,10 +68,15 @@ class CapsuleController extends AbstractController
     }
 
     #[Route('/api_set_capsule/{id}', name: 'app_capsule_api_set', methods: ['POST'])]
-    public function apiSetCapsule(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): JsonResponse
+    public function apiSetCapsule(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
     {
+        // On récupère le contenu passé en POST
         $newCapsule = json_decode($request->getContent());
         // dd($newCapsule);
+
+        // On récupère tous les destinataires liés à l'utilisateur connecté
+        $user = $this->getUser();
+        $recipients = $user->getRecipients();
 
         // On récupère le statut de la capsule présente en BDD pour comparer ultérieurement dans la fonction
         $oldStatus = $capsuleRepository->findOneById($request->get('id'))->getCapsuleStatus();
@@ -103,8 +111,29 @@ class CapsuleController extends AbstractController
         // On met à jour les données de la capsule avec les informations reçues
         $capsuleRepository->add($capsule, true);
 
+        // On supprime les anciens destinataires présents en BDD
+        $oldrecipients = $capsuleUserRepository->findAllRecipients($capsule->getId());
+        foreach ($oldrecipients as $oldrecipient) {
+            $capsuleUserRepository->remove($oldrecipient, true);
+        }
+
+        // On rajoute la nouvelle sélection de destinataires en BDD
+        foreach ($recipients as $recipient) {
+            // Le destinataire fait-il partie de la sélection ?
+            if (in_array($recipient->getId(), $newCapsule->recipientsSelection) != false) {
+                // Si oui, on récupère les données nécessaires
+                $capsuleUser = new CapsuleUser();
+                $capsuleUser->setCapsule($capsule);
+                $capsuleUser->setIsOwner(false);
+                $capsuleUser->setUser($recipient);
+                // Et on les injecte en BDD
+                $capsuleUserRepository->add($capsuleUser, true);
+            }
+        }
+
         // On transmet la réponse confirmant que l'enregistrement s'est bien réalisé
         return new JsonResponse('Modifications de la capsule enregistrées');
+
     }
 
     #[Route('/list', name: 'app_capsule_list', methods: ['GET'])]

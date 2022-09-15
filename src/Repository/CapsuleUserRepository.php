@@ -54,6 +54,22 @@ class CapsuleUserRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return CapsuleUser[] Returns an array of CapsuleUser objects
+     */
+    public function findAllRecipients($capsuleId): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.capsule = :capsule_id')
+            ->andWhere('c.isOwner = false')
+            ->setParameter('capsule_id', $capsuleId)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 //    /**
 //     * @return CapsuleUser[] Returns an array of CapsuleUser objects
 //     */
