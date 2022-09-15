@@ -1,0 +1,349 @@
+/********************* IMPORT DE POLICE *************************/
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/************************ VARIABLES *****************************/
+:root {
+
+    --primary : #D93684;
+    --primary-darker : #bb2a70;
+
+    --secondary : #9BC9E3;
+    --secondary-darker : #84b1cb;
+
+    --warning : #FFD12D;
+    --warning-darker : #dfb623;
+
+    --dark : #1A0036;
+    --dark-lighter : #290252;
+    
+    --light : #FFFFFF;
+    --light-darker : #F8F8F8;
+    --light-darkest : #EFEFEF;
+}
+
+/************************ GENERALES *****************************/
+
+/************************** GRID ********************************/
+
+/************************* TITRES & TEXTES ***********************/
+h1 {
+    margin-bottom: 3rem;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    font-size: 7.5rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+}
+
+h1 + p {
+    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+    font-size: 3rem;
+    color: white;
+}
+
+h2 {
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    color: var(--dark);
+}
+h3 {
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: var(--dark);
+}
+h3 > span {
+    background-color: var(--warning);
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+h4 {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--dark);
+}
+h5 {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+p {
+    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+}
+/***************** COULEURS DE TEXTES ET FONDS **************************/
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+.bg-primary-darker {
+    background-color: var(--primary-darker) !important;
+}
+.bg-secondary {
+    background-color: var(--secondary) !important;
+}
+.bg-secondary-darker {
+    background-color: var(--secondary-darker) !important;
+}
+.bg-warning {
+    background-color: var(--warning) !important;
+}
+.bg-warning-darker {
+    background-color: var(--warning-darker) !important;
+}
+.bg-light {
+    background-color: var(--light) !important;
+}
+.bg-light-darker {
+    background-color: var(--light-darker) !important;
+}
+.bg-light-darkest {
+    background-color: var(--light-darkest) !important;
+}
+.bg-dark {
+    background-color: var(--dark) !important;
+}
+.bg-dark-lighter {
+    background-color: var(--dark-lighter) !important;
+}
+.text-primary {
+    color: var(--primary) !important;
+}
+.text-primary-darker {
+    color: var(--primary-darker) !important;
+}
+.text-secondary {
+    color: var(--secondary) !important;
+}
+.text-secondary-darker {
+    color: var(--secondary-darker) !important;
+}
+.text-warning {
+    color: var(--warning) !important;
+}
+.text-warning-darker {
+    color: var(--warning-darker) !important;
+}
+.text-light {
+    color: var(--light) !important;
+}
+.text-light-darker {
+    color: var(--light-darker) !important;
+}
+.text-light-darkest {
+    color: var(--light-darkest) !important;
+}
+.text-dark {
+    color: var(--dark) !important;
+}
+.text-dark-lighter {
+    color: var(--dark-lighter) !important;
+}
+/************************** BOUTONS ******************************/
+.btn {
+    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color:var(--dark);
+    text-transform: uppercase;
+    border-radius: 30px;
+    border: none;
+    padding: 1.2rem 6rem;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.btn-primary {
+    background-color: var(--primary);
+    color:var(--dark);
+}
+.btn-primary:hover {
+    background-color: var(--primary-darker) !important;
+    color:var(--dark) !important;
+}
+.btn-secondary {
+    background-color: var(--secondary);
+    color:var(--dark);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-darker) !important;
+    color:var(--dark) !important;
+}
+.btn-warning {
+    background-color: var(--warning);
+    color:var(--dark);
+}
+.btn-warning:hover {
+    background-color: var(--warning-darker) !important;
+    color:var(--dark) !important;
+}
+.btn-dark {
+    background-color: var(--dark);
+    color:var(--light) !important;
+}
+.btn-dark:hover {
+    background-color: var(--dark-lighter) !important;
+    color:var(--light) !important;
+}
+/**************************** LIENS *******************************/
+
+/**************************** FORMULAIRES *************************/
+
+/****************************** ICONOGRAPHIE ***********************/
+.yellowed {
+    -webkit-box-shadow: -10vw 10vw 0px 0px var(--warning); 
+    box-shadow: -10vw 10vw 0px 0px var(--warning);
+}
+.circle {
+    border-radius: 50%;
+}
+.deco {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 80px;
+}
+.deco::before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 10px;
+    width: 70vw;
+    top: 20px;
+    background-color: var(--primary);
+   
+}
+.deco::after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 10px;
+    width: 200px;
+    top: 25px;
+    background-color: var(--warning);
+    margin-top: 1.5rem;
+}
+.deco-right::before {
+    right: -20vw;
+}
+.deco-right::after {
+    right: 45vw;
+}
+.deco-left::before {
+    left: -20vw;
+}
+.deco-left::after {
+    left: 45vw;
+}
+
+.deco-right-sm::before {
+    right: -40vw;
+}
+.deco-right-sm::after {
+    right: 25vw;
+}
+.deco-left-sm::before {
+    left: -40vw;
+}
+.deco-left-sm::after {
+    left: 25vw;
+}
+
+
+/****************************** NAV ********************************/
+nav.navbar {
+    position: fixed;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+.nav-link {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.5rempx;
+    text-transform: uppercase;
+    color: var(--light-darkest);
+
+}
+.nav-link:hover {
+    color: var(--light);
+}
+.navbar-nav .nav-link.active {
+    color: var(--light);
+}
+.navbar .navbar-nav {
+    width: 100%;
+    justify-content: space-around;
+}
+/******************************* HEADER ***************************/
+header {
+    position: relative;
+    padding: 10rem 0;
+    -webkit-box-shadow: 0px 8px 40px 0px rgba(0,0,0,0.4); 
+    box-shadow: 0px 8px 40px 0px rgba(0,0,0,0.4);
+}
+header::before {
+    /*general*/
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -999;
+    /*specifique*/
+    background: url('../img/heroshots/hero-home.jpg');
+    filter: saturate(120%) brightness(80%) contrast(120%);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+
+
+/********************************** FOOTER **********************/
+footer p, li, a {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.2rem;
+    line-height: 2.5rem;
+    margin: 0;
+    padding: 0;
+    margin-bottom: .25rem;
+}
+footer a {
+    color: var(--light);
+}
+footer a:hover {
+    color: var(--light-darkest);
+    
+    
+}
+footer .row > .col-3:first-child img {
+    width: calc(100% - 4rem);
+}
+
+footer .row > .col-3:first-child {
+    position: relative;
+    padding-top: 5rem;
+}
+
+footer .row > .col-3:first-child::after {
+    content: '';
+    position: absolute;
+    width: 2rem;
+    top: 0;
+    right: 0;
+    height: 100%;
+    border-left: 1px solid var(--light);
+}
