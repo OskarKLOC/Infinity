@@ -135,8 +135,8 @@ class MoncompteController extends AbstractController
         return new JsonResponse($response);
     }
 
-    #[Route('/api_get_all_recipients/{id}', name: 'app_moncompte_recipient_get_all', methods: ['GET', 'POST'])]
-    public function findAllRecipients(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+    #[Route('/api_get_all_recipients', name: 'app_moncompte_recipient_get_all', methods: ['GET', 'POST'])]
+    public function findAllRecipients(Request $request, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
     {
         
         // On prépare la variable qui nous servira de réponse
@@ -155,20 +155,37 @@ class MoncompteController extends AbstractController
             $serializer = new Serializer($normalizers, $encoders);
             $data = $serializer->serialize($recipients, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'email', 'roles', 'lastname', 'firstname', 'phoneNumber']]);
 
-            $recipientsSelection = $capsuleUserRepository->findAllRecipients($capsule->getId());
-            $dataSelection = [];
-            foreach ($recipientsSelection as $recipientSelected) {
-                array_push($dataSelection, $recipientSelected->getUser()->getId());
-            }
-            // $dataSelection = $serializer->serialize($selection, 'json', [AbstractNormalizer::ATTRIBUTES => ['user']]);
-
             // On prépare la donnée à renvoyer
             $response->succes = true;
             $response->recipients = $data;
-            $response->selection = $dataSelection;
         } else {
             $response->succes = false;
             $response->message = 'Impossible de récupérer les capsules - Utilisateur non connecté';
+        }
+        return new JsonResponse($response);
+    }
+
+    #[Route('/api_get_selected_recipients/{id}', name: 'app_moncompte_recipient_get_selected', methods: ['GET', 'POST'])]
+    public function findSelectedRecipients(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+    {
+        
+        // On prépare la variable qui nous servira de réponse
+        $response = new stdClass();
+        
+        // L'utilisateur est-il connecté ?
+        if ($this->getUser()) {
+            $recipientsSelection = $capsuleUserRepository->findAllRecipients($capsule->getId());
+            $data = [];
+            foreach ($recipientsSelection as $recipientSelected) {
+                array_push($data, $recipientSelected->getUser()->getId());
+            }
+
+            // On prépare la donnée à renvoyer
+            $response->succes = true;
+            $response->selection = $data;
+        } else {
+            $response->succes = false;
+            $response->message = 'Impossible de récupérer la sélection - Utilisateur non connecté';
         }
         return new JsonResponse($response);
     }

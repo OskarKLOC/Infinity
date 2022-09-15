@@ -15,11 +15,13 @@ function CapsuleParams () {
     const [messageClass, setMessageClass] = useState('');   // Classe l'affichage bootstrap de notre message
     const [recipients, setRecipients] = useState([0]);
     const [selectionRecipients, setSelectionRecipients] = useState([]);
+    const [isReady, setIsReady] = useState(false);
 
-    /* useEffect(() => {
+    useEffect(() => {
         console.log(recipients);
         console.log(selectionRecipients);
-    },[recipients, selectionRecipients]); */
+        setIsReady(true);
+    },[recipients, selectionRecipients]);
 
     // Au chargement du module, on récupère via l'API les données de la capsule
     useEffect(() => {
@@ -43,12 +45,20 @@ function CapsuleParams () {
         })
 
         // On récupère la liste de tous les destinataires
-        fetch('/moncompte/api_get_all_recipients/' + params.id)
+        fetch('/moncompte/api_get_all_recipients')
         .then((headers) => {
             return headers.json();
         }).then((data) => {
             // On stocke l'objet dans la variable d'état (un JSON Parse est nécessaire pour l'objet correspondant à l'entité)
             setRecipients(JSON.parse(data.recipients));
+        })
+
+        // On récupère la liste de tous les destinataires
+        fetch('/moncompte/api_get_selected_recipients/' + params.id)
+        .then((headers) => {
+            return headers.json();
+        }).then((data) => {
+            // On stocke l'objet dans la variable d'état (un JSON Parse est nécessaire pour l'objet correspondant à l'entité)
             setSelectionRecipients(data.selection);
         })
 

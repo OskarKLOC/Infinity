@@ -18,9 +18,10 @@ function MesDestinataires (props) {
             return headers.json();
         }).then((data) => {
             // Il nous est nécessaire de parser le JSON pour récupérer l'objet
-            let dataObject = JSON.parse(data);
+            let dataObject = JSON.parse(data.recipients);
             // On stocke l'objet dans la variable d'état
             setRecipients(dataObject);
+            console.log(dataObject);
         })
     }
     
