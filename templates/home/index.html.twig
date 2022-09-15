@@ -2,14 +2,293 @@
 
 {% block title %}Capsule Memories{% endblock %}
 
+{# Bloc pour acceuillir la feuille de style CSS #}
 {% block stylesheets %}
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<link rel="stylesheet" href="CSS/general.css">
+<link rel="stylesheet" href="CSS/homepage.css">
 {% endblock %}
+
+{# DEBUT DU BLOCK BODY #}
 
 {% block body %}
 
-<h1>Capsule Memories</h1>
+<main class="bg-light-darker">
 
-<p>Lorem ipsum...</p>
+        <!-- DEBUT PRESENTATION -->
+        <section id="presentation">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col my-5 px-5">
+                         <h2 class="text-uppercase text-center">Infinity, un concept qui vous emmène dans le monde de l’émotion et le partage de moments inoubliables.</h2>
+                         <i class="deco deco-right"></i>
+                    </div>
+                </div>
+
+                
+
+                <div class="row my-5">
+                    <div class="col-4 offset-2">
+                        <img src="img/homepage/presentation.jpg" alt="" class="img-fluid yellowed">
+                    </div>
+                    <div class="col-4 offset-1">
+                        <h3>Offrez votre capsule <span>remplie d'émotions.</span></h3>
+                        <p>Le concept de “INFINITY” repose sur la transmission, le partage de souvenirs inoubliables et qui permet aux vivants de “préparer” au fil de leur vie, l’après.</p>
+                        <p>Nous vous offrons la possibilité de créer et d’offrir votre capsule remplie d’émotion et de souvenir sous format numérique comme physique, une idée original pour vos proches.</p>
+                        <div class="text-end">
+                            <a href="#" class="btn btn-secondary ">Le concept</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>            
+        </section>
+        <!-- FIN PRESENTATION -->
+
+        <!-- DEBUT ETAPES -->
+        <section id="etapes">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col my-5 px-5">
+                        <h2 class="text-uppercase text-center">Les étapes d’une transmission</h2>
+                        <i class="deco deco-left"></i>
+                    </div>
+                </div>
+
+                <div class="row my-5 align-items-center">
+                    <div class="col-2 offset-2">
+                        <img src="img/homepage/computer01.jpg" alt="" class="img-fluid circle">
+                    </div>
+                    <div class="col-6">
+                        <div class="bg-light rounded p-3">
+                            <h4>Titre</h4>
+                            <p>La nature de ces documents vous appartient ! Des écrits , des expériences vécues, des photos et vidéos, des audios... ou des documents confidentiels. </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-5">
+                    <div class="col-6 offset-2">
+                        <div class="bg-light rounded p-3">
+                            <h4>Bénéficiaires</h4>
+                            <p>Ce sont ceux qui recevront vos transmissions. Ils ne seront pas informés de la mise en place d’une transmission vous les concernant.</p>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <img src="img/homepage/people-hello.jpg" alt="" class="img-fluid circle">
+                    </div>                    
+                </div>
+
+                <div class="row my-5">
+                    <div class="col-2 offset-2">
+                        <img src="img/homepage/hands.jpg" alt="" class="img-fluid circle">
+                    </div>
+                    <div class="col-6">
+                        <div class="bg-light rounded p-3">
+                            <h4>Référents</h4>
+                            <p>Ils sont désignés comme étant les seules, à votre décès, à pouvoir demander le déclenchement des transmissions associés à votre compte.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>            
+        </section>
+        <!-- FIN ETAPES -->
+
+        <!-- DEBUT SERVICE -->
+        <section id="service" class="bg-light-darkest pb-5">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col">
+                        <h2 class="text-center my-5 px-5 text-uppercase">Ce que vous propose infinity</h2>
+                        <i class="deco deco-right"></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-10 offset-1 text-center my-5">
+                        <p>INFINITY vous permet de transmettre tout ce que vous souhaitez, des messages personnels aux documents plus “pratiques”. C’est vous qui choisissez à qui vous souhaitez transmettre, et vos proches désignés pourront en prendre connaissance en toute confidentialité le moment venu.</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+
+                        <div class="card card-service">
+                            <div class="card-img-container">
+                                <img src="img/homepage/ballon.jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                              <h6 class="card-number">01</h6>
+                              <h5 class="card-title">Transmission</h5>
+                              <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. consectetur adipiscing.</p>
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card card-service">
+                            <div class="card-img-container">
+                                <img src="img/homepage/computer01.jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                              <h6 class="card-number">02</h6>
+                              <h5 class="card-title">Sérénité</h5>
+                              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, corporis?</p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card card-service">
+                            <div class="card-img-container">
+                                <img src="img/homepage/safe.jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                              <h6 class="card-number">03</h6>
+                              <h5 class="card-title">Sécurité</h5>
+                              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, ducimus!</p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card card-service">
+                            <div class="card-img-container">
+                                <img src="img/homepage/sac.jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                              <h6 class="card-number">04</h6>
+                              <h5 class="card-title">Facilité</h5>
+                              <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto, a.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>            
+        </section>
+        <!-- FIN SERVICE -->
+
+        <!-- DEBUT FORMULES -->
+        <section id="formules">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col my-5 px-5">
+                        <h2 class="text-uppercase text-center">Deux formules</h2>
+                        <i class="deco deco-left-sm"></i>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center my-5">
+                    <div class="col-4">
+
+                        <div class="card card-formule">
+
+                            <img src="img/homepage/notes.jpg" class="card-img-top" alt="...">
+                            
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <h5 class="card-title">Physique</h5>
+                                    <p class="card-text">Choississez la taille de votre capsule pour stocker vos objets à transmettre. La capsule sera envoyé aux bénéficiaires choisis. Chaque capsule est doté d’un numéro de série associé à votre compte. </p>
+                                </div>
+
+                                <div class="text-center">
+                                    <a href="#" class="btn btn-secondary">En savoir plus</a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-4">
+                        <div class="card card-formule">
+                            <img src="img/homepage/tablette.jpg" class="card-img-top" alt="...">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <h5 class="card-title">Numérique</h5>
+                                    <p class="card-text">Tout ce que vous désirez transmettre dans votre capsule numérique sera stocké et sécurisé. Les données ne seront que visibles par vous et votre entourage. Aussi, vous avez la possibilité de transcrire vos écrits en ligne ! </p>
+                                </div>
+                                <div class="text-center">
+                                    <a href="#" class="btn btn-secondary">En savoir plus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>            
+        </section>
+        <!-- FIN FORMULES -->
+
+        <!-- DEBUT TEMOIGNAGES -->
+        <section id="temoignages">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col my-5 px-5">
+                        <i class="deco deco-right-sm"></i>
+                        <h2 class="text-uppercase text-center">Ils nous font confiance !</h2>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-3">
+
+                        <div class="card card-temoignage">
+                            <div class="card-body">
+                              <p class="card-text">
+                                Merci à INFINITY de nous permettre de garder en mémoire ces moments privilégiés et de nous donner la possibilité de les faire revivre dans quelques années, j'espère tous ensemble. 
+                              </p>
+                              <div class="row align-items-center">
+                                <div class="col-5"><img src="img/homepage/woman01.jpg" alt="" class="img-fluid"></div>
+                                <div class="col-7">
+                                    <p><strong>Rose, 50 ans</strong></p>
+                                    <p>Bénéficiaire</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                         <div class="card card-temoignage">
+                            <div class="card-body">
+                              <p class="card-text">
+                                Merci à INFINITY de nous permettre de garder en mémoire ces moments privilégiés et de nous donner la possibilité de les faire revivre dans quelques années, j'espère tous ensemble. 
+                              </p>
+                              <div class="row align-items-center">
+                                <div class="col-5"><img src="img/homepage/man01.jpg" alt="" class="img-fluid"></div>
+                                <div class="col-7">
+                                    <p><strong>Rose, 50 ans</strong></p>
+                                    <p>Bénéficiaire</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card card-temoignage">
+                            <div class="card-body">
+                              <p class="card-text">
+                                Merci à INFINITY de nous permettre de garder en mémoire ces moments privilégiés et de nous donner la possibilité de les faire revivre dans quelques années, j'espère tous ensemble. 
+                              </p>
+                              <div class="row align-items-center">
+                                <div class="col-5"><img src="img/homepage/woman02.jpg" alt="" class="img-fluid"></div>
+                                <div class="col-7">
+                                    <p><strong>Rose, 50 ans</strong></p>
+                                    <p>Bénéficiaire</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>            
+        </section>
+        <!-- FIN TEMOIGNAGES -->
+
+    </main>
 
 {% endblock %}
