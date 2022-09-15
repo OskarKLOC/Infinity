@@ -33,7 +33,7 @@ class UserType extends AbstractType
             ->add('commitment')
             ->add('signature')
             ->add('registration_date')
-            ->add('capsules')
+            //->add('capsules')
         ;
     }
 

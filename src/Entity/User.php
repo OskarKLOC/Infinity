@@ -59,8 +59,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true)]
     private ?\DateTimeInterface $registration_date = null;
 
-    #[ORM\ManyToMany(targetEntity: Capsule::class, mappedBy: 'user')]
-    private Collection $capsules;
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'owners')]
+    private Collection $recipients;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recipients')]
+    private Collection $owners;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
@@ -69,6 +72,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->adresses = new ArrayCollection();
         $this->capsules = new ArrayCollection();
+        $this->recipients = new ArrayCollection();
+        $this->owners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,27 +292,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Capsule>
+     * @return Collection<int, self>
      */
-    public function getCapsules(): Collection
+    public function getRecipients(): Collection
     {
-        return $this->capsules;
+        return $this->recipients;
     }
 
-    public function addCapsule(Capsule $capsule): self
+    public function addRecipient(self $recipient): self
     {
-        if (!$this->capsules->contains($capsule)) {
-            $this->capsules->add($capsule);
-            $capsule->addUser($this);
+        if (!$this->recipients->contains($recipient)) {
+            $this->recipients->add($recipient);
         }
 
         return $this;
     }
 
-    public function removeCapsule(Capsule $capsule): self
+    public function removeRecipient(self $recipient): self
     {
-        if ($this->capsules->removeElement($capsule)) {
-            $capsule->removeUser($this);
+        $this->recipients->removeElement($recipient);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
+
+    public function addOwner(self $owner): self
+    {
+        if (!$this->owners->contains($owner)) {
+            $this->owners->add($owner);
+            $owner->addRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(self $owner): self
+    {
+        if ($this->owners->removeElement($owner)) {
+            $owner->removeRecipient($this);
         }
 
         return $this;

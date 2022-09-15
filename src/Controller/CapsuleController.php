@@ -67,9 +67,6 @@ class CapsuleController extends AbstractController
     #[Route('/api_set_capsule/{id}', name: 'app_capsule_api_set', methods: ['POST'])]
     public function apiSetCapsule(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): JsonResponse
     {
-        // Il faut maintenant faire le dispatch des différentes informations récupérées dans un objet Capsule pour l'injection en BDD
-        // Il faut aussi mettre en place les contrôles
-        
         $newCapsule = json_decode($request->getContent());
         // dd($newCapsule);
 

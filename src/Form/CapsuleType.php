@@ -37,12 +37,12 @@ class CapsuleType extends AbstractType
             ])
             ->add('creation_date')
             ->add('seal_date')
-            ->add('user', EntityType::class, [
+            /* ->add('user', EntityType::class, [
                 'class' => 'App\Entity\User',
                 'mapped' => true,
                 'multiple' => true,
                 'expanded' => true
-            ])
+            ]) */
         ;
     }
 
