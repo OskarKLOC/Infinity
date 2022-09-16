@@ -104,7 +104,7 @@ class ContentController extends AbstractController
         }
 
         // Le contenu est-il de type texte ?
-        if ($newContent->type = 'texte') {
+        if ($newContent->type == 'texte') {
             $content->setURL('NONE');
         }
         

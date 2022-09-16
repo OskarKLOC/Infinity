@@ -3,7 +3,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import MaCapsule from './MaCapsule';
 import MonCompteCapsule from './MonCompteCapsule';
 import MonCompteDestinataire from './MonCompteDestinataires';
@@ -12,9 +11,7 @@ let root = document.getElementById('capsule-root');
 if (root) {
     const capsuleRoot = ReactDOM.createRoot(root);
     capsuleRoot.render(
-        <BrowserRouter>
             <MaCapsule></MaCapsule>
-        </BrowserRouter>
     );
 }
 
