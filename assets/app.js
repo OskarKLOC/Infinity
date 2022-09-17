@@ -4,8 +4,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import MaCapsule from './MaCapsule';
+import MesDestinataires from './MesDestinataires';
 import MonCompteCapsule from './MonCompteCapsule';
-import MonCompteDestinataire from './MonCompteDestinataires';
 
 let root = document.getElementById('capsule-root');
 if (root) {
@@ -19,7 +19,7 @@ root = document.getElementById('compte-destinataires-root');
 if (root) {
     const compteRoot = ReactDOM.createRoot(root);
     compteRoot.render(
-            <MonCompteDestinataire></MonCompteDestinataire>
+            <MesDestinataires></MesDestinataires>
     );
 }
 

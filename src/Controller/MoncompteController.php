@@ -269,13 +269,13 @@ class MoncompteController extends AbstractController
             }
             
             // Un numéro de téléphone a-t-il été renseigné ?
-            if (isset($newUser->phone)) {
-                $phone = str_replace(' ', '', $newUser->phone);
+            if (isset($newUser->phoneNumber)) {
+                $phone = str_replace(' ', '', $newUser->phoneNumber);
                 $phone = str_replace('.', '', $phone);
                 // Le format du numéro de téléphone est-il valide ?
                 if (preg_match('^(0|\\+33|0033)[1-9][0-9]{8}^', $phone)) {
                     // La longueur du téléphone est-il dans la limite attendue ?
-                    if (strlen($newUser->phone) <= 10) {
+                    if (strlen($phone) <= 10) {
                         $recipient->setPhoneNumber($phone);
                     // Sinon, on arrête le processus pour format de téléphone invalide
                     } else {
@@ -387,7 +387,7 @@ class MoncompteController extends AbstractController
 
         // On récupère les informations passées en POST
         $newUser = json_decode($request->getContent());
-        dd($newUser);
+        //dd($newUser);
         
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {
@@ -462,8 +462,60 @@ class MoncompteController extends AbstractController
                     return new JsonResponse($response);
                 }
             }
-                    
-            // On injecte en BDD les informations sur la nouvelle capsule créée
+            
+            // On isole l'adresse à mettre à jour
+            $address = $user->getAddresses()[0];
+
+            // Une adresse a-t-elle été renseignée ?
+            if (isset($newUser->address)) {
+                // La longueur de l'adresse du destinataire est-elle dans la limite attendue ?
+                if (strlen($newUser->address) < 255) {
+                    $address->setRoad($newUser->address);
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - L\'adresse est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Un code postal a-t-il été renseigné ?
+            if (isset($newUser->zipcode)) {
+                // La longueur du code postal est-elle dans la limite attendue ?
+                if (strlen($newUser->zipcode) <= 5) {
+                    // Le format du code postal est-il valide ?
+                    if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode)) {
+                        $address->setPostcode($newUser->zipcode);
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de créer le destinataire - Le format du code postal est invalide';
+                        return new JsonResponse($response);
+                    }
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le code postal est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Une ville a-t-elle été renseignée ?
+            if (isset($newUser->city)) {
+                // La longueur du nom de la ville est-elle dans la limite attendue ?
+                if (strlen($newUser->city) < 255) {
+                    $address->setCity($newUser->city);
+                // Sinon, on arrête le processus pour format de ville invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le nom de la ville est trop long';
+                    return new JsonResponse($response);
+                }
+            }
+            
+            // On réinjecte l'adresse ajustée dans notre objet utilisateur
+            $user->addAddress($address);
+
+            // On injecte en BDD les informations du destinataire mises à jour
             $userRepository->add($user, true);
 
             // On prépare la réponse de succès de création
