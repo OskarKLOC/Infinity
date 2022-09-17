@@ -4,11 +4,18 @@ import { useEffect, useState } from 'react';
 function MesDestinataires (props) {
     
     const [recipients, setRecipients] = useState([0]);
+    const [addresses, setAddresses] = useState([]);
 
     // Au chargement du module, on récupère la liste des capsules à afficher
     useEffect(() => {
         searchAllRecipients();
     },[]);
+
+
+    useEffect(() => {
+        console.log(recipients);
+        console.log(addresses);
+    },[recipients, addresses]);
 
 
     function searchAllRecipients () {
@@ -17,11 +24,9 @@ function MesDestinataires (props) {
         .then((headers) => {
             return headers.json();
         }).then((data) => {
-            // Il nous est nécessaire de parser le JSON pour récupérer l'objet
-            let dataObject = JSON.parse(data.recipients);
-            // On stocke l'objet dans la variable d'état
-            setRecipients(dataObject);
-            console.log(dataObject);
+            // On stocke les objets parsés dans les variables d'état correspondantes
+            setRecipients(JSON.parse(data.recipients));
+            setAddresses(JSON.parse(data.addresses));
         })
     }
     

@@ -157,9 +157,17 @@ class MoncompteController extends AbstractController
             $serializer = new Serializer($normalizers, $encoders);
             $data = $serializer->serialize($recipients, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'email', 'roles', 'lastname', 'firstname', 'phoneNumber']]);
 
+            // On prépare la récupération des adresses qui ne subisse pas la circularité de la BDD
+            $addresses = [];
+            foreach ($recipients as $recipient) {
+                array_push($addresses, $recipient->getAddresses());
+            }
+            $dataAddresses = $serializer->serialize($addresses, 'json', [AbstractNormalizer::ATTRIBUTES => ['road', 'postcode', 'city', 'AddressType']]);
+
             // On prépare la donnée à renvoyer
             $response->succes = true;
             $response->recipients = $data;
+            $response->addresses = $dataAddresses;
         } else {
             $response->succes = false;
             $response->message = 'Impossible de récupérer les capsules - Utilisateur non connecté';
