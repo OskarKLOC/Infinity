@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Capsule;
 use App\Entity\CapsuleUser;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\AddressRepository;
 use App\Repository\CapsuleRepository;
 use App\Repository\CapsuleUserRepository;
 use App\Repository\UserRepository;
@@ -191,23 +193,24 @@ class MoncompteController extends AbstractController
     }
 
     #[Route('/api_new_recipient', name: 'app_moncompte_recipient_new', methods: ['GET', 'POST'])]
-    public function newRecipient(Request $request, UserRepository $userRepository): JsonResponse
+    public function newRecipient(Request $request, UserRepository $userRepository, AddressRepository $addressRepository): JsonResponse
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
 
         // On récupère les informations passées en POST
         $newUser = json_decode($request->getContent());
-        // dd($newUser);
         
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {
             // On déclare les objets que nous allons alimenter
             $recipient = new User();
+            $address = new Address();
 
             // On renseigne les informations spécifiques à la création d'un nouveau destinataire
             $recipient->setRoles(['ROLE_USER']);
             $recipient->setPassword(' ');
+            $address->setAddressType('POSTAL');
 
             // On récupère l'utilisateur actif
             $owner = $this->getUser();
@@ -264,7 +267,7 @@ class MoncompteController extends AbstractController
                 // Le format du numéro de téléphone est-il valide ?
                 if (preg_match('^(0|\\+33|0033)[1-9][0-9]{8}^', $phone)) {
                     // La longueur du téléphone est-il dans la limite attendue ?
-                    if (strlen($newUser->firstname) <= 10) {
+                    if (strlen($newUser->phone) <= 10) {
                         $recipient->setPhoneNumber($phone);
                     // Sinon, on arrête le processus pour format de téléphone invalide
                     } else {
@@ -279,9 +282,59 @@ class MoncompteController extends AbstractController
                     return new JsonResponse($response);
                 }
             }
-                    
-            // On injecte en BDD les informations sur la nouvelle capsule créée
+
+            // Une adresse a-t-elle été renseignée ?
+            if (isset($newUser->address)) {
+                // La longueur de l'adresse du destinataire est-elle dans la limite attendue ?
+                if (strlen($newUser->address) < 255) {
+                    $address->setRoad($newUser->address);
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - L\'adresse est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Un code postal a-t-il été renseigné ?
+            if (isset($newUser->zipcode)) {
+                // La longueur du code postal est-elle dans la limite attendue ?
+                if (strlen($newUser->zipcode) <= 5) {
+                    // Le format du code postal est-il valide ?
+                    if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode)) {
+                        $address->setPostcode($newUser->zipcode);
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de créer le destinataire - Le format du code postal est invalide';
+                        return new JsonResponse($response);
+                    }
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le code postal est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Une ville a-t-elle été renseignée ?
+            if (isset($newUser->city)) {
+                // La longueur du nom de la ville est-elle dans la limite attendue ?
+                if (strlen($newUser->city) < 255) {
+                    $address->setCity($newUser->city);
+                // Sinon, on arrête le processus pour format de ville invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le nom de la ville est trop long';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // On injecte en BDD les informations sur le nouveau destinataire créé
             $userRepository->add($recipient, true);
+
+            // On injecte en BDD les informations sur l'adresse associée au destinataire créé
+            $address->setUser($recipient);
+            $addressRepository->add($address, true);
 
             // On prépare la réponse de succès de création
             $response->recipientId = $recipient->getId();
@@ -313,7 +366,7 @@ class MoncompteController extends AbstractController
     }
 
     #[Route('/api_set_user/{id}', name: 'app_moncompte_api_set_user', methods: ['POST'])]
-    public function apiSetUser(Request $request, User $user, UserRepository $userRepository): JsonResponse
+    public function apiSetUser(Request $request, User $user, UserRepository $userRepository, AddressRepository $addressRepository): JsonResponse
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
@@ -326,7 +379,7 @@ class MoncompteController extends AbstractController
 
         // On récupère les informations passées en POST
         $newUser = json_decode($request->getContent());
-        // dd($newUser);
+        dd($newUser);
         
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {

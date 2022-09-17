@@ -114,7 +114,7 @@ function MonDestinataire (props) {
                 </div>
                 <div>
                     <label htmlFor="recipient-phone">Téléphone : </label>
-                    <input type="text" id="recipient-phone" name="recipient-phone" value={recipient.phone} onChange={handleChange} />
+                    <input type="text" id="recipient-phone" name="recipient-phone" value={recipient.phoneNumber} onChange={handleChange} />
                 </div>
                 <div>
                     <label htmlFor="recipient-address">Adresse : </label>
