@@ -166,7 +166,7 @@ class CapsuleController extends AbstractController
     }
 
 
-    #[Route('/list', name: 'app_capsule_list', methods: ['GET'])]
+/*     #[Route('/list', name: 'app_capsule_list', methods: ['GET'])]
     public function list(CapsuleRepository $capsuleRepository): Response
     {
         return $this->render('capsule/list.html.twig', [
@@ -227,5 +227,5 @@ class CapsuleController extends AbstractController
         }
 
         return $this->redirectToRoute('app_capsule_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } */
 }

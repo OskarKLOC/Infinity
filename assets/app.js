@@ -7,6 +7,7 @@ import MaCapsule from './MaCapsule';
 import MesDestinataires from './MesDestinataires';
 import MonCompteCapsule from './MonCompteCapsule';
 
+// Gestion des paramètres et du contenu de la capsule
 let root = document.getElementById('capsule-root');
 if (root) {
     const capsuleRoot = ReactDOM.createRoot(root);
@@ -15,6 +16,7 @@ if (root) {
     );
 }
 
+// Gestion des destinataires (liste et coordonnées)
 root = document.getElementById('compte-destinataires-root');
 if (root) {
     const compteRoot = ReactDOM.createRoot(root);
@@ -23,6 +25,7 @@ if (root) {
     );
 }
 
+// Gestion des capsules (liste)
 root = document.getElementById('compte-capsules-root');
 if (root) {
     const compteRoot = ReactDOM.createRoot(root);

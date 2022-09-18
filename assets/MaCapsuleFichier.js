@@ -4,6 +4,12 @@ import { useParams } from 'react-router-dom';
 
 function MaCapsuleFichier (props) {
     
+    // On définit les types de fichiers acceptés
+    let accept = '';
+    if (props.type == 'photo') {accept='image/*';}
+    if (props.type == 'audio') {accept='audio/*';}
+    if (props.type == 'vidéo') {accept='video/*';}
+    
     // Au chargement du module, on initialise les premières données de l'objet qui sera retourné
     useEffect(() => {
         let contentParameters = new Object();
@@ -54,8 +60,13 @@ function MaCapsuleFichier (props) {
         .then((headers) => {
             return headers.json();
         }).then((data) => {
-            // On récupère la réponse de l'API que nous allons afficher
-            props.setMessage(data);
+            if (data.success) {
+                // Si l'édition est un succès, on affiche la librairie des contenus
+                // props.toggleMode();
+            } else {
+                // Sinon, on affiche le message d'erreur
+                props.setMessage(data.message);
+            }
         })
     }
 
@@ -71,7 +82,7 @@ function MaCapsuleFichier (props) {
                 </div>
                 <div>
                     <label htmlFor="capsule-fichier">Chargement de votre {props.type} : </label>
-                    <input type="file" accept="image/png, image/jpeg, capture" capture="user" id="capsule-fichier" name="capsule-fichier" onChange={handleChange} />
+                    <input type="file" accept={accept} capture="user" id="capsule-fichier" name="capsule-fichier" onChange={handleChange} />
                 </div>
                 <div>
                     <label htmlFor="capsule-fichier-text">Commentaire sur votre {props.type} : </label>

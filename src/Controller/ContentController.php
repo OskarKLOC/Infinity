@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Capsule;
 use DateTime;
+use stdClass;
+use App\Entity\Capsule;
 use App\Entity\Content;
 use App\Form\ContentType;
 use App\Repository\CapsuleRepository;
@@ -54,10 +55,13 @@ class ContentController extends AbstractController
     #[Route('/api_set_content/{id}', name: 'app_content_api_set', methods: ['POST'])]
     public function apiSetContent(Request $request, Capsule $capsule, ContentRepository $contentRepository): JsonResponse
     {        
+        // On prépare l'objet qui contiendra notre réponse
+        $response = new stdClass();
+        
         // On récupère les données envoyées en POST et FILE
         $newContent = json_decode($request->request->get('content'));
         $newFile = $request->files->get('file');
-
+        dd($newFile);
         // On crée le répertoire qui permet de stocker les fichiers reçus
         $filesystem = new Filesystem();
         $filesystem->mkdir('../public/data/content/' . $newContent->capsuleId);
@@ -75,31 +79,118 @@ class ContentController extends AbstractController
         if (strlen($newContent->name) < 255) {
             $content->setContentName($newContent->name);
         } else {
-            return new JsonResponse('Erreur - Le titre associé au fichier est trop long');
-        }
-
-        // Le format renvoyé fait-il partie des valeurs admissibles ?
-        if($newContent->type == 'photo' || $newContent->type == 'audio'  || $newContent->type == 'vidéo'|| $newContent->type == 'texte') {
-            $content->setContentType($newContent->type);
-        } else {
-            return new JsonResponse('Erreur - Format de contenu non autorisé');
+            $response->success = false;
+            $response->message = 'Erreur - Le titre associé au fichier est trop long';
+            return new JsonResponse($response);
         }
 
         // On pousse le contenu de la description
         // Pour le moment, je ne vois pas quels contrôles je pourrais faire
         $content->setCaption($newContent->message);
 
+        // Le format renvoyé fait-il partie des valeurs admissibles ?
+        if ($newContent->type == 'photo' || $newContent->type == 'audio'  || $newContent->type == 'vidéo'|| $newContent->type == 'texte') {
+            $content->setContentType($newContent->type);
+        } else {
+            $response->success = false;
+            $response->message = 'Erreur - Format de contenu non autorisé';
+            return new JsonResponse($response);
+        }
+
+        // dd($newFile);
+
         // Un fichier a-t-il été transmis ?
         if ($newFile && $newContent->type != 'texte') {
+            // On récupère le type mime du fichier
+            $mimeType = $newFile->getMimeType();
+            // On récupère l'adresse temporaire du fichier
+            $tmpImagePath = $newFile->getPathName();
+
+            // On définit la taille maximale du fichier admissible
+            $maxFileSize = 0;
+            if ($newContent->type == 'photo') {$maxFileSize = 5000000;}
+            if ($newContent->type == 'audio') {$maxFileSize = 5000000;}
+            if ($newContent->type == 'vidéo') {$maxFileSize = 30000000;}
+
             // La taille du fichier est-il dans la limite autorisée ?
-            if ($newFile->getSize() <= 3000000)
-            {
-                $tmpImagePath = $newFile->getPathName();
-                $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.jpg';
+            if ($newFile->getSize() <= $maxFileSize) {
+                // Le type MIME fait-il partie de la liste autorisée ?
+                switch ($mimeType) {
+                    case 'image/bmp':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.bmp';
+                        break;
+                    case 'image/gif':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.gif';
+                        break;
+                    case 'image/jpeg':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.jpg';
+                        break;
+                    case 'image/png':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.png';
+                        break;
+                    case 'image/tiff':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.tiff';
+                        break;
+                    case 'image/webp':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.webp';
+                        break;
+                    case 'audio/aac':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.aac';
+                        break;
+                    case 'audio/midi':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.mid';
+                        break;
+                    case 'audio/mp4':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.m4a';
+                        break;
+                    case 'audio/ogg':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.oga';
+                        break;
+                    case 'audio/x-wav':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.wav';
+                        break;
+                    case 'audio/webm':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.weba';
+                        break;
+                    case 'audio/3gpp':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.3gp';
+                        break;
+                    case 'audio/3gpp2':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.3g2';
+                        break;
+                    case 'video/x-msvideo':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.avi';
+                        break;
+                    case 'video/mpeg':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.mpeg';
+                        break;
+                    case 'video/mp4':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.mp4';
+                        break;
+                    case 'video/ogg':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.ogv';
+                        break;
+                    case 'video/webm':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.webm';
+                        break;
+                    case 'video/3gpp':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.3gp';
+                        break;
+                    case 'video/3gpp2':
+                        $destinationImagePath = '../public/data/content/'. $newContent->capsuleId . '/' . $newFile->getFileName() . '.3g2';
+                        break;
+                    default:
+                        $response->success = false;
+                        $response->message = 'Erreur - Le format du contenu n\'est pas autorisé';
+                        return new JsonResponse($response);
+                        break;
+                }
                 $content->setURL($destinationImagePath);
                 $succes = move_uploaded_file($tmpImagePath, $destinationImagePath);
             } else {
-                return new JsonResponse('Erreur - La taille du fichier est trop importante');
+                $response->success = false;
+                $response->message = 'Erreur - La taille du fichier est trop importante';
+                return new JsonResponse($response);
             }
         }
 
@@ -112,7 +203,9 @@ class ContentController extends AbstractController
         $contentRepository->add($content, true);
 
         // On transmet la réponse confirmant que l'enregistrement s'est bien réalisé
-        return new JsonResponse('Nouveau contenu ajouté avec succès');
+        $response->success = true;
+        $response->message = 'Nouveau contenu ajouté avec succès';
+        return new JsonResponse($response);
     }
 
 
@@ -143,7 +236,7 @@ class ContentController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'app_content_new', methods: ['GET', 'POST'])]
+    /* #[Route('/new', name: 'app_content_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ContentRepository $contentRepository): Response
     {
         $content = new Content();
@@ -196,5 +289,5 @@ class ContentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_content_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } */
 }
