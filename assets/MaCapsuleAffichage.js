@@ -111,7 +111,7 @@ function MaCapsuleAffichage (props) {
                 mode == ''
                     ? <MaCapsuleAccueil isSealed={isSealed}></MaCapsuleAccueil>
                     : mode == 'params'
-                        ? <MaCapsuleParams id={props.id} capsule={props.capsule} setCapsule={props.setCapsule} recipients={props.recipients} setRecipients={props.setRecipients} selectionRecipients={props.selectionRecipients} setSelectionRecipients={props.setSelectionRecipients} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass}></MaCapsuleParams>
+                        ? <MaCapsuleParams id={props.id} capsule={props.capsule} setCapsule={props.setCapsule} recipients={props.recipients} setRecipients={props.setRecipients} selectionRecipients={props.selectionRecipients} setSelectionRecipients={props.setSelectionRecipients} creationDate={props.creationDate} sealDate={props.sealDate} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass}></MaCapsuleParams>
                         : mode == 'text'
                             ? <MaCapsuleText id={props.id} content={props.content} setContent={props.setContent} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload}></MaCapsuleText>
                             : mode == 'photo'

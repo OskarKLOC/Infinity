@@ -49,6 +49,7 @@ class CapsuleRepository extends ServiceEntityRepository
         ;
     }    
 
+
 //    /**
 //     * @return Capsule[] Returns an array of Capsule objects
 //     */

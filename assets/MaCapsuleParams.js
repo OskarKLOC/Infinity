@@ -4,6 +4,23 @@ import { useParams } from 'react-router-dom';
 
 function MaCapsuleParams (props) {
 
+    // On choisit le message à afficher en fonction du statut de la capsule
+    let sealStatus = '';
+    if (props.capsule.capsuleStatus === "SEALED") {
+        sealStatus = 'Verrouillée';
+    }
+    if (props.capsule.capsuleStatus === "UNSEALED") {
+        sealStatus = 'Déverrouillée';
+    }
+
+    let format = '';
+    if (props.capsule.format === "SOLID") {
+        format = 'Physique';
+    }
+    if (props.capsule.format === "VIRTUAL") {
+        format = 'Numérique';
+    }
+
     // On charge par défaut la sélection des destinataires au cas où il n'y aurait pas de modifications qui y soient apportées
     useEffect(() => {
         let input = {...props.capsule};
@@ -48,12 +65,6 @@ function MaCapsuleParams (props) {
                 case 'capsule-name':
                     input.name = target.value; 
                     break;
-                case 'capsule-status':
-                    input.capsuleStatus = target.value;
-                    break;
-                case 'capsule-type':
-                    input.format = target.value;
-                    break;
                 default:
                     console.log('Champ non reconnu...');
                     break;
@@ -91,41 +102,28 @@ function MaCapsuleParams (props) {
                 </div>
                 <div>
                     <p>Date de création : {props.creationDate}</p>
-                </div>
-                <div>
-                    <p>Verrouillage de ma capsule</p>
-                    <input type="radio" name="capsule-status" value="SEALED" id="SEALED" checked={props.capsule.capsuleStatus === "SEALED"} onChange={handleChange}/>
-                    <label htmlFor="SEALED">Scellée</label>
-                    <input type="radio" name="capsule-status" value="UNSEALED" id="UNSEALED" checked={props.capsule.capsuleStatus === "UNSEALED"} onChange={handleChange}/>
-                    <label htmlFor="UNSEALED">Descellée</label>
+                    <p>Statut de ma capsule : {sealStatus}</p>
                     <p>Date de dernier verrouillage: {props.sealDate}</p>
-                </div>
-                <div>
-                    <p>Format de ma capsule</p>
-                    <input type="radio" name="capsule-type" value="VIRTUAL" id="VIRTUAL" checked={props.capsule.format === "VIRTUAL"} onChange={handleChange}/>
-                    <label htmlFor="VIRTUAL">Numérique</label>
-                    <input type="radio" name="capsule-type" value="SOLID" id="SOLID" checked={props.capsule.format === "SOLID"} onChange={handleChange}/>
-                    <label htmlFor="SOLID">Physique</label>
+                    <p>Format de ma capsule : {format} </p>
                 </div>
                 <div>
                     <p>Destinataires de ma capsule</p>
+                    {
+                        props.recipients.length
+                            ? (props.recipients[0] != 0
+                                ? props.recipients.map((recipient, index) => {
+                                    return <div key={recipient.id}>
+                                        <input type="checkbox" id={'recipient-' + recipient.id} name={'recipient-' + recipient.id} value={recipient.id} defaultChecked={props.selectionRecipients.includes(recipient.id)} onChange={handleChange}></input>
+                                        <label htmlFor={'recipient-' + recipient.id}>
+                                                <p>{recipient.firstname} {recipient.lastname}</p>
+                                        </label>
+                                    </div>
+                                })
+                                : ' ')
+                            : 'Vous n\'avez pas encore créé de destinataire depuis votre compte'
+
+                    }
                 </div>
-
-                {
-                    props.recipients.length
-                        ? (props.recipients[0] != 0
-                            ? props.recipients.map((recipient, index) => {
-                                return <div key={recipient.id}>
-                                    <input type="checkbox" id={'recipient-' + recipient.id} name={'recipient-' + recipient.id} value={recipient.id} defaultChecked={props.selectionRecipients.includes(recipient.id)} onChange={handleChange}></input>
-                                    <label htmlFor={'recipient-' + recipient.id}>
-                                            <p>{recipient.firstname} {recipient.lastname}</p>
-                                    </label>
-                                </div>
-                            })
-                            : ' ')
-                        : 'Vous n\'avez pas encore créé de destinataire depuis votre compte'
-
-                }
                 <button type="submit">Enregistrer</button>
             </form>
         </>

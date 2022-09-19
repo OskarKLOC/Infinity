@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OfferRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OfferRepository::class)]
@@ -19,9 +20,6 @@ class Offer
     #[ORM\Column(length: 255)]
     private ?string $price = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $user = null;
-
     #[ORM\Column(length: 255)]
     private ?string $option_1 = null;
 
@@ -30,6 +28,18 @@ class Offer
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $option_3 = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $virtual_max = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $solid_max = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $recipients_max = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $storage_max = null;
 
     public function getId(): ?int
     {
@@ -56,18 +66,6 @@ class Offer
     public function setPrice(string $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }
@@ -104,6 +102,54 @@ class Offer
     public function setOption3(?string $option_3): self
     {
         $this->option_3 = $option_3;
+
+        return $this;
+    }
+
+    public function getVirtualMax(): ?int
+    {
+        return $this->virtual_max;
+    }
+
+    public function setVirtualMax(?int $virtual_max): self
+    {
+        $this->virtual_max = $virtual_max;
+
+        return $this;
+    }
+
+    public function getSolidMax(): ?int
+    {
+        return $this->solid_max;
+    }
+
+    public function setSolidMax(?int $solid_max): self
+    {
+        $this->solid_max = $solid_max;
+
+        return $this;
+    }
+
+    public function getRecipientsMax(): ?int
+    {
+        return $this->recipients_max;
+    }
+
+    public function setRecipientsMax(?int $recipients_max): self
+    {
+        $this->recipients_max = $recipients_max;
+
+        return $this;
+    }
+
+    public function getStorageMax(): ?int
+    {
+        return $this->storage_max;
+    }
+
+    public function setStorageMax(?int $storage_max): self
+    {
+        $this->storage_max = $storage_max;
 
         return $this;
     }

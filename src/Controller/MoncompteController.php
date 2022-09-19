@@ -94,15 +94,81 @@ class MoncompteController extends AbstractController
         }
     }
 
+    #[Route('/api_get_offer', name: 'app_moncompte_offer_get_', methods: ['GET', 'POST'])]
+    public function findOffer(Request $request, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+    {
+        // L'utilisateur est-il connecté ?
+        if ($this->getUser()) {
+            // On récupère toutes les capsules liées à l'utilisateur connecté
+            $offer = $this->getUser()->getOffer();
+            //dd($offer);
 
-    #[Route('/api_new_capsule', name: 'app_moncompte_capsule_new', methods: ['GET', 'POST'])]
-    public function newCapsule(Request $request, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+            // On prépare ce qui va nous permettre de sérialiser l'objet pour le transmettre, et on le sérialise
+            $encoders = [new XmlEncoder(), new JsonEncoder()];
+            $normalizers = [new ObjectNormalizer()];
+            $serializer = new Serializer($normalizers, $encoders);
+            $data = $serializer->serialize($offer, 'json');
+
+            // On envoie la réponse de l'API
+            return new JsonResponse($data);
+        } else {
+            return new JsonResponse('Impossible de récupérer les capsules - Utilisateur non connecté');
+        }
+    }
+
+
+    #[Route('/api_new_capsule/{type}', name: 'app_moncompte_capsule_new', methods: ['GET', 'POST'])]
+    public function newCapsule(Request $request, $type, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
-        
+
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {
+            // On récupère l'utilisateur actif
+            $user = $this->getUser();
+            
+            // On récupère le nombre maximal de capsules possibles pour cette offre
+            $maxSolidCapsule = $user->getOffer()->getSolidMax();
+            $maxVirtualCapsule = $user->getOffer()->getVirtualMax();
+            $maxCapsule = $maxSolidCapsule + $maxVirtualCapsule;
+
+            // On récupère la liste des capsules déjà existante
+            $capsules = $capsuleUserRepository->findAllByOwnerId($user->getId());
+            
+            // On détermine le nombre de capsules de chaque type
+            $numberSolidCapsules = 0;
+            $numberVirtualCapsules = 0;
+            foreach ($capsules as $capsule) {
+                $format = $capsule->getCapsule()->getFormat();
+                if ($format == 'SOLID') {
+                    $numberSolidCapsules = $numberSolidCapsules + 1;
+                } else if ($format == 'VIRTUAL') {
+                    $numberVirtualCapsules = $numberVirtualCapsules + 1;
+                }
+            }
+
+            // Le nombre maximal de capsules a-t-il été atteint ?
+            if (count($capsules) >= $maxCapsule) {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules de tous types est déjà atteint';
+                return new JsonResponse($response);
+            }
+
+            // Le nombre maximal de capsules physiques a-t-il été atteint ?
+            if ($numberSolidCapsules >= $maxSolidCapsule) {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules physiques est déjà atteint';
+                return new JsonResponse($response);
+            }
+
+            // Le nombre maximal de capsules numériques a-t-il été atteint ?
+            if ($numberVirtualCapsules >= $maxVirtualCapsule) {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules numériques est déjà atteint';
+                return new JsonResponse($response);
+            }
+            
             // On déclare les objets que nous allons alimenter
             $capsule = new Capsule();
             $capsuleUser = new CapsuleUser();
@@ -111,8 +177,17 @@ class MoncompteController extends AbstractController
             $capsule->setCreationDate(new DateTime());
             $capsule->setCapsuleStatus('UNSEALED');
 
-            // On récupère l'utilisateur actif
-            $user = $this->getUser();
+            // Le format de création est-il de type physique ?
+            if ($type == 'solid') {
+                $capsule->setFormat('SOLID');
+            // Sinon, le format de création est-il numérique ?
+            } else if ($type == 'virtual') {
+                $capsule->setFormat('VIRTUAL');
+            } else {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le format demandé n\'est pas reconnu';
+                return new JsonResponse($response);
+            }
 
             // On renseigne les informations de relation entre l'utilisateur et la capsule
             $capsuleUser->setCapsule($capsule);
