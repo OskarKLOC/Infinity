@@ -3,6 +3,7 @@ import { useState } from 'react';
 import MaCapsuleAccueil from './MaCapsuleAccueil';
 import MaCapsuleFichier from './MaCapsuleFichier';
 import MaCapsuleLibrary from './MaCapsuleLibrary';
+import MaCapsuleNavVirtual from './MaCapsuleNavVirtual';
 import MaCapsuleParams from './MaCapsuleParams';
 import MaCapsuleText from './MaCapsuleText';
 
@@ -10,8 +11,16 @@ function MaCapsuleAffichage (props) {
     
     // On déclare les variables d'état propres au composant
     const [mode, setMode] = useState('');
+    const [isVirtual, setIsVirtual] = useState(false);
     const [reload, setReload] = useState(true);
     const [isSealed, setIsSealed] = useState(undefined);
+
+    // On récupère le format de la capsule pour conditionner une partie de l'affichage
+    useEffect(() => {
+        if (props.capsule.format == 'VIRTUAL') {
+            setIsVirtual(true);
+        }
+    }, [props.capsule]);
 
     // On vérifie le statut scellé ou descellé de la capsule
     useEffect (() => {
@@ -90,11 +99,12 @@ function MaCapsuleAffichage (props) {
         <>
             <div>
                 <div onClick={changeView} data-mode="params">Paramètres</div>
-                <div onClick={changeView} data-mode="text">Texte</div>
-                <div onClick={changeView} data-mode="photo">Photo</div>
-                <div onClick={changeView} data-mode="audio">Audio</div>
-                <div onClick={changeView} data-mode="video">Vidéo</div>
-                <div onClick={changeView} data-mode="library">Librairie</div>
+                {
+                    isVirtual
+                        ? <MaCapsuleNavVirtual changeView={changeView}></MaCapsuleNavVirtual>
+                        : ''
+                }
+                
             </div>
 
             {
@@ -125,9 +135,6 @@ function MaCapsuleAffichage (props) {
             }
             
         </>
-        
-        
-
     );
 }
 

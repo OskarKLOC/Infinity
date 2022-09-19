@@ -61,7 +61,7 @@ class ContentController extends AbstractController
         // On récupère les données envoyées en POST et FILE
         $newContent = json_decode($request->request->get('content'));
         $newFile = $request->files->get('file');
-        dd($newFile);
+        // dd($newFile);
         // On crée le répertoire qui permet de stocker les fichiers reçus
         $filesystem = new Filesystem();
         $filesystem->mkdir('../public/data/content/' . $newContent->capsuleId);

@@ -18,6 +18,7 @@ function MaCapsuleFichier (props) {
         contentParameters.name = '';
         contentParameters.message = '';
         props.setContent(contentParameters);
+        props.setFile({});
     },[,props.reload]);
 
     // A chaque saisie dans le formulaire, on garde une trace de la saisie active
