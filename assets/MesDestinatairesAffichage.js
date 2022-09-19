@@ -40,11 +40,18 @@ function MesDestinatairesAffichage (props) {
             setIsEditMode(!isEditMode);
             setAffichageMode('list')
         } else {
+            console.log(props.addresses[event.currentTarget.dataset.id][0]);
             // Sinon, on isole les données du destinataire qui nous intéresse
             let input = props.recipients[event.currentTarget.dataset.id];
-            input.address = props.addresses[event.currentTarget.dataset.id][0].road;
-            input.zipcode = props.addresses[event.currentTarget.dataset.id][0].postcode;
-            input.city = props.addresses[event.currentTarget.dataset.id][0].city;
+            if (props.addresses[event.currentTarget.dataset.id][0] === undefined) {
+                input.address = '';
+                input.zipcode = '';
+                input.city = '';
+            } else {
+                input.address = props.addresses[event.currentTarget.dataset.id][0].road;
+                input.zipcode = props.addresses[event.currentTarget.dataset.id][0].postcode;
+                input.city = props.addresses[event.currentTarget.dataset.id][0].city;
+            }
             setRecipient(input);
             // Et on switche dans le mode d'édition
             setIsEditMode(!isEditMode);

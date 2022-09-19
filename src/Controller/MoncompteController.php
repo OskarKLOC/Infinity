@@ -465,6 +465,11 @@ class MoncompteController extends AbstractController
             
             // On isole l'adresse à mettre à jour
             $address = $user->getAddresses()[0];
+            // Est-ce qu'une adresse existe déjà ? Sinon on la crée
+            if (!$address) {
+                $address = new Address();
+                $address->setAddressType('POSTAL');
+            }
 
             // Une adresse a-t-elle été renseignée ?
             if (isset($newUser->address)) {
@@ -484,7 +489,7 @@ class MoncompteController extends AbstractController
                 // La longueur du code postal est-elle dans la limite attendue ?
                 if (strlen($newUser->zipcode) <= 5) {
                     // Le format du code postal est-il valide ?
-                    if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode)) {
+                    if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode) || $newUser->zipcode == '') {
                         $address->setPostcode($newUser->zipcode);
                     } else {
                         $response->success = false;
@@ -513,8 +518,12 @@ class MoncompteController extends AbstractController
             }
             
             // On réinjecte l'adresse ajustée dans notre objet utilisateur
-            $user->addAddress($address);
-
+            // Si elle n'existait pas déjà, on injecte le destinataire associé
+            if (!$address->getUser()) {
+                $address->setUser($user);
+            }
+            $addressRepository->add($address, true);
+            
             // On injecte en BDD les informations du destinataire mises à jour
             $userRepository->add($user, true);
 
