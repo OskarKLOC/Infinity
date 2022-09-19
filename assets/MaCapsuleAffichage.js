@@ -5,6 +5,7 @@ import MaCapsuleFichier from './MaCapsuleFichier';
 import MaCapsuleLibrary from './MaCapsuleLibrary';
 import MaCapsuleNavVirtual from './MaCapsuleNavVirtual';
 import MaCapsuleParams from './MaCapsuleParams';
+import MaCapsuleSuivi from './MaCapsuleSuivi';
 import MaCapsuleText from './MaCapsuleText';
 
 function MaCapsuleAffichage (props) {
@@ -63,7 +64,10 @@ function MaCapsuleAffichage (props) {
                     break;
                 case 'library':
                     setMode('library');
-                    break;    
+                    break;
+                case 'suivi':
+                    setMode('suivi');
+                    break;     
                 default:
                     setMode('');
                     break;
@@ -102,7 +106,7 @@ function MaCapsuleAffichage (props) {
                 {
                     isVirtual
                         ? <MaCapsuleNavVirtual changeView={changeView}></MaCapsuleNavVirtual>
-                        : ''
+                        : <div onClick={changeView} data-mode="suivi">Suivi</div>
                 }
                 
             </div>
@@ -122,8 +126,9 @@ function MaCapsuleAffichage (props) {
                                         ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload}></MaCapsuleFichier>
                                         : mode == 'library'
                                             ? <MaCapsuleLibrary id={props.id} contents={props.contents} selection={props.selection} setSelection={props.setSelection} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass}></MaCapsuleLibrary>
-                                            : ''
-            
+                                            : mode == 'suivi'
+                                                ? <MaCapsuleSuivi></MaCapsuleSuivi>
+                                                :''
             }
 
             {
