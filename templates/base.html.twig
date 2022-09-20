@@ -53,7 +53,16 @@
               {# Création du bouton de déconnection #}
                 <div class="user-widget">
                   <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id]!== null) : ?> 
-                  <a href="{{ path('app_logout') }}" <a class="nav-link"> Déconnexion </a>
+                  <a href="" <a class="nav-link">  </a>
+                </div>
+
+
+                <div class="user-widget">
+                  <?php if( isset($_SESSION['user_id']) && $_SESSION['user_id'] !== null ) : ?>
+                  <a href="{{ path('app_logout') }}" class="nav-link">Déconnexion</a>
+                  <?php else : ?>
+                  <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
+                  <?php endif; ?>
                 </div>
               </li>
             </ul>

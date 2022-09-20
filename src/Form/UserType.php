@@ -29,6 +29,7 @@ class UserType extends AbstractType
             ->add('firstname')
             // ->add('birthdate')
             ->add('birthdate', BirthdayType::class, [
+                'choice' => 'widget',
                 'years' => range(1, 200),
             ])
             ->add('birth_city')
