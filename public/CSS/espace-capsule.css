@@ -5,7 +5,7 @@
     background-color: #FFD12D;
     border-radius: 50%;
     margin: 20px;
-  }
+}
 
 .bloc-texte {
     height: 650px;
@@ -20,24 +20,27 @@
 }
 
 .deuxieme-bloc-texte {
-    width: 942px;
-    height: 384px;
+    width: 90%;
+    max-height: 50%;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #E4F1F9;
     border-radius: 30px;
     margin-bottom: 50px;
 }
 
-.deuxieme-bloc-texte p {
-    padding: 30px;
+
+/************************ PHOTOS ************************/
+
+.importer-photo {
     margin-top: 50px;
 }
 
-/************************ PHOTOS ************************/
 /************************ VIDEOS ************************/
 /************************ AUDIO ************************/
 /************************ BIBLIOTHEQUE ************************/
 
-.bloc-element{ 
+.bloc-element {
     width: 149px;
     height: 124px;
     background-color: white;
@@ -53,7 +56,7 @@
     overflow-y: scroll;
     scrollbar-color: black;
     scrollbar-width: thin;
-  }
+}
 
 /************************ CAPSULE A ENVOYER ************************/
 

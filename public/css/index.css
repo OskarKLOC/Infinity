@@ -3,17 +3,21 @@
     padding-top: 4rem;
     margin-bottom: 20rem;
 }
+
 #presentation h2 {
     font-weight: 700;
     font-size: 3.2rem;
 }
+
 #presentation img {
     border-radius: 0 45px 0 45px;
 }
+
 /********************** SECTION ETAPES ************************/
-#etapes p{
+#etapes p {
     margin: 1rem 0;
 }
+
 /********************** SECTION SERVICES ************************/
 .card-service {
     background: none;
@@ -21,16 +25,19 @@
     border-radius: none;
     text-align: center;
 }
+
 .card-service .card-img-top {
     border-radius: 50%;
 }
-.card-service .card-img-container{
+
+.card-service .card-img-container {
     position: relative;
 }
+
 .card-service .card-img-container::before {
     content: '';
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -38,9 +45,11 @@
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 43.23%, rgba(124, 139, 162, 0.75) 100%);
     border: 4px solid var(--warning);
 }
+
 .card-service .card-body {
     z-index: 1;
 }
+
 .card-service .card-number,
 .card-service .card-title {
     font-family: 'Poppins';
@@ -48,14 +57,16 @@
     text-align: center;
     color: var(--warning);
 }
+
 .card-service .card-title {
     font-weight: 700;
     font-size: 2.3vw;
 }
+
 .card-service .card-number {
     margin-top: -11vw;
     font-weight: 800;
-    font-size: 10vw; 
+    font-size: 10vw;
 }
 
 /********************** SECTION FORMULES ************************/
@@ -67,13 +78,15 @@
     padding: 3rem 0;
     padding-bottom: 10rem;
 }
+
 .card-formule {
     height: 100%;
     border: 1px solid #1A0036;
     box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;    
+    border-radius: 30px;
     background: rgba(255, 255, 255, 0.7);
 }
+
 .card-formule .card-title {
     font-family: 'Poppins';
     font-style: normal;
@@ -84,6 +97,7 @@
     color: var(--dark);
     margin-bottom: 3rem;
 }
+
 .card-formule .card-text {
     font-family: 'Manrope';
     font-style: normal;
@@ -93,6 +107,7 @@
     padding-left: 3rem;
     padding-right: 3rem;
 }
+
 .card-formule .card-img-top {
     width: 33%;
     border-radius: 50%;
@@ -101,10 +116,12 @@
     margin-bottom: 2rem;
     filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
 }
+
 .card-formule .btn {
     margin: 3rem 0;
 }
-/********************** SECTION TEMOIGNAGE ************************/
+
+/********************** SECTION TEMOIGNAGES ************************/
 
 .card-temoignage {
     position: relative;
@@ -113,7 +130,9 @@
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
     color: var(--dark) !important;
+    height: auto;
 }
+
 .card-temoignage .card-text {
     font-family: 'Manrope';
     font-style: normal;
