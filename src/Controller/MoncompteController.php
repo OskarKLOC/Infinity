@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Capsule;
 use App\Entity\CapsuleUser;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\AddressRepository;
 use App\Repository\CapsuleRepository;
 use App\Repository\CapsuleUserRepository;
 use App\Repository\UserRepository;
@@ -92,15 +94,81 @@ class MoncompteController extends AbstractController
         }
     }
 
+    #[Route('/api_get_offer', name: 'app_moncompte_offer_get_', methods: ['GET', 'POST'])]
+    public function findOffer(Request $request, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+    {
+        // L'utilisateur est-il connecté ?
+        if ($this->getUser()) {
+            // On récupère toutes les capsules liées à l'utilisateur connecté
+            $offer = $this->getUser()->getOffer();
+            //dd($offer);
 
-    #[Route('/api_new_capsule', name: 'app_moncompte_capsule_new', methods: ['GET', 'POST'])]
-    public function newCapsule(Request $request, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+            // On prépare ce qui va nous permettre de sérialiser l'objet pour le transmettre, et on le sérialise
+            $encoders = [new XmlEncoder(), new JsonEncoder()];
+            $normalizers = [new ObjectNormalizer()];
+            $serializer = new Serializer($normalizers, $encoders);
+            $data = $serializer->serialize($offer, 'json');
+
+            // On envoie la réponse de l'API
+            return new JsonResponse($data);
+        } else {
+            return new JsonResponse('Impossible de récupérer les capsules - Utilisateur non connecté');
+        }
+    }
+
+
+    #[Route('/api_new_capsule/{type}', name: 'app_moncompte_capsule_new', methods: ['GET', 'POST'])]
+    public function newCapsule(Request $request, $type, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
-        
+
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {
+            // On récupère l'utilisateur actif
+            $user = $this->getUser();
+            
+            // On récupère le nombre maximal de capsules possibles pour cette offre
+            $maxSolidCapsule = $user->getOffer()->getSolidMax();
+            $maxVirtualCapsule = $user->getOffer()->getVirtualMax();
+            $maxCapsule = $maxSolidCapsule + $maxVirtualCapsule;
+
+            // On récupère la liste des capsules déjà existante
+            $capsules = $capsuleUserRepository->findAllByOwnerId($user->getId());
+            
+            // On détermine le nombre de capsules de chaque type
+            $numberSolidCapsules = 0;
+            $numberVirtualCapsules = 0;
+            foreach ($capsules as $capsule) {
+                $format = $capsule->getCapsule()->getFormat();
+                if ($format == 'SOLID') {
+                    $numberSolidCapsules = $numberSolidCapsules + 1;
+                } else if ($format == 'VIRTUAL') {
+                    $numberVirtualCapsules = $numberVirtualCapsules + 1;
+                }
+            }
+
+            // Le nombre maximal de capsules a-t-il été atteint ?
+            if (count($capsules) >= $maxCapsule) {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules de tous types est déjà atteint';
+                return new JsonResponse($response);
+            }
+
+            // Le nombre maximal de capsules physiques a-t-il été atteint ?
+            if ($numberSolidCapsules >= $maxSolidCapsule) {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules physiques est déjà atteint';
+                return new JsonResponse($response);
+            }
+
+            // Le nombre maximal de capsules numériques a-t-il été atteint ?
+            if ($numberVirtualCapsules >= $maxVirtualCapsule) {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules numériques est déjà atteint';
+                return new JsonResponse($response);
+            }
+            
             // On déclare les objets que nous allons alimenter
             $capsule = new Capsule();
             $capsuleUser = new CapsuleUser();
@@ -109,8 +177,17 @@ class MoncompteController extends AbstractController
             $capsule->setCreationDate(new DateTime());
             $capsule->setCapsuleStatus('UNSEALED');
 
-            // On récupère l'utilisateur actif
-            $user = $this->getUser();
+            // Le format de création est-il de type physique ?
+            if ($type == 'solid') {
+                $capsule->setFormat('SOLID');
+            // Sinon, le format de création est-il numérique ?
+            } else if ($type == 'virtual') {
+                $capsule->setFormat('VIRTUAL');
+            } else {
+                $response->success = false;
+                $response->message = 'Impossible de créer la capsule - Le format demandé n\'est pas reconnu';
+                return new JsonResponse($response);
+            }
 
             // On renseigne les informations de relation entre l'utilisateur et la capsule
             $capsuleUser->setCapsule($capsule);
@@ -155,9 +232,17 @@ class MoncompteController extends AbstractController
             $serializer = new Serializer($normalizers, $encoders);
             $data = $serializer->serialize($recipients, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'email', 'roles', 'lastname', 'firstname', 'phoneNumber']]);
 
+            // On prépare la récupération des adresses qui ne subisse pas la circularité de la BDD
+            $addresses = [];
+            foreach ($recipients as $recipient) {
+                array_push($addresses, $recipient->getAddresses());
+            }
+            $dataAddresses = $serializer->serialize($addresses, 'json', [AbstractNormalizer::ATTRIBUTES => ['road', 'postcode', 'city', 'AddressType']]);
+
             // On prépare la donnée à renvoyer
             $response->succes = true;
             $response->recipients = $data;
+            $response->addresses = $dataAddresses;
         } else {
             $response->succes = false;
             $response->message = 'Impossible de récupérer les capsules - Utilisateur non connecté';
@@ -191,23 +276,24 @@ class MoncompteController extends AbstractController
     }
 
     #[Route('/api_new_recipient', name: 'app_moncompte_recipient_new', methods: ['GET', 'POST'])]
-    public function newRecipient(Request $request, UserRepository $userRepository): JsonResponse
+    public function newRecipient(Request $request, UserRepository $userRepository, AddressRepository $addressRepository): JsonResponse
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
 
         // On récupère les informations passées en POST
         $newUser = json_decode($request->getContent());
-        // dd($newUser);
         
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {
             // On déclare les objets que nous allons alimenter
             $recipient = new User();
+            $address = new Address();
 
             // On renseigne les informations spécifiques à la création d'un nouveau destinataire
             $recipient->setRoles(['ROLE_USER']);
             $recipient->setPassword(' ');
+            $address->setAddressType('POSTAL');
 
             // On récupère l'utilisateur actif
             $owner = $this->getUser();
@@ -258,13 +344,13 @@ class MoncompteController extends AbstractController
             }
             
             // Un numéro de téléphone a-t-il été renseigné ?
-            if (isset($newUser->phone)) {
-                $phone = str_replace(' ', '', $newUser->phone);
+            if (isset($newUser->phoneNumber)) {
+                $phone = str_replace(' ', '', $newUser->phoneNumber);
                 $phone = str_replace('.', '', $phone);
                 // Le format du numéro de téléphone est-il valide ?
                 if (preg_match('^(0|\\+33|0033)[1-9][0-9]{8}^', $phone)) {
                     // La longueur du téléphone est-il dans la limite attendue ?
-                    if (strlen($newUser->firstname) <= 10) {
+                    if (strlen($phone) <= 10) {
                         $recipient->setPhoneNumber($phone);
                     // Sinon, on arrête le processus pour format de téléphone invalide
                     } else {
@@ -279,9 +365,59 @@ class MoncompteController extends AbstractController
                     return new JsonResponse($response);
                 }
             }
-                    
-            // On injecte en BDD les informations sur la nouvelle capsule créée
+
+            // Une adresse a-t-elle été renseignée ?
+            if (isset($newUser->address)) {
+                // La longueur de l'adresse du destinataire est-elle dans la limite attendue ?
+                if (strlen($newUser->address) < 255) {
+                    $address->setRoad($newUser->address);
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - L\'adresse est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Un code postal a-t-il été renseigné ?
+            if (isset($newUser->zipcode)) {
+                // La longueur du code postal est-elle dans la limite attendue ?
+                if (strlen($newUser->zipcode) <= 5) {
+                    // Le format du code postal est-il valide ?
+                    if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode)) {
+                        $address->setPostcode($newUser->zipcode);
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de créer le destinataire - Le format du code postal est invalide';
+                        return new JsonResponse($response);
+                    }
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le code postal est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Une ville a-t-elle été renseignée ?
+            if (isset($newUser->city)) {
+                // La longueur du nom de la ville est-elle dans la limite attendue ?
+                if (strlen($newUser->city) < 255) {
+                    $address->setCity($newUser->city);
+                // Sinon, on arrête le processus pour format de ville invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le nom de la ville est trop long';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // On injecte en BDD les informations sur le nouveau destinataire créé
             $userRepository->add($recipient, true);
+
+            // On injecte en BDD les informations sur l'adresse associée au destinataire créé
+            $address->setUser($recipient);
+            $addressRepository->add($address, true);
 
             // On prépare la réponse de succès de création
             $response->recipientId = $recipient->getId();
@@ -313,7 +449,7 @@ class MoncompteController extends AbstractController
     }
 
     #[Route('/api_set_user/{id}', name: 'app_moncompte_api_set_user', methods: ['POST'])]
-    public function apiSetUser(Request $request, User $user, UserRepository $userRepository): JsonResponse
+    public function apiSetUser(Request $request, User $user, UserRepository $userRepository, AddressRepository $addressRepository): JsonResponse
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
@@ -326,7 +462,7 @@ class MoncompteController extends AbstractController
 
         // On récupère les informations passées en POST
         $newUser = json_decode($request->getContent());
-        // dd($newUser);
+        //dd($newUser);
         
         // L'utilisateur est-il connecté ?
         if ($this->getUser()) {
@@ -401,8 +537,69 @@ class MoncompteController extends AbstractController
                     return new JsonResponse($response);
                 }
             }
-                    
-            // On injecte en BDD les informations sur la nouvelle capsule créée
+            
+            // On isole l'adresse à mettre à jour
+            $address = $user->getAddresses()[0];
+            // Est-ce qu'une adresse existe déjà ? Sinon on la crée
+            if (!$address) {
+                $address = new Address();
+                $address->setAddressType('POSTAL');
+            }
+
+            // Une adresse a-t-elle été renseignée ?
+            if (isset($newUser->address)) {
+                // La longueur de l'adresse du destinataire est-elle dans la limite attendue ?
+                if (strlen($newUser->address) < 255) {
+                    $address->setRoad($newUser->address);
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - L\'adresse est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Un code postal a-t-il été renseigné ?
+            if (isset($newUser->zipcode)) {
+                // La longueur du code postal est-elle dans la limite attendue ?
+                if (strlen($newUser->zipcode) <= 5) {
+                    // Le format du code postal est-il valide ?
+                    if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode) || $newUser->zipcode == '') {
+                        $address->setPostcode($newUser->zipcode);
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de créer le destinataire - Le format du code postal est invalide';
+                        return new JsonResponse($response);
+                    }
+                // Sinon, on arrête le processus pour format d'adresse invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le code postal est trop longue';
+                    return new JsonResponse($response);
+                }
+            }
+
+            // Une ville a-t-elle été renseignée ?
+            if (isset($newUser->city)) {
+                // La longueur du nom de la ville est-elle dans la limite attendue ?
+                if (strlen($newUser->city) < 255) {
+                    $address->setCity($newUser->city);
+                // Sinon, on arrête le processus pour format de ville invalide
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de créer le destinataire - Le nom de la ville est trop long';
+                    return new JsonResponse($response);
+                }
+            }
+            
+            // On réinjecte l'adresse ajustée dans notre objet utilisateur
+            // Si elle n'existait pas déjà, on injecte le destinataire associé
+            if (!$address->getUser()) {
+                $address->setUser($user);
+            }
+            $addressRepository->add($address, true);
+            
+            // On injecte en BDD les informations du destinataire mises à jour
             $userRepository->add($user, true);
 
             // On prépare la réponse de succès de création

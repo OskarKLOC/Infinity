@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable:true)]
     private ?string $birth_city = null;
 
-    #[ORM\Column(length: 10, nullable:true)]
+    #[ORM\Column(length: 12, nullable:true)]
     private ?string $phone_number = null;
 
     #[ORM\Column(length: 255, nullable:true)]
@@ -67,6 +67,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Offer $offer = null;
 
     public function __construct()
     {
@@ -173,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->addresses;
     }
 
-    public function addAdress(Address $address): self
+    public function addAddress(Address $address): self
     {
         if (!$this->addresses->contains($address)) {
             $this->addresses->add($address);
@@ -350,6 +354,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthdate(?\DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    public function getOffer(): ?Offer
+    {
+        return $this->offer;
+    }
+
+    public function setOffer(?Offer $offer): self
+    {
+        $this->offer = $offer;
 
         return $this;
     }

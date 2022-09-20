@@ -136,7 +136,37 @@ class CapsuleController extends AbstractController
 
     }
 
-    #[Route('/list', name: 'app_capsule_list', methods: ['GET'])]
+    #[Route('/api_set_seal/{id}', name: 'app_capsule_api_set_seal', methods: ['GET', 'POST'])]
+    public function apiSetSeal(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository, CapsuleUserRepository $capsuleUserRepository): JsonResponse
+    {
+        // L'utilisateur est-il connecté ?
+        if ($this->getUser()) {
+            // Notre capsule est-elle actuellement verrouillée ?
+            if($capsule->getCapsuleStatus() == 'SEALED') {
+                // Si oui, on la déverouille
+                $capsule->setCapsuleStatus('UNSEALED');
+            // Notre capsule est-elle actuellement déverrouillée ?
+            } else if ($capsule->getCapsuleStatus() == 'UNSEALED') {
+                // Si oui, on la verouille et on met à jour la date de dernier verrouillage
+                $capsule->setCapsuleStatus('SEALED');
+                $capsule->setSealDate(new DateTime());
+            } else {
+                return new JsonResponse('Erreur - Statut de capsule corrompu');
+            }
+    
+            // On met à jour les données de la capsule avec les informations reçues
+            $capsuleRepository->add($capsule, true);
+    
+            // On transmet la réponse confirmant que l'enregistrement s'est bien réalisé
+            return new JsonResponse('Nouveau statut de verrouillage de la capsule enregistré');
+        } else {
+            return new JsonResponse('Impossible de modifier le statut de verrouillage - Utilisateur non connecté');
+        }
+
+    }
+
+
+/*     #[Route('/list', name: 'app_capsule_list', methods: ['GET'])]
     public function list(CapsuleRepository $capsuleRepository): Response
     {
         return $this->render('capsule/list.html.twig', [
@@ -197,5 +227,5 @@ class CapsuleController extends AbstractController
         }
 
         return $this->redirectToRoute('app_capsule_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } */
 }
