@@ -1,0 +1,12 @@
+header::before {
+    background: url('../img/CGV/cgv-header.jpg');
+    filter: saturate(120%) brightness(100%) contrast(120%);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cgv {
+    font-size: 32px;
+    margin-bottom: 200px;
+}

@@ -1,0 +1,104 @@
+/******************************* HEADER ***************************/
+header {
+    position: relative;
+    padding: 10rem 0;
+    -webkit-box-shadow: 0px 8px 40px 0px rgba(0,0,0,0.4); 
+    box-shadow: 0px 8px 40px 0px rgba(0,0,0,0.4);
+}
+
+header::before {
+    /*general*/
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -999;
+    /*specifique*/
+    background: url("/public/img/capsule/journal.jpeg");
+    filter: saturate(120%) brightness(80%) contrast(120%);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/******************************* DONNES PERSONNELLES ***************************/
+.form-control {
+    background: #E8E8E8;
+    border: 1px solid #1A0036;
+    border-radius: 30px;
+}
+
+.row {
+    margin-bottom: 30px;
+}
+
+/******************************* MA FORMULE ***************************/
+.card-formule-detail {
+    height: 100%;
+    border-radius: 30px;
+    border: 5px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: rgba(228, 241, 249, 1);
+}
+.card-formule-detail ul > li {
+    list-style: none;
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.25rem;
+    margin: 2rem 0;
+    text-indent: -4rem;
+    padding-left: 2.5rem;
+}
+.card-formule-detail ul > li img {
+    width: 40px;
+    margin-right: 1rem;
+}
+
+.card-formule-detail .btn {
+    background-color: rgba(255, 209, 45, 1);
+}
+
+/******************************* MA LISTE DES BENEFICIAIRES ***************************/
+
+.card-liste-beneficiaires {
+    width: 936px;
+    height: 90px;
+    left: 491px;
+    top: 4495px;
+    background: #E8E8E8;
+    border-radius: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-liste-beneficiaires p {
+    margin:10px;
+    margin-top: 25px;
+    margin-left: 50px;
+}
+
+.text-center {
+    margin-bottom: 50px;
+}
+
+.card-liste-icone {
+    width: 30px;
+    margin-top: 30px;
+    margin-right: 15px;
+}
+
+/******************************* MA LISTE DES CAPSULES ***************************/
+
+.form-check-input {
+    margin: 20px;
+}
+
+.display-f {
+    display: flex;
+    align-items: center;
+}
+
+/******************************* MON ENGAGEMENT ***************************/
+
+

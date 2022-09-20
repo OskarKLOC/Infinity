@@ -1,0 +1,35 @@
+header {
+    box-shadow: none;
+}
+
+/********************** SECTION PRESENTATION ************************/
+#presentation {
+    padding-top: 4rem;
+    margin-bottom: 20rem;
+}
+#presentation h2 {
+    font-weight: 700;
+    font-size: 3.2rem;
+}
+#presentation img {
+    border-radius: 0 45px 0 45px;
+}
+
+
+.blue {
+    -webkit-box-shadow: -10vw 10vw 0px 0px var(--secondary); 
+    box-shadow: -10vw 10vw 0px 0px var(--secondary);
+}
+
+.scroll {
+    overflow-x: auto;
+}
+.ecrits img{
+    width: 456px;
+    height: 520px;
+}
+.photos img, .videos img{
+    width: 613px ;
+    height: 409px;
+}
+

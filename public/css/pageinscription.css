@@ -1,0 +1,9 @@
+.cote-gauche, .cote-droit {
+    height: 100vh;
+    max-width: 100%;
+}
+
+.cote-gauche {
+    background-image: url(..public/img/capsule/connexion.jpg);
+    background-position: center;
+}

@@ -1,0 +1,145 @@
+/********************** SECTION PRESENTATION ************************/
+#presentation {
+    padding-top: 4rem;
+    margin-bottom: 20rem;
+}
+#presentation h2 {
+    font-weight: 700;
+    font-size: 3.2rem;
+}
+#presentation img {
+    border-radius: 0 45px 0 45px;
+}
+/********************** SECTION ETAPES ************************/
+#etapes p{
+    margin: 1rem 0;
+}
+/********************** SECTION SERVICES ************************/
+.card-service {
+    background: none;
+    border: none;
+    border-radius: none;
+    text-align: center;
+}
+.card-service .card-img-top {
+    border-radius: 50%;
+}
+.card-service .card-img-container{
+    position: relative;
+}
+.card-service .card-img-container::before {
+    content: '';
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 43.23%, rgba(124, 139, 162, 0.75) 100%);
+    border: 4px solid var(--warning);
+}
+.card-service .card-body {
+    z-index: 1;
+}
+.card-service .card-number,
+.card-service .card-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    text-align: center;
+    color: var(--warning);
+}
+.card-service .card-title {
+    font-weight: 700;
+    font-size: 2.3vw;
+}
+.card-service .card-number {
+    margin-top: -11vw;
+    font-weight: 800;
+    font-size: 10vw; 
+}
+
+/********************** SECTION FORMULES ************************/
+#formules {
+    background: url(../img/homepage/formules.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 3rem 0;
+    padding-bottom: 10rem;
+}
+.card-formule {
+    height: 100%;
+    border: 1px solid #1A0036;
+    box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;    
+    background: rgba(255, 255, 255, 0.7);
+}
+.card-formule .card-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--dark);
+    margin-bottom: 3rem;
+}
+.card-formule .card-text {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.4rem;
+    color: var(--dark);
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+.card-formule .card-img-top {
+    width: 33%;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.card-formule .btn {
+    margin: 3rem 0;
+}
+/********************** SECTION TEMOIGNAGE ************************/
+
+.card-temoignage {
+    position: relative;
+    background-color: var(--light-darkest);
+    border: none;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    color: var(--dark) !important;
+}
+.card-temoignage .card-text {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.4rem;
+    color: var(--dark);
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.card-temoignage img {
+    border-radius: 50%;
+    border: 2px solid var(--warning);
+}
+
+.card-temoignage .row p {
+    margin: .5rem 0;
+}
+
+.card-temoignage .card-body::before {
+    content: '';
+    display: block;
+    width: 5vw;
+    height: 4vw;
+    margin: 2rem 0 1rem 2rem;
+    background: url(../img/icones/guillement-ouvrant.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}

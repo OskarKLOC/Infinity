@@ -171,11 +171,11 @@ p {
     color:var(--dark) !important;
 }
 .btn-secondary {
-    background-color: var(--secondary);
+    background-color: var(--warning);
     color:var(--dark);
 }
 .btn-secondary:hover {
-    background-color: var(--secondary-darker) !important;
+    background-color: var(--warning-darker) !important;
     color:var(--dark) !important;
 }
 .btn-warning {
@@ -194,6 +194,61 @@ p {
     background-color: var(--dark-lighter) !important;
     color:var(--light) !important;
 }
+/*************************** TOGGLE ******************************/
+input.toggle {
+    display: none;
+    position: absolute;
+
+   }
+
+  input.toggle + label::before,
+  input.toggle + label::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10rem;
+    height: 3rem;
+    padding-top: .75rem;
+    text-align: center;
+    background-color: var(--warning);
+    border-radius: 30px;
+    transition-property: left, opacity;
+    transition-duration: .2s;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--dark);
+  }      
+  input.toggle + label::before {
+    content: 'Numérique';
+    opacity: 1;
+  }
+  input.toggle + label::after {
+    content: 'Physique';
+    opacity: 0;
+  }     
+
+  input.toggle:checked + label::before,
+  input.toggle:checked + label::after {
+    left: calc(100% - 10rem);
+  }
+  input.toggle:checked + label::before {
+    opacity: 0;
+  }
+  input.toggle:checked + label::after {
+    opacity: 1;
+  }
+  .toggle-container {
+    position: relative;
+    height: 3rem;
+    width: 80%;
+    background-color: var(--light-darkest);
+    border-radius: 30px;
+    -webkit-box-shadow: 0px 0px 12px 5px rgba(111,156,214,0.3); 
+    box-shadow: 0px 0px 12px 5px rgba(111,156,214,0.3);
+  }
+
 /**************************** LIENS *******************************/
 
 /**************************** FORMULAIRES *************************/
@@ -292,6 +347,7 @@ header {
     -webkit-box-shadow: 0px 8px 40px 0px rgba(0,0,0,0.4); 
     box-shadow: 0px 8px 40px 0px rgba(0,0,0,0.4);
 }
+
 header::before {
     /*general*/
     content: "";
@@ -300,14 +356,13 @@ header::before {
     width: 100%; height: 100%;
     z-index: -999;
     /*specifique*/
-    background: url('../img/heroshots/hero-home.jpg');
+    background: url('../img/homepage/infinity-heroshot.jpg');
     filter: saturate(120%) brightness(80%) contrast(120%);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
 
 }
-
 
 
 /********************************** FOOTER **********************/
@@ -326,8 +381,7 @@ footer a {
 }
 footer a:hover {
     color: var(--light-darkest);
-    
-    
+
 }
 footer .row > .col-3:first-child img {
     width: calc(100% - 4rem);
