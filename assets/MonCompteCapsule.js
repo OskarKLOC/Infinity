@@ -92,21 +92,41 @@ function MonCompteCapsule () {
     
     return (
         <>
-            <h3>Mes capsules</h3>
-            <div className={messageClass}>{message}</div>
-            <div>
-                {affichage}
-            </div>
-            {
-                offer.solidMax
-                    ? <button onClick={createNewCapsule} data-type='solid'>Ajouter une nouvelle capsule physique</button>
-                    : ''
-            }
-            {
-                offer.virtualMax
-                    ? <button onClick={createNewCapsule} data-type='virtual'>Ajouter une nouvelle capsule numérique</button>
-                    : ''
-            }
+            {/* <!-- DEBUT DE LA LISTE DES CAPSULES --> */}
+            <section className="liste-capsules">
+
+                <div className="container-fluid">
+                    <div className="row text-center">
+                        <div className="col text-center m-5">
+                            <h3> Ma liste des capsules </h3>
+                            <i className="deco deco-left"></i>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div className={messageClass}>{message}</div>
+
+                <div>
+                    {affichage}
+                </div>
+                {
+                    offer.solidMax
+                        ? <div className="text-center">
+                                <a href="#" className="btn btn-secondary" onClick={createNewCapsule} data-type='solid'>Ajouter une nouvelle capsule physique</a>
+                            </div>
+                        : ''
+                }
+                {
+                    offer.virtualMax
+                        ? <div className="text-center">
+                                <a href="#" className="btn btn-secondary" onClick={createNewCapsule} data-type='virtual'>Ajouter une nouvelle capsule numérique</a>
+                            </div>
+                        : ''
+                }
+                
+            </section>
+            {/* <!-- FIN DE LA LISTE DES CAPSULES --> */}
         </>
     );
 }

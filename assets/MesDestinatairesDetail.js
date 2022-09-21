@@ -100,44 +100,87 @@ function MesDestinatairesDetail (props) {
     // On affiche le formulaire de saisie, prérempli en mode d'édition
     return (
         <>
-            <h3>Mon destinataire</h3>
+            {/* <!-- DEBUT INFORMATIONS SUR LE BENEFICIAIRE --> */}
+            
+            <div className="text-center">
+                <h4>Mon destinataire</h4>
+            </div>
+
             <div className={messageClass}>{message}</div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="recipient-firstname">Prénom : </label>
-                    <input type="text" id="recipient-firstname" name="recipient-firstname" value={props.recipient.firstname} onChange={handleChange} />
+
+            <form className="container-fluid" onSubmit={handleSubmit}>
+                
+                <div className="row">
+                    <div className="col-3 offset-2">
+                        <div className="form-group">
+                            <label htmlFor="recipient-firstname">Prénom : </label>
+                            <input type="text" className="form-control" id="recipient-firstname" name="recipient-firstname" placeholder="Prénom" value={props.recipient.firstname} onChange={handleChange} />
+                        </div>
+                    </div>
+                    <div className="col-3 offset-2">
+                        <div className="form-group">
+                            <label htmlFor="recipient-lastname">NOM : </label>
+                            <input type="text" className="form-control" id="recipient-lastname" name="recipient-lastname" placeholder="Nom" value={props.recipient.lastname} onChange={handleChange} /> 
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="recipient-lastname">NOM : </label>
-                    <input type="text" id="recipient-lastname" name="recipient-lastname" value={props.recipient.lastname} onChange={handleChange} />
+
+                <div className="row">
+                    <div className="col-4 offset-2">
+                        <div className="form-group">
+                            <label htmlFor="recipient-email">Adresse e-mail : </label>
+                            <input type="text" className="form-control" id="recipient-email" name="recipient-email" placeholder="Adresse e-mail" value={props.recipient.email} onChange={handleChange} />
+                        </div>
+                    </div>
+                    <div className="col-3 offset-1">
+                        <div className="form-group">
+                            <label htmlFor="recipient-phone">Téléphone : </label>
+                            <input type="text" className="form-control" id="recipient-phone" name="recipient-phone" placeholder="Téléphone" value={props.recipient.phoneNumber} onChange={handleChange} />
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="recipient-email">Email : </label>
-                    <input type="text" id="recipient-email" name="recipient-email" value={props.recipient.email} onChange={handleChange} />
+
+                <div className="row">
+                    <div className="col-8 offset-2">
+                        <div className="form-group">
+                            <label htmlFor="recipient-address">Adresse postale : </label>
+                            <input type="text" className="form-control" id="recipient-address" name="recipient-address" placeholder="Adresse Postale" value={props.recipient.address} onChange={handleChange} />
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="recipient-phone">Téléphone : </label>
-                    <input type="text" id="recipient-phone" name="recipient-phone" value={props.recipient.phoneNumber} onChange={handleChange} />
+
+                <div className="row">
+                    <div className="col-3 offset-2">
+                        <div className="form-group">
+                            <label htmlFor="recipient-zipcode">Code postal : </label>
+                            <input type="text" className="form-control" id="recipient-zipcode" name="recipient-zipcode" placeholder="Code postal" value={props.recipient.zipcode} onChange={handleChange} />
+                        </div>
+                    </div>
+                    <div className="col-3 offset-2">
+                        <div className="form-group">
+                            <label htmlFor="recipient-city">Ville : </label>
+                            <input type="text" className="form-control" id="recipient-city" name="recipient-city" placeholder="Ville" value={props.recipient.city} onChange={handleChange} />
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="recipient-address">Adresse : </label>
-                    <input type="text" id="recipient-address" name="recipient-address" value={props.recipient.address} onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="recipient-zipcode">Code postal : </label>
-                    <input type="text" id="recipient-zipcode" name="recipient-zipcode" value={props.recipient.zipcode} onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="recipient-city">Ville : </label>
-                    <input type="text" id="recipient-city" name="recipient-city" value={props.recipient.city} onChange={handleChange} />
-                </div>
+
                 {
                     props.mode == 'add'
-                        ? <button type="submit">Ajouter ce nouveau destinataire</button>
-                        : <button type="submit">Editer ce destinataire</button>
+                        ? <div className="text-center">
+                                <button type="submit" className="btn btn-secondary">Ajouter ce nouveau destinataire</button>
+                            </div>
+                        : <div className="text-center">
+                                <button type="submit" className="btn btn-secondary">Editer ce destinataire</button>
+                            </div>
                 }
             </form>
-            <button onClick={props.toggleMode}>Revenir à mes destinataires</button>
+
+            <div className="text-center">
+                <a href="#" className="btn btn-secondary" onClick={props.toggleMode}>Revenir à mes destinataires</a>
+            </div>
+
+            {/* <!-- FIN INFORMATIONS SUR LE BENEFICIAIRE --> */}
+
         </>
     );
 }

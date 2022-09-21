@@ -18,7 +18,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/concept', name: 'app_moncompte_concept')]
+    #[Route('/concept', name: 'app_home_concept')]
     public function concept(): Response
     {
         $user=$this->getUser();

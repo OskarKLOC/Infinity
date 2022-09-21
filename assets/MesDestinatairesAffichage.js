@@ -86,6 +86,17 @@ function MesDestinatairesAffichage (props) {
     // On fait appel aux différents composants d'affichage conditionnés suivant le mode déterminé
     return (
         <>
+            <section className="informations-bénéficiaire">
+
+            <div className="container-fluid">
+                <div className="row text-center">
+                    <div className="col text-center m-5">
+                        <h3> Ma liste des destinataires </h3>
+                        <i className="deco deco-right"></i>
+                    </div>
+                </div>
+            </div>
+
             {
                 affichageMode == 'list'
                     ? <MesDestinatairesListe recipients={props.recipients} toggleEditMode={toggleEditMode} toggleAddMode={toggleAddMode}></MesDestinatairesListe>
@@ -95,6 +106,8 @@ function MesDestinatairesAffichage (props) {
                             ? <MesDestinatairesDetail recipient={recipient} setRecipient={setRecipient} address={address} setAddress={setAddress} toggleMode={toggleEditMode} mode="edit"></MesDestinatairesDetail>
                             : <MesDestinatairesListe recipients={props.recipients} toggleEditMode={toggleEditMode} toggleAddMode={toggleAddMode}></MesDestinatairesListe>
             }
+            
+            </section>
         </>
     );
 }

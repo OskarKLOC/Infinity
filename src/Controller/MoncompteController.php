@@ -56,8 +56,10 @@ class MoncompteController extends AbstractController
     #[Route('/', name: 'app_moncompte')]
     public function edit(Request $request, UserRepository $userRepository): Response
     {
+        // On récupère l'utilisateur connecté
         $user=$this->getUser();
-        // Fromulaire de modification d'un user 
+
+        // Formulaire de modification d'un user 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -67,9 +69,13 @@ class MoncompteController extends AbstractController
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        // On récupère l'offre de l'utilisateur
+        $offer = $user->getOffer();
+
         return $this->renderForm('moncompte/index.html.twig', [
-            'user' => $user,
-            'form' => $form,
+            'user'  => $user,
+            'offer' => $offer,
+            'form'  => $form,
         ]);
     }
 
