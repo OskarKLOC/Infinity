@@ -1,0 +1,35 @@
+.cote-gauche, .cote-droit {
+    height: 100vh;
+    width: 100%;
+}
+
+
+.card {
+    border-radius: 30px;
+    margin-top: 400px;
+    box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
+    Width:616px;
+    background-color: #f8f8f8 ;
+    border-style: none;
+}
+
+.form-control{
+    border-radius: 30px;
+    margin-bottom: 20px;
+
+}
+
+h4{
+    text-align: center;
+    padding-bottom: 50px;
+    padding-top: 40px;
+}
+
+.form-group {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn {
+    margin-bottom: 30px;
+}

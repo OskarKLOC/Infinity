@@ -3,6 +3,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Concept from './Concept';
 import MaCapsule from './MaCapsule';
 import MesDestinataires from './MesDestinataires';
 import MonCompteCapsule from './MonCompteCapsule';
@@ -31,5 +32,14 @@ if (root) {
     const compteRoot = ReactDOM.createRoot(root);
     compteRoot.render(
             <MonCompteCapsule></MonCompteCapsule>
+    );
+}
+
+// Gestion des concepts sur le site de présentation
+root = document.getElementById('concept-root');
+if (root) {
+    const compteRoot = ReactDOM.createRoot(root);
+    compteRoot.render(
+            <Concept></Concept>
     );
 }

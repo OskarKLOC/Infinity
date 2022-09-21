@@ -1,0 +1,90 @@
+/************************ TEXTE ************************/
+.dot {
+    height: 100px;
+    width: 100px;
+    background-color: #FFD12D;
+    border-radius: 50%;
+    margin: 20px;
+}
+
+.bloc-texte {
+    height: 650px;
+    width: 1160px;
+    background-color: #E8E8E8;
+    border-radius: 30px;
+    margin-bottom: 50px;
+}
+
+.bulle-icones {
+    margin-left: 100px;
+}
+
+.deuxieme-bloc-texte {
+    width: 90%;
+    max-height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #E4F1F9;
+    border-radius: 30px;
+    margin-bottom: 50px;
+}
+
+
+/************************ PHOTOS ************************/
+
+.importer-photo {
+    margin-top: 50px;
+}
+
+/************************ VIDEOS ************************/
+/************************ AUDIO ************************/
+/************************ BIBLIOTHEQUE ************************/
+
+.bloc-element {
+    width: 149px;
+    height: 124px;
+    background-color: white;
+}
+
+.bloc-image-div {
+    margin: 100px;
+}
+
+.scroller {
+    width: 1160px;
+    height: 650px;
+    overflow-y: scroll;
+    scrollbar-color: black;
+    scrollbar-width: thin;
+}
+
+/************************ CAPSULE A ENVOYER ************************/
+
+.capsule-envoye {
+    width: 1576px;
+    height: 90px;
+    left: 172px;
+    top: 6832px;
+    background: #E8E8E8;
+    border-radius: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+/** 
+
+RAPPEL : 
+<section>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
+</section> 
+
+**/

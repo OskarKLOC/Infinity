@@ -1,17 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Capsule Memories{% endblock %}
+{% block title %}Infinity - Bienvenue{% endblock %}
 
 {# Bloc pour acceuillir la feuille de style CSS #}
 {% block stylesheets %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="stylesheet" href="CSS/general.css">
-<link rel="stylesheet" href="CSS/homepage.css">
+    <link rel="stylesheet" href="../css/index.css">
 {% endblock %}
 
 {# DEBUT DU BLOCK BODY #}
 
 {% block body %}
+
+<!-- DEBUT HEADER -->
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h1>Infinity</h1>
+                <p> Et si vous laissiez une trace de votre existence dans ce monde ? </p>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- FIN HEADER -->
 
 <main class="bg-light-darker">
 
@@ -26,18 +37,16 @@
                     </div>
                 </div>
 
-                
-
                 <div class="row my-5">
                     <div class="col-4 offset-2">
-                        <img src="img/homepage/presentation.jpg" alt="" class="img-fluid yellowed">
+                        <img src="../img/homepage/presentation.jpg" alt="" class="img-fluid yellowed">
                     </div>
                     <div class="col-4 offset-1">
                         <h3>Offrez votre capsule <span>remplie d'émotions.</span></h3>
-                        <p>Le concept de “INFINITY” repose sur la transmission, le partage de souvenirs inoubliables et qui permet aux vivants de “préparer” au fil de leur vie, l’après.</p>
-                        <p>Nous vous offrons la possibilité de créer et d’offrir votre capsule remplie d’émotion et de souvenir sous format numérique comme physique, une idée original pour vos proches.</p>
+                        <p>Le concept de “INFINITY” repose sur la transmission, le partage de souvenirs inoubliables et qui permet aux vivants de préparer au fil de leur vie, l’après.</p>
+                        <p>Nous vous offrons la possibilité de créer et d’offrir votre capsule remplie d’émotion et de souvenir sous format numérique comme physique, une idée originale pour vos proches.</p>
                         <div class="text-end">
-                            <a href="#" class="btn btn-secondary ">Le concept</a>
+                            <a href="#" class="btn btn-secondary ">La capsule</a>
                         </div>
                     </div>
                 </div>
@@ -59,17 +68,17 @@
 
                 <div class="row my-5 align-items-center">
                     <div class="col-2 offset-2">
-                        <img src="img/homepage/computer01.jpg" alt="" class="img-fluid circle">
+                        <img src="../img/homepage/computer01.jpg" alt="" class="img-fluid circle">
                     </div>
                     <div class="col-6">
                         <div class="bg-light rounded p-3">
-                            <h4>Titre</h4>
+                            <h4> Transmission </h4>
                             <p>La nature de ces documents vous appartient ! Des écrits , des expériences vécues, des photos et vidéos, des audios... ou des documents confidentiels. </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="row my-5">
+                <div class="row my-5 align-items-center">
                     <div class="col-6 offset-2">
                         <div class="bg-light rounded p-3">
                             <h4>Bénéficiaires</h4>
@@ -77,13 +86,13 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        <img src="img/homepage/people-hello.jpg" alt="" class="img-fluid circle">
+                        <img src="../img/homepage/people-hello.jpg" alt="" class="img-fluid circle">
                     </div>                    
                 </div>
 
-                <div class="row my-5">
+                <div class="row my-5 align-items-center">
                     <div class="col-2 offset-2">
-                        <img src="img/homepage/hands.jpg" alt="" class="img-fluid circle">
+                        <img src="../img/homepage/Ellipse 74.png" alt="" class="img-fluid circle">
                     </div>
                     <div class="col-6">
                         <div class="bg-light rounded p-3">
@@ -115,53 +124,49 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-3">
 
                         <div class="card card-service">
                             <div class="card-img-container">
-                                <img src="img/homepage/ballon.jpg" class="card-img-top" alt="...">
+                                <img src="../img/homepage/ballon.jpg" class="card-img-top" alt="...">
                             </div>
                             <div class="card-body">
                               <h6 class="card-number">01</h6>
                               <h5 class="card-title">Transmission</h5>
-                              <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. consectetur adipiscing.</p>
                             </div>
                           </div>
 
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-3">
                         <div class="card card-service">
                             <div class="card-img-container">
-                                <img src="img/homepage/computer01.jpg" class="card-img-top" alt="...">
+                                <img src="../img/homepage/computer01.jpg" class="card-img-top" alt="...">
                             </div>
                             <div class="card-body">
                               <h6 class="card-number">02</h6>
                               <h5 class="card-title">Sérénité</h5>
-                              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, corporis?</p>
                             </div>
                           </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-3">
                         <div class="card card-service">
                             <div class="card-img-container">
-                                <img src="img/homepage/safe.jpg" class="card-img-top" alt="...">
+                                <img src="../img/homepage/safe.jpg" class="card-img-top" alt="...">
                             </div>
                             <div class="card-body">
                               <h6 class="card-number">03</h6>
                               <h5 class="card-title">Sécurité</h5>
-                              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, ducimus!</p>
                             </div>
                           </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-3">
                         <div class="card card-service">
                             <div class="card-img-container">
-                                <img src="img/homepage/sac.jpg" class="card-img-top" alt="...">
+                                <img src="../img/homepage/sac.jpg" class="card-img-top" alt="...">
                             </div>
                             <div class="card-body">
                               <h6 class="card-number">04</h6>
                               <h5 class="card-title">Facilité</h5>
-                              <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto, a.</p>
                             </div>
                         </div>
                     </div>
@@ -187,7 +192,7 @@
 
                         <div class="card card-formule">
 
-                            <img src="img/homepage/notes.jpg" class="card-img-top" alt="...">
+                            <img src="../img/homepage/notes.jpg" class="card-img-top" alt="...">
                             
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>
@@ -205,7 +210,7 @@
                     </div>
                     <div class="col-4">
                         <div class="card card-formule">
-                            <img src="img/homepage/tablette.jpg" class="card-img-top" alt="...">
+                            <img src="../img/homepage/tablette.jpg" class="card-img-top" alt="...">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>
                                     <h5 class="card-title">Numérique</h5>
@@ -240,13 +245,13 @@
                         <div class="card card-temoignage">
                             <div class="card-body">
                               <p class="card-text">
-                                Merci à INFINITY de nous permettre de garder en mémoire ces moments privilégiés et de nous donner la possibilité de les faire revivre dans quelques années, j'espère tous ensemble. 
+                                Site très simple d’utilisation pour un service très important à mes yeux (et bon marché) ! Ma capsule est créée : elle m’accompagnera désormais afin d’y déposer des messages. Un grand grand merci !
                               </p>
                               <div class="row align-items-center">
-                                <div class="col-5"><img src="img/homepage/woman01.jpg" alt="" class="img-fluid"></div>
+                                <div class="col-5"><img src="../img/homepage/woman01.jpg" alt="" class="img-fluid"></div>
                                 <div class="col-7">
                                     <p><strong>Rose, 50 ans</strong></p>
-                                    <p>Bénéficiaire</p>
+                                    <p> Cliente </p>
                                 </div>
                               </div>
                             </div>
@@ -259,26 +264,26 @@
                                 Merci à INFINITY de nous permettre de garder en mémoire ces moments privilégiés et de nous donner la possibilité de les faire revivre dans quelques années, j'espère tous ensemble. 
                               </p>
                               <div class="row align-items-center">
-                                <div class="col-5"><img src="img/homepage/man01.jpg" alt="" class="img-fluid"></div>
+                                <div class="col-5"><img src="../img/homepage/man01.jpg" alt="" class="img-fluid"></div>
                                 <div class="col-7">
-                                    <p><strong>Rose, 50 ans</strong></p>
+                                    <p><strong>Fabien, 23 ans</strong></p>
                                     <p>Bénéficiaire</p>
                                 </div>
                               </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-3">      
                         <div class="card card-temoignage">
                             <div class="card-body">
                               <p class="card-text">
-                                Merci à INFINITY de nous permettre de garder en mémoire ces moments privilégiés et de nous donner la possibilité de les faire revivre dans quelques années, j'espère tous ensemble. 
+                                J'ai pas mal d’infos et de souvenirs à transmettre, j’apprécie beaucoup de site bien pratique. Je ferai confiance à mes enfants pour en faire bon usage. Merci à Infinity!
                               </p>
                               <div class="row align-items-center">
-                                <div class="col-5"><img src="img/homepage/woman02.jpg" alt="" class="img-fluid"></div>
+                                <div class="col-5"><img src="../img/homepage/woman02.jpg" alt="" class="img-fluid"></div>
                                 <div class="col-7">
-                                    <p><strong>Rose, 50 ans</strong></p>
-                                    <p>Bénéficiaire</p>
+                                    <p><strong>Julie, 30 ans</strong></p>
+                                    <p> Cliente </p>
                                 </div>
                               </div>
                             </div>

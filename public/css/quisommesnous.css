@@ -1,0 +1,106 @@
+/******************************* HEADER ***************************/
+header {
+  position: relative;
+  padding: 10rem 0;
+  -webkit-box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.4);
+}
+
+header::before {
+  /*general*/
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -999;
+  /*specifique*/
+  background: url("/public/img/capsule/livre.jpeg");
+  filter: saturate(120%) brightness(80%) contrast(120%);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/******************************* NOTRE HISTOIRE ***************************/
+.notre-histoire {
+  text-decoration-color: white;
+}
+
+/******************************* NOTRE EQUIPE ***************************/
+
+.slide-container {
+  width: 100%;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.image-slider {
+  width: 100%;
+  height: 600px;
+  position: absolute;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+.slides-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 30px;
+}
+
+.img {
+  position: relative;
+  width: 240px;
+  height: 370px;
+  transition: 0.5s;
+}
+
+.button {
+  position: absolute;
+  width: 240px;
+  height: 370px;
+  transition: 0.5s;
+}
+
+#slider-span1:target~.image-slider #img1,
+#slider-span1:target~.image-slider #button-1 {
+  width: 380px;
+  height: 585px;
+  background-color: transparent;
+}
+
+#slider-span2:target~.image-slider #img2,
+#slider-span2:target~.image-slider #button-2 {
+  width: 380px;
+  height: 585px;
+  background-color: transparent;
+}
+
+#slider-span3:target~.image-slider #img3,
+#slider-span3:target~.image-slider #button-3 {
+  width: 380px;
+  height: 585px;
+  background-color: transparent;
+}
+
+#slider-span1:target~.image-slider {
+  left: 20%;
+}
+
+#slider-span2:target~.image-slider {
+  left: 0%;
+}
+
+#slider-span3:target~.image-slider {
+  left: -20%;
+}
+
+/******************************* NOTRE PHILOSOPHIE ***************************/
