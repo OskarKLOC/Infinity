@@ -38,7 +38,7 @@ function Concept () {
                         <div className="row">
                             <div className="col my-5 px-5">
                                 <h3 className="text-uppercase text-center">
-                                    Plus qu'une option, choississez un concept.
+                                    Plus qu'une option, choississez un concept
                                 </h3>
                             </div>
                         </div>
