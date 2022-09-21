@@ -27,9 +27,13 @@ class UserType extends AbstractType
             ->add('password')
             ->add('lastname')
             ->add('firstname')
+<<<<<<< Updated upstream
             // ->add('birthdate')
             ->add('birthdate', BirthdayType::class, [
                 'choice' => 'widget',
+=======
+            ->add('birthdate', BirthdayType::class, [
+>>>>>>> Stashed changes
                 'years' => range(1, 200),
             ])
             ->add('birth_city')
