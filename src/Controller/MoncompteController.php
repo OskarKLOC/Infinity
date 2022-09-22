@@ -54,29 +54,53 @@ class MoncompteController extends AbstractController
 
 
     #[Route('/', name: 'app_moncompte')]
-    public function edit(Request $request, UserRepository $userRepository): Response
+    public function edit(Request $request, UserRepository $userRepository, AddressRepository $addressRepository): Response
     {
-        // On récupère l'utilisateur connecté
-        $user=$this->getUser();
+        
+        // L'utilisateur est-il connecté ?
+        if ($this->getUser()) {
+            // On récupère l'utilisateur connecté
+            $user=$this->getUser();
 
-        // Formulaire de modification d'un user 
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+            // On récupère l'adresse de l'utilisateur et si elle n'existe pas encore, on prépare l'objet qui va l'accueillir
+            $address = $user->getAddresses()[0];
+            if ($address == null) {
+                $address = new Address();
+                $address->setUser($user);
+                $address->setAddressType('POSTAL');
+            }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user, true);
+            // Formulaire de modification d'un user 
+            $form = $this->createForm(UserType::class, $user);
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                $address->setRoad($request->request->get('postal-address'));
+                $address->setPostcode($request->request->get('zipcode'));
+                $address->setCity($request->request->get('city'));
+
+                $userRepository->add($user, true);
+                $addressRepository->add($address, true);
+
+                return $this->redirectToRoute('app_moncompte', [], Response::HTTP_SEE_OTHER);
+            }
+
+            // On récupère l'offre de l'utilisateur
+            $offer = $user->getOffer();
+
+            return $this->renderForm('moncompte/index.html.twig', [
+                'user'      => $user,
+                'offer'     => $offer,
+                'address'   => $address,
+                'form'      => $form,
+            ]);
+        
+        // Sinon on redirige vers la page d'accueil du site
+        } else {
+            return $this->redirectToRoute('app_login');
         }
-
-        // On récupère l'offre de l'utilisateur
-        $offer = $user->getOffer();
-
-        return $this->renderForm('moncompte/index.html.twig', [
-            'user'  => $user,
-            'offer' => $offer,
-            'form'  => $form,
-        ]);
+    
     }
 
     #[Route('/api_get_all_capsules', name: 'app_moncompte_capsule_get_all', methods: ['GET', 'POST'])]
@@ -162,14 +186,14 @@ class MoncompteController extends AbstractController
             }
 
             // Le nombre maximal de capsules physiques a-t-il été atteint ?
-            if ($numberSolidCapsules >= $maxSolidCapsule) {
+            if ($numberSolidCapsules >= $maxSolidCapsule && $type == 'solid') {
                 $response->success = false;
                 $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules physiques est déjà atteint';
                 return new JsonResponse($response);
             }
 
             // Le nombre maximal de capsules numériques a-t-il été atteint ?
-            if ($numberVirtualCapsules >= $maxVirtualCapsule) {
+            if ($numberVirtualCapsules >= $maxVirtualCapsule && $type == 'virtual') {
                 $response->success = false;
                 $response->message = 'Impossible de créer la capsule - Le nombre maximal de capsules numériques est déjà atteint';
                 return new JsonResponse($response);

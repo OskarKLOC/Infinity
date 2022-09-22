@@ -69,8 +69,13 @@ function MaCapsuleText (props) {
             .then((headers) => {
                 return headers.json();
             }).then((data) => {
-                // On récupère la réponse de l'API que nous allons afficher
-                props.setMessage(data);
+                if (data.success) {
+                    // Si l'édition est un succès, on affiche la librairie des contenus
+                    // props.toggleMode();
+                } else {
+                    // Sinon, on affiche le message d'erreur
+                    props.setMessage(data.message);
+                }
             })
         }
     },[props.content]);

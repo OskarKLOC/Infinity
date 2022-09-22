@@ -42,29 +42,14 @@
                     <div class="row">
                         <div class="col-3 offset-2">
                             <div class="form-group">
-                                <label for="inputprenom">Prénom</label>
-                                {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'id': 'inputprenom', 'placeholder': 'Prénom'}}) }}
+                                {{ form_label(form.firstname, 'Prénom') }}
+                                {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
                             </div>
                         </div>
                         <div class="col-3 offset-2">
                             <div class="form-group">
-                                <label for="inputnom">NOM de famille</label>
-                                {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'id': 'inputnom', 'placeholder': 'NOM'}}) }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-3 offset-2">
-                            <div class="form-group">
-                                <label for="datedenaissance">Date de naissance</label>
-                                {{ form_widget(form.birthdate, {'attr': {'class': 'form-control', 'id': 'datedenaissance', 'placeholder': 'Date de naissance'}}) }}
-                            </div>
-                        </div>
-                        <div class="col-3 offset-2">
-                            <div class="form-group">
-                                <label for="ville de naissance">Ville de naissance</label>
-                                {{ form_widget(form.birth_city, {'attr': {'class': 'form-control', 'id': 'villedenaissance', 'placeholder': 'Ville de naissance'}}) }}
+                                {{ form_label(form.lastname, 'NOM de famille') }}
+                                {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'placeholder': 'NOM'}}) }}
                             </div>
                         </div>
                     </div>
@@ -72,14 +57,29 @@
                     <div class="row">
                         <div class="col-3 offset-2">
                             <div class="form-group">
-                                <label for="email">Adresse email</label>
-                                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'id': 'email', 'placeholder': 'Email'}}) }}
+                                {{ form_label(form.birthdate, 'Date de naissance') }}
+                                {{ form_widget(form.birthdate, {'attr': {'class': 'form-control', 'placeholder': 'Date de naissance'}}) }}
                             </div>
                         </div>
                         <div class="col-3 offset-2">
                             <div class="form-group">
-                                <label for="phone">Numéro de téléphone</label>
-                                {{ form_widget(form.phone_number, {'attr': {'class': 'form-control', 'id': 'phone', 'placeholder': 'Téléphone'}}) }}
+                                {{ form_label(form.birth_city, 'Ville de naissance') }}
+                                {{ form_widget(form.birth_city, {'attr': {'class': 'form-control', 'placeholder': 'Ville de naissance'}}) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3 offset-2">
+                            <div class="form-group">
+                                {{ form_label(form.email, 'Adresse email') }}
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-3 offset-2">
+                            <div class="form-group">
+                                {{ form_label(form.phone_number, 'Numéro de téléphone') }}
+                                {{ form_widget(form.phone_number, {'attr': {'class': 'form-control', 'placeholder': 'Téléphone'}}) }}
                             </div>
                         </div>
                     </div>
@@ -87,8 +87,8 @@
                     <div class="row">
                         <div class="col-8 offset-2">
                             <div class="form-group">
-                                <label for="adressepostale">Adresse postale</label>
-                                <input type="adresse" class="form-control" id="adressepostale" placeholder="Adresse postale">
+                                <label for="postal-address">Adresse postale</label>
+                                <input type="text" class="form-control" name="postal-address" id="postal-address" placeholder="Adresse postale" value="{{address.road}}">
                             </div>
                         </div>
                     </div>
@@ -96,25 +96,27 @@
                     <div class="row">
                         <div class="col-3 offset-2">
                             <div class="form-group">
-                                <label for="codepostale">Code postal</label>
-                                <input type="codepostale" class="form-control" id="codepostale" placeholder="Code Postale">
+                                <label for="zipcode">Code postal</label>
+                                <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="Code Postale" value="{{address.postcode}}">
                             </div>
                         </div>
                         <div class="col-3 offset-2">
                             <div class="form-group">
-                                <label for="commune">Ville</label>
-                                <input type="Commune" class="form-control" id="Commune" placeholder="Commune">
+                                <label for="city">Ville</label>
+                                <input type="text" class="form-control" name="city" id="city" placeholder="Ville" value="{{address.city}}">
                             </div>
                         </div>
                     </div>
 
-                {# S'occupe des champs qui ont été oubliés  #}
-                {# Le render rest false empèche d'afficher les champs manquants  #}
-                {{ form_end(form, {'render_rest': false})  }}
-                
+                    {{ form_widget(form._token) }}
+
                 <div class="text-center">
                     <button class="btn btn-secondary">{{ button_label|default('Sauvegarder') }}</button>
                 </div>
+
+                {# S'occupe des champs qui ont été oubliés  #}
+                {# Le render rest false empèche d'afficher les champs manquants  #}
+                {{ form_end(form, {'render_rest': false})  }}
 
             </div>
 

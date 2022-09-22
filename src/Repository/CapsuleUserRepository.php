@@ -69,6 +69,19 @@ class CapsuleUserRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return CapsuleUser Returns a CapsuleUser object
+     */
+    public function findOwner($capsuleId): ?CapsuleUser
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.capsule = :capsule_id')
+            ->andWhere('c.isOwner = true')
+            ->setParameter('capsule_id', $capsuleId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 
 //    /**
 //     * @return CapsuleUser[] Returns an array of CapsuleUser objects

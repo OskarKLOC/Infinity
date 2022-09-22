@@ -185,8 +185,15 @@ class ContentController extends AbstractController
                         return new JsonResponse($response);
                         break;
                 }
-                $content->setURL($destinationImagePath);
-                $succes = move_uploaded_file($tmpImagePath, $destinationImagePath);
+                $success = move_uploaded_file($tmpImagePath, $destinationImagePath);
+                if ($success) {
+                    $destinationImagePath = str_replace('public', '..', $destinationImagePath);
+                    $content->setURL($destinationImagePath);
+                } else {
+                    $response->success = false;
+                    $response->message = 'Erreur - Le fichier n\'a pas pu être enregistré';
+                    return new JsonResponse($response);
+                }
             } else {
                 $response->success = false;
                 $response->message = 'Erreur - La taille du fichier est trop importante';

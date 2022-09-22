@@ -7,6 +7,7 @@ use App\Entity\CapsuleUser;
 use App\Entity\Capsule;
 use App\Entity\User;
 use App\Form\CapsuleType;
+use App\Repository\ContentRepository;
 use App\Repository\CapsuleRepository;
 use App\Repository\CapsuleUserRepository;
 use DateTime;
@@ -28,27 +29,27 @@ class CapsuleController extends AbstractController
     #[Route('/{id}', name: 'app_capsule_index', methods: ['GET', 'POST'])]
     public function index(Request $request, Capsule $capsule, CapsuleRepository $capsuleRepository): Response
     {
-        // On récupère le statut de la capsule présent en BDD
-        $oldStatus = $capsuleRepository->findOneById($request->get('id'))->getCapsuleStatus();
-
-        $form = $this->createForm(CapsuleType::class, $capsule);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $newStatus = $capsule->getCapsuleStatus();
-            if ($newStatus == 'SEALED' && $newStatus != $oldStatus) {
-                $capsule->setSealDate(new DateTime());
-            }
-
-            $capsuleRepository->add($capsule, true);
-
-            return $this->redirectToRoute('app_capsule_index', ['id' => $capsule->getId()], Response::HTTP_SEE_OTHER);
-        }
 
         return $this->renderForm('capsule/index.html.twig', [
-            'capsule' => $capsule,
-            'form' => $form,
+            
+        ]);
+    }
+    
+    #[Route('/reception/{id}', name: 'app_capsule_reception')]
+    public function reception(Capsule $capsule, ContentRepository $contentRepository, CapsuleUserRepository $capsuleUserRepository): Response
+    {
+        // On récupère tous les contenus
+        $contents = $contentRepository->findAllByCapsuleId($capsule->getId());
+        // On récupère le propriétaire de la capsule
+        $owner = $capsuleUserRepository->findOwner($capsule->getId())->getUser();
+        // On récupère le destinataire de la capsule (pour le moment seulement le premier pour nos tests)
+        $recipient = $capsuleUserRepository->findAllRecipients($capsule->getId())[0]->getUser();
+        
+        return $this->render('capsule/reception.html.twig', [ 
+            'capsule'   => $capsule,
+            'contents'  => $contents,
+            'owner'     => $owner,
+            'recipient' => $recipient
         ]);
     }
 

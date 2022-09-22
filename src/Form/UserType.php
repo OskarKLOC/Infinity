@@ -15,7 +15,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles', ChoiceType::class, [
+            /* ->add('roles', ChoiceType::class, [
                 'choices' => [
                      'admin'=>'ROLE_ADMIN',
                      'propriétaire'=>'ROLE_PROPRIETAIRE' ,
@@ -23,8 +23,8 @@ class UserType extends AbstractType
 
                 ],
                 'multiple' => true
-            ])
-            ->add('password')
+            ]) */
+            // ->add('password')
             ->add('lastname')
             ->add('firstname')
             ->add('birthdate', BirthdayType::class, [
@@ -34,11 +34,11 @@ class UserType extends AbstractType
             ])
             ->add('birth_city')
             ->add('phone_number')
-            ->add('user_type')
-            ->add('commitment')
-            ->add('signature')
-            ->add('registration_date')
-            //->add('capsules')
+            // ->add('user_type')
+            // ->add('commitment')
+            // ->add('signature')
+            // ->add('registration_date')
+            // ->add('capsules')
         ;
     }
 
@@ -46,6 +46,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+
         ]);
     }
 }

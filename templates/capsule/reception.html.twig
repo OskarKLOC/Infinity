@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infinity - Votre capsule{% endblock %}
+
+{% block body %}
+
+    <h1>Votre capsule</h1>
+
+    <p>Cette capsule de souvenirs a été préparée par {{owner.firstname}} {{owner.lastname}} pour {{recipient.firstname}} {{recipient.lastname}}</p>
+
+    <h2>{{capsule.name}}</h2>
+
+    {% for content in contents %}
+        {% if content.contenusStatus == 'ADDED' %}
+            <article>
+                <h3>{{content.contentName}}</h3>
+                {% if content.contentType == 'texte' %}
+                    <div>{{content.caption|raw}}</div>
+                {% endif %}
+                {% if content.contentType == 'photo' %}
+                    <img src={{content.url}} alt="">
+                    <div>{{content.caption}}</div>
+                {% endif %}
+                {% if content.contentType == 'audio' %}
+                        <figure>
+                            <figcaption>Votre message :</figcaption>
+                            <audio controls src={{content.url}}>
+                                    <a href={{content.url}}>Télécharger le message audio</a>
+                            </audio>
+                        </figure>
+                    <div>{{content.caption}}</div>
+                {% endif %}
+            </article>
+        {% endif %}
+    {% endfor %}
+
+  
+{% endblock %}

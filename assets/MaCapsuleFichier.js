@@ -1,15 +1,27 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { FileUploader } from "react-drag-drop-files";
 
 function MaCapsuleFichier (props) {
     
-    // On définit les types de fichiers acceptés
-    let accept = '';
-    if (props.type == 'photo') {accept='image/*';}
-    if (props.type == 'audio') {accept='audio/*';}
-    if (props.type == 'vidéo') {accept='video/*';}
-    
+    // On définit les paramètres personnalisés de la zone drag & drop suivant le type de fichier
+    let fileTypes = [];
+    let maxSize = 5;
+
+    if (props.type == 'photo') {
+        fileTypes = ["JPG", "PNG", "GIF"];
+        maxSize = 5;
+    }
+    if (props.type == 'audio') {
+        fileTypes = ["M4A", "WAV"];
+        maxSize = 5;
+    }
+    if (props.type == 'vidéo') {
+        fileTypes = ["MP4", "AVI", "MPG"];
+        maxSize = 30;
+    }
+
     // Au chargement du module, on initialise les premières données de l'objet qui sera retourné
     useEffect(() => {
         let contentParameters = new Object();
@@ -31,9 +43,6 @@ function MaCapsuleFichier (props) {
             case 'capsule-fichier-title':
                 input.name = target.value; 
                 break;
-            case 'capsule-fichier':
-                props.setFile(target.files[0]);
-                break;
             case 'capsule-fichier-text':
                 input.message = target.value;
                 break;
@@ -44,6 +53,11 @@ function MaCapsuleFichier (props) {
         
         // On met à jour l'objet contenant nos données
         props.setContent(input);
+    }
+
+    // A chaque utilisation de la fonctionnalité de drag&drop, conserve le dernier fichier chargé
+    function handleChangeFile (newFile) {
+        props.setFile(newFile);
     }
 
      // A la validation du formulaire, se charge de faire appel à l'API pour la vérification de la saisie et l'enregistrement des données en BDD
@@ -83,7 +97,16 @@ function MaCapsuleFichier (props) {
                 </div>
                 <div>
                     <label htmlFor="capsule-fichier">Chargement de votre {props.type} : </label>
-                    <input type="file" accept={accept} capture="user" id="capsule-fichier" name="capsule-fichier" onChange={handleChange} />
+                    {/* Documentation de l'élément Drag & Drop : */}
+                    {/* https://www.npmjs.com/package/react-drag-drop-files */}
+                    <FileUploader
+                            handleChange={handleChangeFile}
+                            name="newFile"
+                            types={fileTypes}
+                            label="Recherchez ou déposez votre fichier ici" 
+                            hoverTitle="Déposez votre fichier ici"
+                            maxSize={maxSize}
+                    />
                 </div>
                 <div>
                     <label htmlFor="capsule-fichier-text">Commentaire sur votre {props.type} : </label>
