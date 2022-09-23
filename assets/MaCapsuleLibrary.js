@@ -71,6 +71,7 @@ function MaCapsuleLibrary (props) {
                     })
                 }
                 <button type="submit">Enregistrer</button>
+                <a href={'/capsule/reception/' + props.id} target="_blank">Aperçu de ma capsule</a>
             </form>
         </>
     )

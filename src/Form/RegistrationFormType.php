@@ -53,7 +53,9 @@ class RegistrationFormType extends AbstractType
 
             //Informations "de naissance" 
             ->add('birthdate', BirthdayType::class, [
-                'years' => range(1, 200),
+                //'widget' => 'choice',
+                'years' => range(1900, 2022),
+                'format' => 'dd/MM/yyyy'
             ])
             ->add('birth_city')
 
