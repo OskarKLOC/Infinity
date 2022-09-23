@@ -4,28 +4,116 @@
 
 {# Bloc pour acceuillir la feuille de style CSS #}
 {% block stylesheets %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="stylesheet" href="CSS/general.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="./public/css/general.css">
+    <link rel="stylesheet" href="./public/css/pageinscription.css">
 
 {% endblock %}
+
+
 
 {% block body %}
     <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
+           
+        {# {{ form_row(registrationForm.firstname) }} #}
+        {# {{ form_row(registrationForm.email) }} #}
+        {# {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.birthdate) }}
-        {{ form_row(registrationForm.birth_city) }}
-        {{ form_row(registrationForm.phone_number) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        }) }} #}
+        {# {{ form_row(registrationForm.birthdate) }} #}
+        {# {{ form_row(registrationForm.birth_city) }} #}
+        {# {{ form_row(registrationForm.phone_number) }} #}
+        {# {{ form_row(registrationForm.user_address) }} #}
+        {# {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+    
+
+{# Début du main  #}
+    <main class="bg-light-darker">
+
+      <div class="row">
+       
+        <div class="col-6">
+        
+            <div>
+            <img src="img/authentification/authentification.jpg" alt="Une image sur laquelle on peut voir des mains qui tapent sur le clavier d'un ordinateur portable">
+            </div>
+
+        </div>
+        <div class="col-4 offset-1">
+
+          <div class="card ">
+          <div class="card-body">
+            <h4 class="card-title">CRÉER VOTRE <br> COMPTE</h4>
+
+            {{ form_start(registrationForm) }}
+            
+                {# PRENOM #}
+                <div class="form-group">
+                    {{ form_row(registrationForm.firstname, {'label': 'Prénom', 'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                {# NOM DE FAMILLE #}
+                <div class="form-group">
+                    {{ form_row(registrationForm.lastname, {'label': 'Nom de famille','attr': {'class': 'form-control'} }) }}
+                </div>
+
+                {# DATE DE NAISSANCE #}
+                <div class="form-group">
+                    {{ form_row(registrationForm.birthdate, {'label': 'Date de naissance','attr': {'class': 'form-control'} }) }}
+                </div>
+
+                {# VILLE DE NAISSANCE#}
+                <div class="form-group">
+                    {{ form_row(registrationForm.birth_city, {'label': 'Ville de naissance','attr': {'class': 'form-control'} }) }}
+                </div>
+
+                {# ADRESSE MAIL #}
+                <div class="form-group">
+                    {{ form_row(registrationForm.email, {'type': 'email', 'label': 'Email','attr': {'class': 'form-control'} }) }}
+                </div>   
+
+                {# NUMERO DE TELEPHONE #}
+                <div class="form-group">
+                    {{ form_row(registrationForm.phone_number, {'label':'Numéro de Téléphone','attr': {'class': 'form-control'} }) }}
+                </div>          
+
+                {# MOT DE PASSE #}
+                <div class="form-group">
+                    {{ form_row(registrationForm.plainPassword, {'label': 'Mot de passe','attr': {'class': 'form-control', 'label': 'Mot de passe'} }) }}
+                </div>        
+
+                {# OFFRE CHOISIE #}
+                <div class="form-group">
+                    {{ form_row(registrationForm.offer, {'label': 'Offre','attr': {'class': 'radio'} }) }}
+                </div>    
+
+                {# AGREE TERMS #}
+                <div class="mt-5 text-center">
+                    <label for="agreement" > J'ai lu et accepte les termes du <a href= "/"> contrat </a> </label>
+                    {{ form_widget(registrationForm.agreeTerms, { 'attr': {'class': 'check-box', 'id': 'agreement'} } ) }}
+                </div>  
+
+                {# CONFIRMATION D'INSCRIPTION #}
+                <div class="mt-5 text-center">
+                    <button type="submit" class="btn btn-warning">S'INSCRIRE</button>
+                </div>
+
+
+            {{ form_end(registrationForm) }}
+          </div>
+
+        </div>
+      </div>
+
+      </div>
+
+  </div>
+
+
+  </main>
 
      {# Emplacement  bootstrap JS#}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

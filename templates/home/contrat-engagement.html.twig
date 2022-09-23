@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infinity - Bienvenue{% endblock %}
+
+{# Bloc pour acceuillir la feuille de style CSS #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/capsule.css">
+{% endblock %}
+
+{# DEBUT DU BLOCK BODY #}
+
+{% block body %}
+
+<body>
+
+    <!-- DEBUT HEADER -->
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Infinity</h1>
+                    <p>CONTRAT D'ENGAGEMENT</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- FIN HEADER -->
+
+    <main class="bg-light-darker">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-10 offset-1 mt-5">
+        <div class="cgv">
+            <h3>DÉCLARATION ET ENGAGEMENT DU CLIENT</h3><br>
+              Le Client déclare que l’ensemble des informations qu’il fournit à la Société INFINITY est exact. Ces déclarations sont faites par le Client au moment de la signature de la Demande et doivent rester valables tant qu’un Compte est ouvert au nom du Client au sein de la Société INFINITY, en cas de changement de la situation déclarée lors de l’entrée en relation, 
+              le Client s’engage à mettre à jour, dans les plus brefs délais, les informations devant être modifiées sur le site ou par courrier ou par téléphone.
+              La Société INFINITY est susceptible de demander au Client les justificatifs correspondants aux dites modifications.
+              Le Client déclare qu’il agit à l’égard de la Société INFINIY dans son intérêt propre et pour son propre compte.
+              Le Client déclare que les transmissions déposées sur son compte personnel INFINITY n’enfreignent en aucun cas les mesures de succession légales établies par acte de notoriété, ni d’acte testamentaire de succession, et ne font donc l’objet d’aucune sûreté, à l’exception de ce qui est prévu à l’article 7 : Utilisation des Capsules Memories ainsi que de l’article 10 : Responsabilités des présentes.
+              Il appartient au Client de satisfaire aux obligations légales et réglementaires en vigueur, notamment en matière de biens déposés, ayant trait au fonctionnement de son Compte et contrat.
+              Le Client déclare également, au regard du régime notarial dont il relève, pouvoir librement et valablement s’engager dans les termes des présentes Conditions Générales et avoir à ce titre la 
+              libre disposition des biens et/ou documents en dépôt, à défaut, INFINITY ne peut être tenue responsable de l’inexactitude des informations dont elle dispose sur le Client et ses éventuelles conséquences.<br> 
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+</body>
+{% endblock %}
