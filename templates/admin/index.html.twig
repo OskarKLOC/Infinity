@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infinity - Admin{% endblock %}
+
+{# Bloc pour acceuillir la feuille de style CSS #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        i {
+            color: black;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://kit.fontawesome.com/77d66d0fcc.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{# DEBUT DU BLOCK BODY #}
+
+{% block body %}
+
+    <!-- DEBUT HEADER -->
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Infinity</h1>
+                    <p> Administration </p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- FIN HEADER -->
+
+    <main class="bg-light-darker">
+
+        <h2>Utilisateurs actifs</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Prénom</th>
+                    <th>NOM</th>
+                    <th>Date de naissance</th>
+                    <th>Ville de naissance</th>
+                    <th>Suspiscion décès</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for livingUser in livingUsers %}
+                <tr>
+                    <td>{{ livingUser.id }}</td>
+                    <td>{{ livingUser.email }}</td>
+                    <td>{{ livingUser.phone_number }}</td>
+                    <td>{{ livingUser.firstname }}</td>
+                    <td>{{ livingUser.lastname }}</td>
+                    <td>{{ livingUser.birthdate ? livingUser.birthdate|date('d/m/Y') : '' }}</td>
+                    <td>{{ livingUser.birth_city }}</td>
+                    <td>
+                        {% if livingUser.result.total > 0 %}
+                            <a href="{{ path('app_admin_detail_user', {'id': livingUser.id}) }}"><i class="fa-regular fa-face-dizzy"></i></a>
+                            
+                            {# <a class="nav-link" href="{{ path('app_user_index') }}">Utilisateurs</a> #}
+                        {% endif %}
+                        {# <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                        <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a> #}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="14">Aucun utilisateur trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </main>
+
+{% endblock %}

@@ -72,6 +72,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?Offer $offer = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $death_date = null;
+
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
@@ -366,6 +369,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setOffer(?Offer $offer): self
     {
         $this->offer = $offer;
+
+        return $this;
+    }
+
+    public function getDeathDate(): ?\DateTimeInterface
+    {
+        return $this->death_date;
+    }
+
+    public function setDeathDate(?\DateTimeInterface $death_date): self
+    {
+        $this->death_date = $death_date;
 
         return $this;
     }

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infinity - Admin{% endblock %}
+
+{# Bloc pour acceuillir la feuille de style CSS #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        i {
+            color: black;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://kit.fontawesome.com/77d66d0fcc.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{# DEBUT DU BLOCK BODY #}
+
+{% block body %}
+
+    <!-- DEBUT HEADER -->
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Infinity</h1>
+                    <p> Administration </p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- FIN HEADER -->
+
+    <main class="bg-light-darker">
+
+        <section>
+            <h3>Utilisateur à vérifier</h3>
+            <p><strong>Id : </strong>{{user.id}}</p>
+            <p><strong>Email : </strong>{{user.email}}</p>
+            <p><strong>Téléphone : </strong>{{user.phoneNumber}}</p>
+            <p><strong>Prénom : </strong>{{user.firstname}}</p>
+            <p><strong>NOM : </strong>{{user.lastname}}</p>
+            <p><strong>Date de naissance : </strong>{{user.birthdate ? user.birthdate|date('d/m/Y') : ''}}</p>
+            <p><strong>Ville de naissance : </strong>{{user.birthCity}}</p>
+        </section>
+
+        {% for deceased in result['persons'] %}
+        <section>
+            <h3>Personne décédée trouvée</h3>
+            <p><strong>Prénom : </strong>{{deceased['name']['first'][0]}}</p>
+            <p><strong>NOM : </strong>{{deceased['name']['last']}}</p>
+            <p><strong>Date de naissance : </strong>{{deceased['birth']['date']}}</p>
+            <p><strong>Ville de naissance : </strong>{{deceased['birth']['location']['city']}}</p>
+            <p><strong>Pays de naissance : </strong>{{deceased['birth']['location']['country']}}</p>
+            <p><strong>Date de décès : </strong>{{deceased['death']['date']}}</p>
+            <p><strong>Ville de décès : </strong>{{deceased['death']['location']['city'][0]}}</p>
+        </section>
+        {% endfor %}
+
+
+        <a href="{{ path('app_admin') }}">Revenir à la liste des utilisateurs</a>
+
+    </main>
+
+{% endblock %}
