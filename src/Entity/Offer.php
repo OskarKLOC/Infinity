@@ -153,4 +153,9 @@ class Offer
 
         return $this;
     }
+
+    public function __toString ()
+    {
+        return $this->offer_name . ' (' . $this->price . '€/mois)';
+    }
 }

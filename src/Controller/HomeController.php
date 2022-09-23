@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
         $user=$this->getUser();
@@ -18,6 +18,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+    //Route vers la page concept 
     #[Route('/concept', name: 'app_moncompte_concept')]
     public function concept(): Response
     {
@@ -27,4 +28,27 @@ class HomeController extends AbstractController
             'user' => $user,
         ]);
     }
+    
+    //Route vers la page CGU CGV 
+    #[Route('/home/cgv', name: 'app_moncompte_cgv')]
+    public function cgvcgu(): Response
+     {
+         $user=$this->getUser();
+        
+         return $this->render('home/cgv-cgu.html.twig', [
+             'user' => $user,
+         ]);
+     }
+
+
+     //Route vers la page engagement 
+     #[Route('/home/engagement', name: 'app_moncompte_engagement')]
+     public function engagement(): Response
+     {
+         $user=$this->getUser();
+        
+         return $this->render('home/contrat-engagement.html.twig', [
+             'user' => $user,
+         ]);
+     }
 }

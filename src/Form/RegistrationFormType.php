@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -58,6 +59,13 @@ class RegistrationFormType extends AbstractType
 
             //Informations de contact
             ->add('phone_number')
+            // ->add('user_address')
+
+            ->add('offer', EntityType::class, [
+            'class' => 'App\Entity\Offer',
+                 'mapped' => true,
+                 'expanded' => true
+             ])
         ;
     }
 
@@ -67,4 +75,6 @@ class RegistrationFormType extends AbstractType
             'data_class' => User::class,
         ]);
     }
+
+    
 }
