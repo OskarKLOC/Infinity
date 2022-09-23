@@ -3,6 +3,13 @@ import { useEffect } from 'react';
 
 function MaCapsuleLibrary (props) {
 
+    // En cas de switch sur cette page, on vérifie s'il faut réinitialiser la liste d'affichage des contenus
+    useEffect(() => {
+        if (Object.keys(props.content).length || Object.keys(props.file).length) {
+            props.getAllContents();
+        }
+    },[props.reload]);
+    
     // A chaque sélection / déselection, on garde une trace de la saisie active
     function handleChange (e) {
         // On récupère la sélection actuelle et la valeur qui fait l'objet d'une nouvelle sélection/déselection

@@ -37,41 +37,45 @@ function MaCapsuleAffichage (props) {
 
     // On gère le changement de vue
     function changeView (event) {
-        // La capsule est-elle déverrouillée ? Dans le cas contraire, on ne fera rien
-        if (!isSealed) {
-            // On récupère la vue souhaitée
-            let mode = event.currentTarget.dataset.mode;
+        if (event) {
+            // La capsule est-elle déverrouillée ? Dans le cas contraire, on ne fera rien
+            if (!isSealed) {
+                // On récupère la vue souhaitée
+                let mode = event.currentTarget.dataset.mode;
 
-            // On demande le rechargement de certains composants
-            setReload(!reload);
+                // On demande le rechargement de certains composants
+                setReload(!reload);
 
-            // On applique le choix de vue souhaitée
-            switch (mode) {
-                case 'params':
-                    setMode('params');
-                    break;
-                case 'text':
-                    setMode('text');
-                    break;
-                case 'photo':
-                    setMode('photo');
-                    break;
-                case 'audio':
-                    setMode('audio');
-                    break;
-                case 'video':
-                    setMode('vidéo');
-                    break;
-                case 'library':
-                    setMode('library');
-                    break;
-                case 'suivi':
-                    setMode('suivi');
-                    break;     
-                default:
-                    setMode('');
-                    break;
+                // On applique le choix de vue souhaitée
+                switch (mode) {
+                    case 'params':
+                        setMode('params');
+                        break;
+                    case 'text':
+                        setMode('text');
+                        break;
+                    case 'photo':
+                        setMode('photo');
+                        break;
+                    case 'audio':
+                        setMode('audio');
+                        break;
+                    case 'video':
+                        setMode('vidéo');
+                        break;
+                    case 'library':
+                        setMode('library');
+                        break;
+                    case 'suivi':
+                        setMode('suivi');
+                        break;     
+                    default:
+                        setMode('');
+                        break;
+                }
             }
+        } else {
+            setMode('library');
         }
     }
     
@@ -117,15 +121,15 @@ function MaCapsuleAffichage (props) {
                     : mode == 'params'
                         ? <MaCapsuleParams id={props.id} capsule={props.capsule} setCapsule={props.setCapsule} recipients={props.recipients} setRecipients={props.setRecipients} selectionRecipients={props.selectionRecipients} setSelectionRecipients={props.setSelectionRecipients} creationDate={props.creationDate} sealDate={props.sealDate} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass}></MaCapsuleParams>
                         : mode == 'text'
-                            ? <MaCapsuleText id={props.id} content={props.content} setContent={props.setContent} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload}></MaCapsuleText>
+                            ? <MaCapsuleText id={props.id} content={props.content} setContent={props.setContent} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleText>
                             : mode == 'photo'
-                                ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload}></MaCapsuleFichier>
+                                ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
                                 : mode == 'audio'
-                                    ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload}></MaCapsuleFichier>
+                                    ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
                                     : mode == 'vidéo'
-                                        ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload}></MaCapsuleFichier>
+                                        ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
                                         : mode == 'library'
-                                            ? <MaCapsuleLibrary id={props.id} contents={props.contents} selection={props.selection} setSelection={props.setSelection} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass}></MaCapsuleLibrary>
+                                            ? <MaCapsuleLibrary id={props.id} contents={props.contents} selection={props.selection} setSelection={props.setSelection} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} content={props.content} file={props.file} getAllContents={props.getAllContents}></MaCapsuleLibrary>
                                             : mode == 'suivi'
                                                 ? <MaCapsuleSuivi></MaCapsuleSuivi>
                                                 :''

@@ -19,7 +19,7 @@ function MaCapsule () {
     const [recipients, setRecipients] = useState([0]);      // Contenant de l'ensemble de la liste des destinataires
     const [selectionRecipients, setSelectionRecipients] = useState([]);     // Contenant des identifiants des destinataires sélectionnés
     const [content, setContent] = useState({});             // Contenant des paramètres d'un contenu donné
-    const [file, setFile] = useState(null);                 // Contenant des paramètres d'un fichier donné
+    const [file, setFile] = useState({});                   // Contenant des paramètres d'un fichier donné
     
 
     // Au chargement du module, on récupère via l'API les données de la capsule
@@ -41,8 +41,12 @@ function MaCapsule () {
             else {
                 setSealDate('Votre capsule n\'a pas encore été verrouillée une première fois');
             }
-        })
+        }) 
+    },[]);
 
+
+    // On récupère via l'API tous les contenus associables à la capsule une fois les paramètres de celle-ci récupérés
+    useEffect(() => {
         // On récupère la liste de tous les destinataires
         fetch('/moncompte/api_get_selected_recipients/' + id)
         .then((headers) => {
@@ -60,18 +64,9 @@ function MaCapsule () {
             // On stocke l'objet dans la variable d'état (un JSON Parse est nécessaire pour l'objet correspondant à l'entité)
             setRecipients(JSON.parse(data.recipients));
         })
-    },[]);
-
-
-    // On récupère via l'API tous les contenus associables à la capsule
-    useEffect(() => {
-        // Appel de notre API en l'identifiant de la capsule en paramètre GET
-        fetch('/content/api_get_all_content/' + id)
-        .then((headers) => {
-            return headers.json();
-        }).then((data) => {
-            setContents(JSON.parse(data));
-        })
+        
+        // On récupère la liste de tous nos contenus
+        getAllContents();
     },[capsule]);
 
     // On définit la liste des contenus sélectionnés
@@ -84,6 +79,17 @@ function MaCapsule () {
         });
         setSelection(listIds);
     },[contents]);
+
+    // On récupère la liste de tous nos contenus
+    function getAllContents () {
+        // Appel de notre API en l'identifiant de la capsule en paramètre GET
+        fetch('/content/api_get_all_content/' + id)
+        .then((headers) => {
+            return headers.json();
+        }).then((data) => {
+            setContents(JSON.parse(data));
+        })
+    }
 
 
     // Si la variable d'état est alimentée d'un message à afficher
@@ -102,7 +108,7 @@ function MaCapsule () {
     // On fait appel au composant d'affichage à qui nous passons nos props
     return (
         <>
-            <MaCapsuleAffichage id={id} capsule={capsule} setCapsule={setCapsule} creationDate={creationDate} sealDate={sealDate} message={message} setMessage={setMessage} messageClass={messageClass} setMessageClass={setMessageClass} recipients={recipients} setRecipients={setRecipients} selectionRecipients={selectionRecipients} setSelectionRecipients={setSelectionRecipients} content={content} setContent={setContent} file={file} setFile={setFile} contents={contents} setContents={setContents} selection={selection} setSelection={setSelection}></MaCapsuleAffichage>
+            <MaCapsuleAffichage id={id} capsule={capsule} setCapsule={setCapsule} creationDate={creationDate} sealDate={sealDate} message={message} setMessage={setMessage} messageClass={messageClass} setMessageClass={setMessageClass} recipients={recipients} setRecipients={setRecipients} selectionRecipients={selectionRecipients} setSelectionRecipients={setSelectionRecipients} content={content} setContent={setContent} file={file} setFile={setFile} contents={contents} setContents={setContents} selection={selection} setSelection={setSelection} getAllContents={getAllContents}></MaCapsuleAffichage>
         </>
     );
 }
