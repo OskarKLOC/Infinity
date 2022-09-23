@@ -21,6 +21,8 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+
+
 #[Route('/content')]
 class ContentController extends AbstractController
 {
@@ -62,6 +64,7 @@ class ContentController extends AbstractController
         $newContent = json_decode($request->request->get('content'));
         $newFile = $request->files->get('file');
         // dd($newFile);
+        
         // On crée le répertoire qui permet de stocker les fichiers reçus
         $filesystem = new Filesystem();
         $filesystem->mkdir('../public/data/content/' . $newContent->capsuleId);

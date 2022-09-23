@@ -10,29 +10,44 @@
 
     <h2>{{capsule.name}}</h2>
 
+    {# Boucle sur tous les contenus #}
     {% for content in contents %}
+        {# On ne retient que les contenus qui ont été validés "ajoutés" dans la capsule #}
         {% if content.contenusStatus == 'ADDED' %}
             <article>
+                {# Dans tous les cas le titre est affiché #}
                 <h3>{{content.contentName}}</h3>
+                {# S'il s'agit d'un contenu texte #}
                 {% if content.contentType == 'texte' %}
                     <div>{{content.caption|raw}}</div>
                 {% endif %}
+                {# S'il s'agit d'un contenu photo #}
                 {% if content.contentType == 'photo' %}
                     <img src={{content.url}} alt="">
                     <div>{{content.caption}}</div>
                 {% endif %}
+                {# S'il s'agit d'un contenu audio #}
                 {% if content.contentType == 'audio' %}
-                        <figure>
-                            <figcaption>Votre message :</figcaption>
-                            <audio controls src={{content.url}}>
-                                    <a href={{content.url}}>Télécharger le message audio</a>
-                            </audio>
-                        </figure>
+                    <figure>
+                        <figcaption>Votre message audio :</figcaption>
+                        <audio controls src={{content.url}}>
+                                <a href={{content.url}}>Télécharger le message audio</a>
+                        </audio>
+                    </figure>
+                    <div>{{content.caption}}</div>
+                {% endif %}
+                {# S'il s'agit d'un contenu vidéo #}
+                {% if content.contentType == 'vidéo' %}
+                    <figure>
+                        <figcaption>Votre message vidéo :</figcaption>
+                        <video controls preload="metadata" src={{content.url}}>
+                                <a href={{content.url}}>Télécharger le message vidéo</a>
+                        </video>
+                    </figure>
                     <div>{{content.caption}}</div>
                 {% endif %}
             </article>
         {% endif %}
     {% endfor %}
-
   
 {% endblock %}

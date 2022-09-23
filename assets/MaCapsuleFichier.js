@@ -60,8 +60,13 @@ function MaCapsuleFichier (props) {
         props.setFile(newFile);
     }
 
-     // A la validation du formulaire, se charge de faire appel à l'API pour la vérification de la saisie et l'enregistrement des données en BDD
-     function handleSubmit (e) {
+    useEffect(() => {
+        console.log(props.file);
+    }, [props.file]);
+
+
+    // A la validation du formulaire, se charge de faire appel à l'API pour la vérification de la saisie et l'enregistrement des données en BDD
+    function handleSubmit (e) {
         // On bloque le comportement par défaut du formulaire
         e.preventDefault();
 

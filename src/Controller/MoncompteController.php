@@ -28,30 +28,6 @@ use Symfony\Component\Serializer\Serializer;
 class MoncompteController extends AbstractController
 {
     // C'est ici que doit prendre place le lien entre la connection de l'user et cette page, sa page perso. 
-    
-    // public function index(): Response
-    // {
-    //     return $this->render('moncompte/index.html.twig', [
-    //         'userData' => $this->getUser(),
-    //     ]);
-    // }
-
-    // // Fromulaire de modification d'un user 
-    // $form = $this->createForm(UserType::class, $user);
-    // $form->handleRequest($request);
-
-    // if ($form->isSubmitted() && $form->isValid()) {
-    //     $userRepository->add($user, true);
-
-    //     return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-    // }
-
-    // return $this->renderForm('user/edit.html.twig', [
-    //     'user' => $user,
-    //     'form' => $form,
-    // ]);
-
-
 
     #[Route('/', name: 'app_moncompte')]
     public function edit(Request $request, UserRepository $userRepository, AddressRepository $addressRepository): Response
@@ -478,172 +454,179 @@ class MoncompteController extends AbstractController
         return new JsonResponse($data);
     }
 
+    /**
+     * API permettant la modification des données d'un destinataire
+     * Entrée : attendu en POST les données issuées du formulaire avec les données du destinataire
+     * Sortie : Objet contenant un booléen de succès ou d'échec et un message à afficher au besoin
+     */
     #[Route('/api_set_user/{id}', name: 'app_moncompte_api_set_user', methods: ['POST'])]
     public function apiSetUser(Request $request, User $user, UserRepository $userRepository, AddressRepository $addressRepository): JsonResponse
     {
         // On déclare l'objet qui contiendra la réponse de notre API
         $response = new stdClass();
 
-        /* try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
-        } */
-
-        // On récupère les informations passées en POST
-        $newUser = json_decode($request->getContent());
-        //dd($newUser);
-        
-        // L'utilisateur est-il connecté ?
-        if ($this->getUser()) {
-
-            // On récupère l'utilisateur actif
-            $owner = $this->getUser();
-            $user->addOwner($owner);
-
-            // Un email a-t-il été renseigné ?
-            if (isset($newUser->email)) {
-                // Si oui, le format du mail est-il valide ?
-                if (preg_match('^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+\\.[a-z][a-z]+$^', $newUser->email)) {
-                    $user->setEmail($newUser->email);
-                // Sinon, on arrête le processus pour format d'email invalide
-                } else {
-                    $response->success = false;
-                    $response->message = 'Impossible de modifier le destinataire - Le format du mail est invalide';
-                    return new JsonResponse($response);
-                }
-            // Sinon, on arrête le processus pour absence d'email
-            } else {
-                $response->success = false;
-                $response->message = 'Impossible de modifier le destinataire - Aucun email renseigné';
-                return new JsonResponse($response);
-            }
-
-            // Un nom de famille a-t-il été renseigné ?
-            if (isset($newUser->lastname)) {
-                // La longueur du nom du destinataire est-elle dans la limite attendue ?
-                if (strlen($newUser->lastname) < 255) {
-                    $user->setLastname($newUser->lastname);
-                // Sinon, on arrête le processus pour format de nom invalide
-                } else {
-                    $response->success = false;
-                    $response->message = 'Impossible de modifier le destinataire - Le nom de famille est trop long';
-                    return new JsonResponse($response);
-                }
-            }
-
-            // Un prénom a-t-il été renseigné ?
-            if (isset($newUser->firstname)) {
-                // La longueur du prénom du destinataire est-elle dans la limite attendue ?
-                if (strlen($newUser->firstname) < 255) {
-                    $user->setFirstname($newUser->firstname);
-                // Sinon, on arrête le processus pour format de prénom invalide
-                } else {
-                    $response->success = false;
-                    $response->message = 'Impossible de modifier le destinataire - Le prénom est trop long';
-                    return new JsonResponse($response);
-                }
-            }
+        try {
+            // On récupère les informations passées en POST
+            $newUser = json_decode($request->getContent());
             
-            // Un numéro de téléphone a-t-il été renseigné ?
-            if (isset($newUser->phone)) {
-                $phone = str_replace(' ', '', $newUser->phone);
-                $phone = str_replace('.', '', $phone);
-                // Le format du numéro de téléphone est-il valide ?
-                if (preg_match('^(0|\\+33|0033)[1-9][0-9]{8}^', $phone)) {
-                    // La longueur du téléphone est-il dans la limite attendue ?
-                    if (strlen($newUser->firstname) <= 10) {
-                        $user->setPhoneNumber($phone);
+            // L'utilisateur est-il connecté ?
+            if ($this->getUser()) {
+
+                // On récupère l'utilisateur actif
+                $owner = $this->getUser();
+                $user->addOwner($owner);
+
+                // Un email a-t-il été renseigné ?
+                if (isset($newUser->email)) {
+                    // Si oui, le format du mail est-il valide ?
+                    if (preg_match('^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+\\.[a-z][a-z]+$^', $newUser->email)) {
+                        $user->setEmail($newUser->email);
+                    // Sinon, on arrête le processus pour format d'email invalide
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de modifier le destinataire - Le format du mail est invalide';
+                        return new JsonResponse($response);
+                    }
+                // Sinon, on arrête le processus pour absence d'email
+                } else {
+                    $response->success = false;
+                    $response->message = 'Impossible de modifier le destinataire - Aucun email renseigné';
+                    return new JsonResponse($response);
+                }
+
+                // Un nom de famille a-t-il été renseigné ?
+                if (isset($newUser->lastname)) {
+                    // La longueur du nom du destinataire est-elle dans la limite attendue ?
+                    if (strlen($newUser->lastname) < 255) {
+                        $user->setLastname($newUser->lastname);
+                    // Sinon, on arrête le processus pour format de nom invalide
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de modifier le destinataire - Le nom de famille est trop long';
+                        return new JsonResponse($response);
+                    }
+                }
+
+                // Un prénom a-t-il été renseigné ?
+                if (isset($newUser->firstname)) {
+                    // La longueur du prénom du destinataire est-elle dans la limite attendue ?
+                    if (strlen($newUser->firstname) < 255) {
+                        $user->setFirstname($newUser->firstname);
+                    // Sinon, on arrête le processus pour format de prénom invalide
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de modifier le destinataire - Le prénom est trop long';
+                        return new JsonResponse($response);
+                    }
+                }
+                
+                // Un numéro de téléphone a-t-il été renseigné ?
+                if (isset($newUser->phone)) {
+                    $phone = str_replace(' ', '', $newUser->phone);
+                    $phone = str_replace('.', '', $phone);
+                    // Le format du numéro de téléphone est-il valide ?
+                    if (preg_match('^(0|\\+33|0033)[1-9][0-9]{8}^', $phone)) {
+                        // La longueur du téléphone est-il dans la limite attendue ?
+                        if (strlen($phone) <= 12) {
+                            $user->setPhoneNumber($phone);
+                        // Sinon, on arrête le processus pour format de téléphone invalide
+                        } else {
+                            $response->success = false;
+                            $response->message = 'Impossible de modifier le destinataire - Le format du numéro de téléphone est trop long';
+                            return new JsonResponse($response);
+                        }
                     // Sinon, on arrête le processus pour format de téléphone invalide
                     } else {
                         $response->success = false;
-                        $response->message = 'Impossible de modifier le destinataire - Le format du numéro de téléphone est trop long';
+                        $response->message = 'Impossible de modifier le destinataire - Le format du numéro de téléphone est invalide';
                         return new JsonResponse($response);
                     }
-                // Sinon, on arrête le processus pour format de téléphone invalide
-                } else {
-                    $response->success = false;
-                    $response->message = 'Impossible de modifier le destinataire - Le format du numéro de téléphone est invalide';
-                    return new JsonResponse($response);
                 }
-            }
-            
-            // On isole l'adresse à mettre à jour
-            $address = $user->getAddresses()[0];
-            // Est-ce qu'une adresse existe déjà ? Sinon on la crée
-            if (!$address) {
-                $address = new Address();
-                $address->setAddressType('POSTAL');
-            }
-
-            // Une adresse a-t-elle été renseignée ?
-            if (isset($newUser->address)) {
-                // La longueur de l'adresse du destinataire est-elle dans la limite attendue ?
-                if (strlen($newUser->address) < 255) {
-                    $address->setRoad($newUser->address);
-                // Sinon, on arrête le processus pour format d'adresse invalide
-                } else {
-                    $response->success = false;
-                    $response->message = 'Impossible de créer le destinataire - L\'adresse est trop longue';
-                    return new JsonResponse($response);
+                
+                // On isole l'adresse à mettre à jour
+                $address = $user->getAddresses()[0];
+                // Est-ce qu'une adresse existe déjà ? Sinon on la crée
+                if (!$address) {
+                    $address = new Address();
+                    $address->setAddressType('POSTAL');
                 }
-            }
 
-            // Un code postal a-t-il été renseigné ?
-            if (isset($newUser->zipcode)) {
-                // La longueur du code postal est-elle dans la limite attendue ?
-                if (strlen($newUser->zipcode) <= 5) {
-                    // Le format du code postal est-il valide ?
-                    if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode) || $newUser->zipcode == '') {
-                        $address->setPostcode($newUser->zipcode);
+                // Une adresse a-t-elle été renseignée ?
+                if (isset($newUser->address)) {
+                    // La longueur de l'adresse du destinataire est-elle dans la limite attendue ?
+                    if (strlen($newUser->address) < 255) {
+                        $address->setRoad($newUser->address);
+                    // Sinon, on arrête le processus pour format d'adresse invalide
                     } else {
                         $response->success = false;
-                        $response->message = 'Impossible de créer le destinataire - Le format du code postal est invalide';
+                        $response->message = 'Impossible de créer le destinataire - L\'adresse est trop longue';
                         return new JsonResponse($response);
                     }
-                // Sinon, on arrête le processus pour format d'adresse invalide
-                } else {
-                    $response->success = false;
-                    $response->message = 'Impossible de créer le destinataire - Le code postal est trop longue';
-                    return new JsonResponse($response);
                 }
-            }
 
-            // Une ville a-t-elle été renseignée ?
-            if (isset($newUser->city)) {
-                // La longueur du nom de la ville est-elle dans la limite attendue ?
-                if (strlen($newUser->city) < 255) {
-                    $address->setCity($newUser->city);
-                // Sinon, on arrête le processus pour format de ville invalide
-                } else {
-                    $response->success = false;
-                    $response->message = 'Impossible de créer le destinataire - Le nom de la ville est trop long';
-                    return new JsonResponse($response);
+                // Un code postal a-t-il été renseigné ?
+                if (isset($newUser->zipcode)) {
+                    // La longueur du code postal est-elle dans la limite attendue ?
+                    if (strlen($newUser->zipcode) <= 5) {
+                        // Le format du code postal est-il valide ?
+                        if (preg_match('^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$^', $newUser->zipcode) || $newUser->zipcode == '') {
+                            $address->setPostcode($newUser->zipcode);
+                        } else {
+                            $response->success = false;
+                            $response->message = 'Impossible de créer le destinataire - Le format du code postal est invalide';
+                            return new JsonResponse($response);
+                        }
+                    // Sinon, on arrête le processus pour format d'adresse invalide
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de créer le destinataire - Le code postal est trop longue';
+                        return new JsonResponse($response);
+                    }
                 }
+
+                // Une ville a-t-elle été renseignée ?
+                if (isset($newUser->city)) {
+                    // La longueur du nom de la ville est-elle dans la limite attendue ?
+                    if (strlen($newUser->city) < 255) {
+                        $address->setCity($newUser->city);
+                    // Sinon, on arrête le processus pour format de ville invalide
+                    } else {
+                        $response->success = false;
+                        $response->message = 'Impossible de créer le destinataire - Le nom de la ville est trop long';
+                        return new JsonResponse($response);
+                    }
+                }
+                
+                // On réinjecte l'adresse ajustée dans notre objet utilisateur
+                // Si elle n'existait pas déjà, on injecte le destinataire associé
+                if (!$address->getUser()) {
+                    $address->setUser($user);
+                }
+                $addressRepository->add($address, true);
+                
+                // On injecte en BDD les informations du destinataire mises à jour
+                $userRepository->add($user, true);
+
+                // On prépare la réponse de succès de création
+                $response->recipientId = $user->getId();
+                $response->success = true;
+                $response->message = 'Destinataire mis à jour';
+            } else {
+                // On prépare la réponse d'échec de création
+                $response->success = false;
+                $response->message = 'Impossible de modifier le destinataire - Utilisateur non connecté';
             }
             
-            // On réinjecte l'adresse ajustée dans notre objet utilisateur
-            // Si elle n'existait pas déjà, on injecte le destinataire associé
-            if (!$address->getUser()) {
-                $address->setUser($user);
-            }
-            $addressRepository->add($address, true);
-            
-            // On injecte en BDD les informations du destinataire mises à jour
-            $userRepository->add($user, true);
-
-            // On prépare la réponse de succès de création
-            $response->recipientId = $user->getId();
-            $response->success = true;
-            $response->message = 'Destinataire mis à jour';
-        } else {
-            // On prépare la réponse d'échec de création
+            // On envoie la réponse de l'API
+            return new JsonResponse($response);
+        // Si une autre erreur non prévue intervient, on renvoie un message dédié
+        } catch (\Throwable $th) {
+            //throw $th;
             $response->success = false;
-            $response->message = 'Impossible de modifier le destinataire - Utilisateur non connecté';
+            $response->message = 'Impossible de créer le destinataire - Une erreur inconnue est arrivée - Veuillez réessayer ultérieurement -- ' . $th->getMessage();
+            return new JsonResponse($response);
         }
         
-        // On envoie la réponse de l'API
-        return new JsonResponse($response);
     }
 
 }
