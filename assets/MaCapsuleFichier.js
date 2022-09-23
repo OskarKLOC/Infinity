@@ -82,7 +82,7 @@ function MaCapsuleFichier (props) {
         }).then((data) => {
             if (data.success) {
                 // Si l'édition est un succès, on affiche la librairie des contenus
-                // props.toggleMode();
+                props.changeView();
             } else {
                 // Sinon, on affiche le message d'erreur
                 props.setMessage(data.message);
