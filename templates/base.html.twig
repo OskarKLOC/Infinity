@@ -56,6 +56,12 @@
                 </ul>
             </div>
             </div>
+
+            {% if app.user %}
+            <div class="mb-3">
+                Vous êtes connecté comme {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+            {% endif %}
         </nav>
         <!-- FIN NAV -->
 

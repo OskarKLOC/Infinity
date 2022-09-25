@@ -10,9 +10,12 @@
 .bloc-texte {
     height: 650px;
     width: 1160px;
-    background-color: #E8E8E8;
+    background-color: #E4F1F9;
     border-radius: 30px;
     margin-bottom: 50px;
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
 }
 
 .bulle-icones {
@@ -24,17 +27,25 @@
     max-height: 50%;
     margin-left: auto;
     margin-right: auto;
-    background-color: #E4F1F9;
+    background-color: white;    
     border-radius: 30px;
     margin-bottom: 50px;
 }
 
+.flex-container {
+    display: flex;
+}
 
 /************************ PHOTOS ************************/
 
-.importer-photo {
-    margin-top: 50px;
+.pointiller {
+    height: 500px;
+    width: 1000px;
+    border: dashed 3px black;
+    border-radius: 30px;
 }
+
+
 
 /************************ VIDEOS ************************/
 /************************ AUDIO ************************/
@@ -42,8 +53,8 @@
 
 .bloc-element {
     width: 149px;
-    height: 124px;
-    background-color: white;
+    height: 90px;
+    background-color: grey;
 }
 
 .bloc-image-div {
@@ -56,6 +67,40 @@
     overflow-y: scroll;
     scrollbar-color: black;
     scrollbar-width: thin;
+}
+
+/************************ TEST ************************/
+
+.upload-items {
+    background-color: white;
+    width: 398px;
+    height: 379px;
+}
+
+.titre-photo {
+    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+    font-size: 1.6rem;
+    margin-left: 25px;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.dotted {
+    border: dashed 3px black;
+    border-radius: 30px;
+}
+
+.bloc {
+    background-color:white;
+    border-radius: 20px;
+    width: 500px;
+    height: 500px;
+}
+
+.form-control{
+    border-radius: 20px;
 }
 
 /************************ CAPSULE A ENVOYER ************************/
@@ -72,19 +117,42 @@
     margin-bottom: 50px;
 }
 
-/** 
+.card-liste-beneficiaires {
+    width: 936px;
+    height: 90px;
+    left: 491px;
+    top: 4495px;
+    background: #E8E8E8;
+    border-radius: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-RAPPEL : 
-<section>
+.card-liste-beneficiaires p {
+    margin:10px;
+    margin-top: 25px;
+    margin-left: 50px;
+}
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col">
+.text-center {
+    margin-bottom: 20px;
+}
 
-        </div>
-    </div>
-</div>
+.card-liste-icone {
+    width: 30px;
+    margin-top: 30px;
+    margin-right: 15px;
+}
 
-</section> 
+.container-fluid {
+    overflow: hidden;
+}
 
-**/
+.display-f {
+    display: flex;
+    align-items: center;
+}
+
+.margin-capsule {
+    margin-bottom: 30px;
+}
