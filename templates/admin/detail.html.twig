@@ -56,7 +56,11 @@
             {% endif %}
             <p><strong>NOM : </strong>{{deceased['name']['last']}}</p>
             <p><strong>Date de naissance : </strong>{{deceased['birth']['date']}}</p>
-            <p><strong>Ville de naissance : </strong>{{deceased['birth']['location']['city']}}</p>
+            {% if deceased['birth']['location']['city'][0] is defined %}
+                <p><strong>Ville de naissance : </strong>{{deceased['birth']['location']['city'][0]}}</p>
+            {% else %}
+                <p><strong>Ville de naissance : </strong>{{deceased['birth']['location']['city']}}</p>
+            {% endif %}
             <p><strong>Pays de naissance : </strong>{{deceased['birth']['location']['country']}}</p>
             <p><strong>Date de décès : </strong>{{deceased['death']['date']}}</p>
             {% if deceased['death']['location']['city'][0] is defined %}
