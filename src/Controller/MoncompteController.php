@@ -86,12 +86,15 @@ class MoncompteController extends AbstractController
         if ($this->getUser()) {
             // On récupère toutes les capsules liées à l'utilisateur connecté
             $capsules = $capsuleUserRepository->findAllByOwnerId($this->getUser());
-
+            $selectedDataFromCapsules = [];
+            foreach($capsules as $capsule) {
+                $selectedDataFromCapsules[] = $capsule->getCapsule();
+            }
             // On prépare ce qui va nous permettre de sérialiser l'objet pour le transmettre, et on le sérialise
             $encoders = [new XmlEncoder(), new JsonEncoder()];
             $normalizers = [new ObjectNormalizer()];
             $serializer = new Serializer($normalizers, $encoders);
-            $data = $serializer->serialize($capsules, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'name']]);
+            $data = $serializer->serialize($selectedDataFromCapsules, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'name']]);
 
             // On envoie la réponse de l'API
             return new JsonResponse($data);

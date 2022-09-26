@@ -18,6 +18,7 @@ function MonCompteCapsule () {
 
     // A chaque mise à jour de la liste des capsules
     useEffect(()=>{
+        console.log(capsules);
         // Est-ce que la liste est vide ?
         if (!capsules.length) {
             setAffichage('Vous n\'avez pas encore créé votre première capsule...');
