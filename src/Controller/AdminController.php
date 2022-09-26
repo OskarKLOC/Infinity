@@ -95,7 +95,7 @@ class AdminController extends AbstractController
                     );
                     $result = $response->toArray()['response'];
                 }
-                // dd($result);
+                //dd($result);
                 // On affiche la page en passant en paramètres la liste des utilisateurs vivants
                 return $this->renderForm('admin/detail.html.twig', [
                     'user' => $user,

@@ -49,13 +49,21 @@
         {% for deceased in result['persons'] %}
         <section>
             <h3>Personne décédée trouvée</h3>
-            <p><strong>Prénom : </strong>{{deceased['name']['first'][0]}}</p>
+            {% if deceased['name']['first'][0] is defined %}
+                <p><strong>Prénom : </strong>{{deceased['name']['first'][0]}}</p>
+            {% else %}
+                <p><strong>Prénom : </strong>{{deceased['name']['first']}}</p>
+            {% endif %}
             <p><strong>NOM : </strong>{{deceased['name']['last']}}</p>
             <p><strong>Date de naissance : </strong>{{deceased['birth']['date']}}</p>
             <p><strong>Ville de naissance : </strong>{{deceased['birth']['location']['city']}}</p>
             <p><strong>Pays de naissance : </strong>{{deceased['birth']['location']['country']}}</p>
             <p><strong>Date de décès : </strong>{{deceased['death']['date']}}</p>
-            <p><strong>Ville de décès : </strong>{{deceased['death']['location']['city'][0]}}</p>
+            {% if deceased['death']['location']['city'][0] is defined %}
+                <p><strong>Ville de décès : </strong>{{deceased['death']['location']['city'][0]}}</p>
+            {% else %}
+                <p><strong>Ville de décès : </strong>{{deceased['death']['location']['city']}}</p>
+            {% endif %}
         </section>
         {% endfor %}
 
