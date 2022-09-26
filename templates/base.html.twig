@@ -54,14 +54,13 @@
                     <a class="nav-link"  href="/moncompte">Mon compte</a>
                 </li>  
                 </ul>
+                {% if app.user %}
+                    <div class="mb-2">
+                        <a href="{{ path('app_logout') }}"><img src="../../img/icones/deconnexion-blanc.svg" alt="déconnexion"></a>
+                    </div>
+                {% endif %}
             </div>
             </div>
-
-            {% if app.user %}
-            <div class="mb-3">
-                Vous êtes connecté comme {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-            </div>
-            {% endif %}
         </nav>
         <!-- FIN NAV -->
 

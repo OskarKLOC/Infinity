@@ -15,12 +15,12 @@ function ConceptPhysique () {
                                     <h4 className="card-title text-center"> CAPSULE </h4>
                                     <img className="card-title w-100 h90-" src="../../img/capsule/Rectangle 315.png" alt="heroshot"/>
                                     <p className="card-title text-center mt-5"> Choississez votre formule. Avec notre concept, on s'occupe de tout à votre place. </p>
-                                    <h4 className=" text-center my-5">99.99€</h4>
+                                    <h4 className=" text-center my-5">8.99€ / mois</h4>
                                 </div>
 
                                 {/* <!-- Emplacement pour le bouton choisir --> */}
                                 <div className="text-center">
-                                    <a href="#" className="btn btn-secondary">Choisir</a>
+                                    <a href="/inscription" className="btn btn-secondary">Choisir</a>
                                 </div>
                             </div>
                         </div>

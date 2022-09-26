@@ -5,15 +5,14 @@
 {# Bloc pour acceuillir la feuille de style CSS #}
 {% block stylesheets %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/general.css">
-    <link rel="stylesheet" href="../css/pageinscription.css">
+    <link rel="stylesheet" href="../../css/pageinscription.css">
 
 {% endblock %}
 
 
 
 {% block body %}
-    <h1>Register</h1>
+    {# <h1>Register</h1> #}
 
            
         {# {{ form_row(registrationForm.firstname) }} #}
@@ -38,7 +37,7 @@
         <div class="col-6">
         
             <div>
-            <img src="img/authentification/authentification.jpg" alt="Une image sur laquelle on peut voir des mains qui tapent sur le clavier d'un ordinateur portable">
+            <img src="../../img/authentification/authentification.jpg" alt="Une image sur laquelle on peut voir des mains qui tapent sur le clavier d'un ordinateur portable">
             </div>
 
         </div>
@@ -87,7 +86,7 @@
 
                 {# OFFRE CHOISIE #}
                 <div class="form-group">
-                    {{ form_row(registrationForm.offer, {'label': 'Offre','attr': {'class': 'radio'} }) }}
+                    {{ form_row(registrationForm.offer, {'label': 'Offre','attr': {'class': 'radio choix-offre'} }) }}
                 </div>    
 
                 {# AGREE TERMS #}
