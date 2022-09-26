@@ -1,0 +1,36 @@
+.caption {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 10px;
+    text-align: center;
+}
+
+.lignepresentation { 
+    display: flex;
+}
+
+.bg-teal {
+    background-color: rgba(155, 201, 227, 1);
+}
+
+.bg-yellow {
+    background-color: rgba(255, 209, 45, 1);
+}
+
+.carte-presentation {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 21px;
+}
+
+.inline {
+    display: inline;
+}
+
+.equipe img {
+    width: 250px;
+    height: 250px;
+}
+
+.philosophie {
+    background-color: rgba(228, 241, 249, 1);
+}
