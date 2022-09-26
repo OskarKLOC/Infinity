@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Capsule Memories - Edition de ma capsule{% endblock %}
+{% block title %}Infinity - Votre capsule{% endblock %}
+
+{# Bloc pour acceuillir la feuille de style CSS #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="../../css/espace-capsule.css">
+    <link rel="stylesheet" href="../../css/capsule.css">
+{% endblock %}
 
 {% block body %}
 
@@ -9,7 +15,5 @@
     <div id="capsule-root"></div>
 
     
-
-    <a href="{{ path('app_moncompte') }}">Revenir à mon compte</a>
   
 {% endblock %}

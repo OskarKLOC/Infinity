@@ -83,34 +83,41 @@ function MaCapsuleText (props) {
     // On affiche le rendu
     return (
         <>
-            <h2>Ajout d'un contenu texte à ma capsule</h2>
-            <div className={props.messageClass}>{props.message}</div>
-            <form onSubmit={handleSubmit} method="post">
-                <div>
-                    <label htmlFor="capsule-text-title">Titre général de votre texte : </label>
-                    <input type="text" id="capsule-text-title" name="capsule-text-title" value={props.content.name} onChange={handleChange} />
+            <div className="zone-gestion text-center">
+                <h3>Ajout d'un contenu texte</h3>
+                <div className={props.messageClass}>{props.message}</div>
+                <div className="col-1 bloc-texte text-center mt-5">
+                    <div className="deuxieme-bloc-texte">
+                        <form onSubmit={handleSubmit} method="post">
+                            <div>
+                                <label htmlFor="capsule-text-title">Titre de votre texte&nbsp;</label>
+                                <input type="text" id="capsule-text-title" name="capsule-text-title" value={props.content.name} onChange={handleChange} placeholder="Votre titre"/>
+                            </div>
+                            <Editor
+                                tinymceScriptSrc={'../../tinymce/tinymce.min.js'}
+                                onInit={(evt, editor) => editorRef.current = editor}
+                                initialValue='<p>Laissez votre message personnalisé ici...</p>'
+                                init={{
+                                    height: 500,
+                                    menubar: false,
+                                    plugins: [
+                                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                        'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                                        ],
+                                    toolbar: 'undo redo | blocks | ' +
+                                        'bold italic forecolor | alignleft aligncenter ' +
+                                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                                        'removeformat | help',
+                                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                }}
+                            />
+                            <button type="submit" className="btn2 btn-dark">Enregistrer</button>
+                        </form>
+                    </div>
                 </div>
-                <Editor
-                    tinymceScriptSrc={'../../tinymce/tinymce.min.js'}
-                    onInit={(evt, editor) => editorRef.current = editor}
-                    initialValue='<p>Laissez votre message personnalisé ici...</p>'
-                    init={{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                            'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
-                            ],
-                        toolbar: 'undo redo | blocks | ' +
-                            'bold italic forecolor | alignleft aligncenter ' +
-                            'alignright alignjustify | bullist numlist outdent indent | ' +
-                            'removeformat | help',
-                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                    }}
-                />
-                <button type="submit">Enregistrer</button>
-            </form>
+            </div>
+    
         </>
     );
 }

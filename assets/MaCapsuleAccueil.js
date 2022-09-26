@@ -22,9 +22,10 @@ function MaCapsuleAccueil (props) {
     // On applique l'affichage désiré
     return (
         <>
-            <p>Bienvenue dans votre capsule</p>
+            <div className="zone-gestion text-center">
+                <h3>Bienvenue dans votre capsule</h3>
                 {affichage}
-            
+            </div>
         </>
     );
 }

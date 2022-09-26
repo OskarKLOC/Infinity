@@ -93,32 +93,48 @@ function MaCapsuleFichier (props) {
     // On affiche le rendu résultant
     return (
         <>
-            <h2>Ajout d'un message {props.type} à ma capsule</h2>
-            <div className={props.messageClass}>{props.message}</div>
-            <form onSubmit={handleSubmit} method="post" encType="multipart/form-data">
-                <div>
-                    <label htmlFor="capsule-fichier-title">Titre de votre {props.type} : </label>
-                    <input type="text" id="capsule-fichier-title" name="capsule-fichier-title" value={props.content.name} onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="capsule-fichier">Chargement de votre {props.type} : </label>
-                    {/* Documentation de l'élément Drag & Drop : */}
-                    {/* https://www.npmjs.com/package/react-drag-drop-files */}
-                    <FileUploader
-                            handleChange={handleChangeFile}
-                            name="newFile"
-                            types={fileTypes}
-                            label="Recherchez ou déposez votre fichier ici" 
-                            hoverTitle="Déposez votre fichier ici"
-                            maxSize={maxSize}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="capsule-fichier-text">Commentaire sur votre {props.type} : </label>
-                    <textarea name="capsule-fichier-text" id="capsule-fichier-text" value={props.content.message} onChange={handleChange}></textarea>
-                </div>
-                <button type="submit">Enregistrer</button>
-            </form>
+            <div className="zone-gestion text-center">
+                <h3>Ajout d'un message {props.type}</h3>
+                <div className={props.messageClass}>{props.message}</div>
+                <form onSubmit={handleSubmit} method="post" encType="multipart/form-data" className="col-1 bloc-fichier mt-5">
+                    <div>
+                        <label htmlFor="capsule-fichier" className="titre-photo">Chargement de votre {props.type}</label>
+                        {/* Documentation de l'élément Drag & Drop : */}
+                        {/* https://www.npmjs.com/package/react-drag-drop-files */}
+                        <FileUploader
+                                handleChange={handleChangeFile}
+                                name="newFile"
+                                types={fileTypes}
+                                label="Recherchez ou déposez votre fichier ici" 
+                                hoverTitle="Déposez votre fichier ici"
+                                maxSize={maxSize}
+                                classes="upload-items"
+                        />
+                    </div>
+                    <div className="bloc">
+                        <div className="form-group m-4">
+                            <label htmlFor="capsule-fichier-title" className="titre-photo">Titre de votre {props.type}</label>
+                            <i className="ligne"></i>
+                        </div>
+                        <div className="bloc-titre px-5 mb-5">
+                            <input type="text" id="capsule-fichier-title" name="capsule-fichier-title" value={props.content.name} onChange={handleChange} className="form-control" placeholder="Votre titre"/>
+                        </div>
+
+                        <div className="form-group m-4">
+                            <label htmlFor="capsule-fichier-text" className="titre-photo" >Commentaire sur votre {props.type}</label>
+                        </div>
+                        <div className="bloc-commentaire px-5">
+                            <textarea name="capsule-fichier-text" id="capsule-fichier-text" value={props.content.message} onChange={handleChange} className="form-control">Votre commentaire</textarea>
+                        </div>
+                            
+                        <div className="text-center mt-5">
+                            <button type="submit" className="btn2 btn-dark">Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+                
+            
         </>
     );
 }

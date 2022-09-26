@@ -93,39 +93,49 @@ function MaCapsuleParams (props) {
     // Affichage du formulaire avec les données déjà présentes en BDD pour cette capsule
     return (
         <>
-            <h2>Paramètres de ma capsule</h2>
-            <div className={props.messageClass}>{props.message}</div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="capsule-name">Nom de ma capsule : </label>
-                    <input type="text" id="capsule-name" name="capsule-name" value={props.capsule.name} onChange={handleChange} />
-                </div>
-                <div>
-                    <p>Date de création : {props.creationDate}</p>
-                    <p>Statut de ma capsule : {sealStatus}</p>
-                    <p>Date de dernier verrouillage: {props.sealDate}</p>
-                    <p>Format de ma capsule : {format} </p>
-                </div>
-                <div>
-                    <p>Destinataires de ma capsule</p>
-                    {
-                        props.recipients.length
-                            ? (props.recipients[0] != 0
-                                ? props.recipients.map((recipient, index) => {
-                                    return <div key={recipient.id}>
-                                        <input type="checkbox" id={'recipient-' + recipient.id} name={'recipient-' + recipient.id} value={recipient.id} defaultChecked={props.selectionRecipients.includes(recipient.id)} onChange={handleChange}></input>
-                                        <label htmlFor={'recipient-' + recipient.id}>
-                                                <p>{recipient.firstname} {recipient.lastname}</p>
-                                        </label>
-                                    </div>
-                                })
-                                : ' ')
-                            : 'Vous n\'avez pas encore créé de destinataire depuis votre compte'
+            <div className="zone-gestion text-center">
+                <h3>Paramètres de ma capsule</h3>
+                <div className={props.messageClass}>{props.message}</div>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-param">
+                        <div className="zone-info">
+                            <div>
+                                <label htmlFor="capsule-name" className="titre-photo">Nom de ma capsule</label>
+                                <input type="text" id="capsule-name" name="capsule-name" value={props.capsule.name} onChange={handleChange} className="form-control"/>
+                            </div>
+                            <div>
+                                <span className="info-capsule">Date de création : {props.creationDate}</span>
+                                <span className="info-capsule">Statut de ma capsule : {sealStatus}</span>
+                                <span className="info-capsule">Date de dernier verrouillage: {props.sealDate}</span>
+                                <span className="info-capsule">Format de ma capsule : {format} </span>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Sélectionnez vos destinataires</p>
+                            {
+                                props.recipients.length
+                                    ? (props.recipients[0] != 0
+                                        ? props.recipients.map((recipient, index) => {
+                                            return <div key={recipient.id} className="card-liste mb-5">
+                                                <input type="checkbox" id={'recipient-' + recipient.id} name={'recipient-' + recipient.id} value={recipient.id} defaultChecked={props.selectionRecipients.includes(recipient.id)} onChange={handleChange} className="checkbox-recipient btn-check"></input>
+                                                <label htmlFor={'recipient-' + recipient.id} className="card-liste-beneficiaires d-flex justify-content-between">
+                                                        <p>{recipient.firstname} {recipient.lastname}</p>
+                                                </label>
+                                            </div>
+                                        })
+                                        : ' ')
+                                    : 'Vous n\'avez pas encore créé de destinataire depuis votre compte'
 
-                    }
-                </div>
-                <button type="submit">Enregistrer</button>
-            </form>
+                            }
+                        </div>
+                    </div>
+                    <div className="text-center mt-5">
+                        <button type="submit" className="btn2 btn-dark">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+            
+            
         </>
     );
 }

@@ -7,15 +7,30 @@
     margin: 20px;
 }
 
-.bloc-texte {
-    height: 650px;
+.zone-gestion {
+    height: 700px;
     width: 1160px;
     background-color: #E4F1F9;
     border-radius: 30px;
     margin-bottom: 50px;
+}
+
+.bloc-texte {
+    width: 1160px;
     display: flex;
     justify-content:space-evenly;
     align-items: center;
+}
+
+.bloc-fichier {
+    width: 1160px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.bloc-librairie {
+    width: 1160px;
 }
 
 .bulle-icones {
@@ -53,8 +68,7 @@
 
 .bloc-element {
     width: 149px;
-    height: 90px;
-    background-color: grey;
+    margin: auto;
 }
 
 .bloc-image-div {
@@ -63,10 +77,26 @@
 
 .scroller {
     width: 1160px;
-    height: 650px;
+    height: 500px;
     overflow-y: scroll;
     scrollbar-color: black;
     scrollbar-width: thin;
+    margin-bottom: 30px;
+}
+
+.zone-librairie {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.element-librairie {
+    width: 24%;
+    margin-bottom: 10px;
+}
+
+.btn2 {
+    text-decoration: none;
 }
 
 /************************ TEST ************************/
@@ -105,6 +135,27 @@
 
 /************************ CAPSULE A ENVOYER ************************/
 
+.form-param {
+    display: flex;
+    justify-content: space-around;
+}
+
+.zone-info {
+    width: 45%;
+}
+
+.zone-info div {
+    margin-bottom: 50px;
+}
+
+.info-capsule {
+    display: block;
+}
+
+.checkbox-recipient:checked + label {
+    border: 2px solid #290252;
+}
+
 .capsule-envoye {
     width: 1576px;
     height: 90px;
@@ -118,10 +169,7 @@
 }
 
 .card-liste-beneficiaires {
-    width: 936px;
     height: 90px;
-    left: 491px;
-    top: 4495px;
     background: #E8E8E8;
     border-radius: 30px;
     margin-left: auto;

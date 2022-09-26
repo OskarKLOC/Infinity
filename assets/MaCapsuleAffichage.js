@@ -105,44 +105,61 @@ function MaCapsuleAffichage (props) {
     // On fait appel aux composants d'affichage à qui nous passons nos props, et qui se basent sur les conditions définies dans le présent composant
     return (
         <>
-            <div>
-                <div onClick={changeView} data-mode="params">Paramètres</div>
-                {
-                    isVirtual
-                        ? <MaCapsuleNavVirtual changeView={changeView}></MaCapsuleNavVirtual>
-                        : <div onClick={changeView} data-mode="suivi">Suivi</div>
-                }
+            <div className="flex-container">
+                
+                <div className="col-2 offset-1 bulle-icones col-2">
+                    <div onClick={changeView} data-mode="params" className="dot d-flex align-items-center justify-content-center">
+                        <img src="../../img/icones/select.svg" alt="paramètres" width="35" height="35"/>
+                    </div>
+                    {
+                        isVirtual
+                            ? <MaCapsuleNavVirtual changeView={changeView}></MaCapsuleNavVirtual>
+                            : <div onClick={changeView} data-mode="suivi" className="dot d-flex align-items-center justify-content-center">
+                                <img src="../../img/icones/suivi.png" alt="suivi" width="35" height="35"/>
+                                </div>
+                    }
+                </div>
+                
+                <div>
+                    {
+                        mode == ''
+                            ? <MaCapsuleAccueil isSealed={isSealed}></MaCapsuleAccueil>
+                            : mode == 'params'
+                                ? <MaCapsuleParams id={props.id} capsule={props.capsule} setCapsule={props.setCapsule} recipients={props.recipients} setRecipients={props.setRecipients} selectionRecipients={props.selectionRecipients} setSelectionRecipients={props.setSelectionRecipients} creationDate={props.creationDate} sealDate={props.sealDate} message={props.message} setMessage={props.setMessage} messageclassName={props.messageClass}></MaCapsuleParams>
+                                : mode == 'text'
+                                    ? <MaCapsuleText id={props.id} content={props.content} setContent={props.setContent} message={props.message} setMessage={props.setMessage} messageclassName={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleText>
+                                    : mode == 'photo'
+                                        ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageclassName={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
+                                        : mode == 'audio'
+                                            ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageclassName={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
+                                            : mode == 'vidéo'
+                                                ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageclassName={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
+                                                : mode == 'library'
+                                                    ? <MaCapsuleLibrary id={props.id} contents={props.contents} selection={props.selection} setSelection={props.setSelection} message={props.message} setMessage={props.setMessage} messageclassName={props.messageClass} reload={reload} content={props.content} file={props.file} getAllContents={props.getAllContents}></MaCapsuleLibrary>
+                                                    : mode == 'suivi'
+                                                        ? <MaCapsuleSuivi></MaCapsuleSuivi>
+                                                        :''
+                    }
+
+                    <div className="text-center">
+                        {
+                            isSealed == undefined
+                            ? ''
+                            : isSealed
+                                ? <div onClick={toggleSeal} className="btn btn-secondary">Déverrouiller ma capsule</div>
+                                : <div onClick={toggleSeal} className="btn btn-secondary">Verrouiller ma capsule</div>
+                        }
+                        <div>
+                            <a href="/moncompte" className="btn2 btn-dark">Revenir à mon compte</a>
+                        </div>
+                    </div>
+
+                </div>
                 
             </div>
-
-            {
-                mode == ''
-                    ? <MaCapsuleAccueil isSealed={isSealed}></MaCapsuleAccueil>
-                    : mode == 'params'
-                        ? <MaCapsuleParams id={props.id} capsule={props.capsule} setCapsule={props.setCapsule} recipients={props.recipients} setRecipients={props.setRecipients} selectionRecipients={props.selectionRecipients} setSelectionRecipients={props.setSelectionRecipients} creationDate={props.creationDate} sealDate={props.sealDate} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass}></MaCapsuleParams>
-                        : mode == 'text'
-                            ? <MaCapsuleText id={props.id} content={props.content} setContent={props.setContent} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleText>
-                            : mode == 'photo'
-                                ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
-                                : mode == 'audio'
-                                    ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
-                                    : mode == 'vidéo'
-                                        ? <MaCapsuleFichier type={mode} id={props.id} content={props.content} setContent={props.setContent} file={props.file} setFile={props.setFile} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} changeView={changeView}></MaCapsuleFichier>
-                                        : mode == 'library'
-                                            ? <MaCapsuleLibrary id={props.id} contents={props.contents} selection={props.selection} setSelection={props.setSelection} message={props.message} setMessage={props.setMessage} messageClass={props.messageClass} reload={reload} content={props.content} file={props.file} getAllContents={props.getAllContents}></MaCapsuleLibrary>
-                                            : mode == 'suivi'
-                                                ? <MaCapsuleSuivi></MaCapsuleSuivi>
-                                                :''
-            }
-
-            {
-                isSealed == undefined
-                ? ''
-                : isSealed
-                    ? <div onClick={toggleSeal}>Déverrouiller ma capsule</div>
-                    : <div onClick={toggleSeal}>Verrouiller ma capsule</div>
-            }
             
+            
+ 
         </>
     );
 }

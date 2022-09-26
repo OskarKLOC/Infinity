@@ -54,25 +54,41 @@ function MaCapsuleLibrary (props) {
     // On génère le rendu final
     return (
         <>
-            <h2>Librairie de ma capsule</h2>
-            <div className={props.messageClass}>{props.message}</div>
-            <form onSubmit={handleSubmit}>
-                {
-                    props.contents.map((content, index) => {
-                        return <div key={content.id}>
-                            <label htmlFor={'content-' + content.id}>
-                                <div>
-                                    <p>{content.contentType}</p>
-                                    <p>{content.contentName}</p>
-                                </div>
-                            </label>
-                            <input type="checkbox" id={'content-' + content.id} name={'content-' + content.id} value={content.id} defaultChecked={content.contenusStatus === "ADDED"} onChange={handleChange}></input>
+            <div className="zone-gestion text-center">
+                <h3>Librairie de ma capsule</h3>
+                <div className={props.messageClass}>{props.message}</div>
+                <form onSubmit={handleSubmit} className="col-1 bloc-librairie text-center mt-5">
+                    <div className="scroller">
+                        <h4 className="text-center pt-4">Sélectionner vos contenus</h4>
+                        <div className="zone-librairie">
+                            {
+                                props.contents.map((content, index) => {
+                                    return <div key={content.id} className="element-librairie">
+                                        <div className="bloc-element">
+                                            <label htmlFor={'content-' + content.id} className="form-check-label">
+                                                <div>
+                                                    <img src={'../../img/espace-capsule/' + content.contentType + '.png'} alt={content.contentType} width="149" height="124"/>
+                                                    <span>{content.contentName}</span>
+                                                </div>
+                                            </label>
+                                            <input type="checkbox" id={'content-' + content.id} name={'content-' + content.id} value={content.id} defaultChecked={content.contenusStatus === "ADDED"} onChange={handleChange} className="form-check-input"></input>
+                                        </div>
+                                    </div>
+                                })
+                            }
                         </div>
-                    })
-                }
-                <button type="submit">Enregistrer</button>
-                <a href={'/capsule/reception/' + props.id} target="_blank">Aperçu de ma capsule</a>
-            </form>
+                    </div>
+                    <button type="submit" className="btn2 btn-dark mx-3">Enregistrer</button>
+                    <a href={'/capsule/reception/' + props.id} target="_blank" className="btn2 btn-dark mx-3">Aperçu de ma capsule</a>
+                </form>
+            </div>
+            
+            
+
+           
+                       {/*          <div className="bloc-image-div d-flex justify-content-between align-items-center"> */}
+
+
         </>
     )
 }
