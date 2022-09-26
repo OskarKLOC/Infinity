@@ -107,6 +107,11 @@ header::before {
     margin-bottom: 30px;
 }
 
+.capsule-url {
+    text-decoration: none;
+    color: black;
+}
+
 /******************************* MON ENGAGEMENT ***************************/
 
 .bloc-texte {

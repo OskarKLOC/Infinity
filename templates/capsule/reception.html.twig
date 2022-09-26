@@ -14,7 +14,11 @@
 
             <div id="titre-reception-capsule">
                 <h2>Votre capsule</h2>
-                <p>Cette capsule de souvenirs a été préparée par {{owner.firstname}} {{owner.lastname}} pour {{recipient.firstname}} {{recipient.lastname}}</p>
+                {% if recipient %}
+                    <p>Cette capsule de souvenirs a été préparée par {{owner.firstname}} {{owner.lastname}} pour {{recipient.firstname}} {{recipient.lastname}}</p>
+                {% else %}
+                    <p>Cette capsule de souvenirs a été préparée par {{owner.firstname}} {{owner.lastname}}</p>
+                {% endif %}
             </div>
             
 

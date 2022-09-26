@@ -11,6 +11,7 @@ use App\Repository\ContentRepository;
 use App\Repository\CapsuleRepository;
 use App\Repository\CapsuleUserRepository;
 use DateTime;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,8 +44,14 @@ class CapsuleController extends AbstractController
         // On récupère le propriétaire de la capsule
         $owner = $capsuleUserRepository->findOwner($capsule->getId())->getUser();
         // On récupère le destinataire de la capsule (pour le moment seulement le premier pour nos tests)
-        $recipient = $capsuleUserRepository->findAllRecipients($capsule->getId())[0]->getUser();
-        
+        $recipients = $capsuleUserRepository->findAllRecipients($capsule->getId());
+        // Est-ce qu'il y a des destinataires à ce stade ?
+        if (count($recipients) != 0) {
+            $recipient = $recipients[0]->getUser();
+        } else {
+            $recipient = null;
+        }
+
         return $this->render('capsule/reception.html.twig', [ 
             'capsule'   => $capsule,
             'contents'  => $contents,
