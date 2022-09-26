@@ -2,52 +2,96 @@
 
 {% block title %}Infinity - Votre capsule{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="../../css/beneficiaire.css">
+{% endblock %}
+
 {% block body %}
 
-    <h1>Votre capsule</h1>
+    <main class="bg-light-darker">
+        <div class="container-reception-capsule">
 
-    <p>Cette capsule de souvenirs a été préparée par {{owner.firstname}} {{owner.lastname}} pour {{recipient.firstname}} {{recipient.lastname}}</p>
+            <div id="titre-reception-capsule">
+                <h2>Votre capsule</h2>
+                <p>Cette capsule de souvenirs a été préparée par {{owner.firstname}} {{owner.lastname}} pour {{recipient.firstname}} {{recipient.lastname}}</p>
+            </div>
+            
 
-    <h2>{{capsule.name}}</h2>
+            <!-- DEBUT PRESENTATION -->
+                <section id="presentation">
+                    <div class="container-fluid zone-image-presentation">
+                        <div class="row">
+                            <div class="col-5 offset-2">
+                                <img src="../../img/homepage/presentation.jpg" alt="photo header" class="img-fluid blue">
+                            </div>
+                            <div class="col-5">
+                                <h3>Vous avez un message !</h3>
+                                <p>Une personne de votre entourage a souhaité vous transmettre un dernier message, un dernier présent.</p>
+                                <p>Conscients qu'une période de deuil est douloureuse, vous avez une année pour choisir d'en prendre connaissance au moment qui vous semble le plus opportun.</p>
+                                <p>Laissez-vous guider et profitez pleinement de ses souvenirs partagés.</p>
+                            </div>
+                        </div>
 
-    {# Boucle sur tous les contenus #}
-    {% for content in contents %}
-        {# On ne retient que les contenus qui ont été validés "ajoutés" dans la capsule #}
-        {% if content.contenusStatus == 'ADDED' %}
-            <article>
-                {# Dans tous les cas le titre est affiché #}
-                <h3>{{content.contentName}}</h3>
-                {# S'il s'agit d'un contenu texte #}
-                {% if content.contentType == 'texte' %}
-                    <div>{{content.caption|raw}}</div>
-                {% endif %}
-                {# S'il s'agit d'un contenu photo #}
-                {% if content.contentType == 'photo' %}
-                    <img src={{content.url}} alt="">
-                    <div>{{content.caption}}</div>
-                {% endif %}
-                {# S'il s'agit d'un contenu audio #}
-                {% if content.contentType == 'audio' %}
-                    <figure>
-                        <figcaption>Votre message audio :</figcaption>
-                        <audio controls src={{content.url}}>
-                                <a href={{content.url}}>Télécharger le message audio</a>
-                        </audio>
-                    </figure>
-                    <div>{{content.caption}}</div>
-                {% endif %}
-                {# S'il s'agit d'un contenu vidéo #}
-                {% if content.contentType == 'vidéo' %}
-                    <figure>
-                        <figcaption>Votre message vidéo :</figcaption>
-                        <video controls preload="metadata" src={{content.url}}>
-                                <a href={{content.url}}>Télécharger le message vidéo</a>
-                        </video>
-                    </figure>
-                    <div>{{content.caption}}</div>
-                {% endif %}
-            </article>
-        {% endif %}
-    {% endfor %}
+                    </div>
+                </section>
+                <!-- FIN PRESENTATION -->
+            
+            <div>
+                <h3>{{capsule.name}}</h3>
+                <i class="deco deco-left"></i>
+            </div>
+
+            <section class="contenus">
+                {# Boucle sur tous les contenus #}
+                {% for content in contents %}
+                    {# On ne retient que les contenus qui ont été validés "ajoutés" dans la capsule #}
+                    {% if content.contenusStatus == 'ADDED' %}
+                        <article class="capsule-contenu">
+                            {# Dans tous les cas le titre est affiché #}
+                            <div>
+                                <h4>{{content.contentName}}</h4>
+                                <i class="deco2"></i>
+                            </div>
+                            <div class="container-reception">
+                                {# S'il s'agit d'un contenu texte #}
+                                {% if content.contentType == 'texte' %}
+                                    <div>
+                                        {{content.caption|raw}}
+                                    </div>
+                                {% endif %}
+                                {# S'il s'agit d'un contenu photo #}
+                                {% if content.contentType == 'photo' %}
+                                    <img src={{content.url}} alt="" class="contenu-objet">
+                                    <div class="contenu-commentaire">{{content.caption}}</div>
+                                {% endif %}
+                                {# S'il s'agit d'un contenu audio #}
+                                {% if content.contentType == 'audio' %}
+                                    <figure class="contenu-objet">
+                                        <figcaption>Votre message audio :</figcaption>
+                                        <audio controls src={{content.url}}>
+                                                <a href={{content.url}}>Télécharger le message audio</a>
+                                        </audio>
+                                    </figure>
+                                    <div class="contenu-commentaire">{{content.caption}}</div>
+                                {% endif %}
+                                {# S'il s'agit d'un contenu vidéo #}
+                                {% if content.contentType == 'vidéo' %}
+                                    <figure class="contenu-objet">
+                                        <figcaption>Votre message vidéo :</figcaption>
+                                        <video controls preload="metadata" src={{content.url}}>
+                                                <a href={{content.url}}>Télécharger le message vidéo</a>
+                                        </video>
+                                    </figure>
+                                    <div class="contenu-commentaire">{{content.caption}}</div>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            </section>
+            
+        </div>
+    </main>
   
 {% endblock %}

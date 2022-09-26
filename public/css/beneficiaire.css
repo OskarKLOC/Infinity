@@ -2,10 +2,24 @@ header {
     box-shadow: none;
 }
 
+.container-reception-capsule {
+    width: 90%;
+    margin: auto;
+}
+
+
+#titre-reception-capsule {
+    padding-top: 9rem;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+
 /********************** SECTION PRESENTATION ************************/
 #presentation {
-    padding-top: 4rem;
-    margin-bottom: 20rem;
+    padding-top: 2rem;
+    margin-bottom: 8rem;
 }
 #presentation h2 {
     font-weight: 700;
@@ -13,12 +27,16 @@ header {
 }
 #presentation img {
     border-radius: 0 45px 0 45px;
+    width: 65%;
 }
 
+.zone-image-presentation {
+    overflow: visible;
+}
 
 .blue {
-    -webkit-box-shadow: -10vw 10vw 0px 0px var(--secondary); 
-    box-shadow: -10vw 10vw 0px 0px var(--secondary);
+    -webkit-box-shadow: -10vw 10vw 0px 0px var(--warning); 
+    box-shadow: -10vw 5vw 0px 0px var(--warning);
 }
 
 .scroll {
@@ -31,4 +49,42 @@ header {
 .photos img, .videos img{
     width: 613px ;
     height: 409px;
+}
+
+/***************** BARRE SOUS LES TITRES DE CONTENUS *******************/
+.deco2 {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 80px;
+}
+
+.deco2::before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 6px;
+    width: 90vw;
+    top: 0;
+    background-color: var(--warning);
+}
+
+/************** ORGANISATION D4AFFICHAGE DES CONTENUS ****************/
+.contenus {
+    margin-top: 5rem;
+}
+
+.capsule-contenu {
+    margin-bottom: 5rem;
+}
+
+.container-reception {
+    width: 85%;
+    margin: auto;
+    display: flex;
+}
+
+.contenu-objet {
+    width: 35%;
+    margin-right: 2rem;
 }
