@@ -1,0 +1,224 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infinity - Bienvenue{% endblock %}
+
+{# Bloc pour acceuillir la feuille de style CSS #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/notrehistoire.css">
+{% endblock %}
+
+{# DEBUT DU BLOCK BODY #}
+
+{% block body %}
+
+<body>
+    <!-- DEBUT HEADER -->
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Infinity</h1>
+                    <p>Notre histoire</p>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur labore accusamus quas quidem quos, excepturi unde quasi iste maiores sint.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- FIN HEADER -->
+
+    <main class="bg-light-darker">  
+      <!-- TITRE NOTRE PHILOSOPHIE -->
+      <div class="container-fluid">
+        <div class="row text-center">
+          <div class="col text-center m-5">
+            <h3> L'équipe </h3>
+            <i class="deco deco-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section avec toutes les présentations -->
+      <section class="equipe">
+
+        <!-- Emplacement de la première card -->
+        <div class="carte-presentation">
+          <div class="lignepresentation">
+            <div class="illustration bg-teal">
+              <!-- Titre -->
+              <div class="caption"> <p>Avant</p> </div>
+                <!-- Image avant -->
+                <img src="img/notre-histoire/cedric- avant.jpeg" alt="placeholder">
+              </div>
+            <div class="illustration bg-yellow">
+              <!-- Titre -->
+              <div class="caption"><p>Aujourd'hui</p></div>
+                <!-- Image maintenant -->
+                <img src="img/notre-histoire/cedric-maintenant.jpeg" alt="placeholder">
+              </div>
+            </div>
+          <!-- Début de la légende -->
+          <div class="row inline">
+            <div class="caption">
+              <p>
+                <b>Cédric</b> <br>
+                Développeur front end <br>
+                Pro de l'organisation
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Fin de la première card -->
+
+
+        <!-- Début de la deuxième card -->
+        <div class="carte-presentation">
+          <div class="lignepresentation">
+            <div class="illustration bg-teal">
+              <!-- titre -->
+              <div class="caption"><p>Avant</p></div>
+              <!-- Image avant -->
+              <img src="img/notre-histoire/audrey - avant.jpg" alt="placeholder">
+            </div>
+            <div class="illustration bg-yellow">
+              <!-- Titre -->
+              <div class="caption"><p>Aujourd'hui</p></div>
+              <!-- Image maintenant -->
+              <img src="img/notre-histoire/audrey - maintenat.webp" alt="placeholder">
+            </div>
+          </div>
+          <div class="row inline">
+            <div class="caption">
+              <p>
+                <b>Audrey</b> <br>
+                Directrice artistique <br>
+                Ou la guitare la mène
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Fin de la deuxième card -->
+
+        <!-- Emplacement de la troisième card -->
+        <div class="carte-presentation">
+          <div class="lignepresentation">
+            <div class="illustration bg-teal">
+              <!-- Titre -->
+              <div class="caption"><p>Avant</p></div>
+              <!-- Image avant -->
+              <img src="img/notre-histoire/Niels - enfant.jpg" alt="placeholder">
+            </div>
+            <div class="illustration bg-yellow">
+              <!-- Titre -->
+              <div class="caption"><p>Aujourd'hui</p></div>
+              <!-- Image maintenant -->
+              <img src="img/notre-histoire/Niels - Maintenant.webp" alt="placeholder">
+            </div>
+          </div>
+          <!-- Début de la légende -->
+          <div class="row inline">
+            <div class="caption">
+              <p>
+                <b>neils druckmann</b> <br>
+                Développeur back end <br>
+                Fan de lunettes
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Fin de la troisième card -->
+
+
+        <!-- Début de la quatrième card -->
+        <div class="carte-presentation">
+          <div class="lignepresentation">
+            <div class="illustration bg-teal">
+              <!-- titre -->
+              <div class="caption"><p>Avant</p></div>
+              <!-- Image avant -->
+              <img src="img/notre-histoire/anh - avant.jpeg" alt="placeholder">
+            </div>
+            <div class="illustration bg-yellow">
+              <!-- Titre -->
+              <div class="caption"><p>Aujourd'hui</p></div>
+              <!-- Image maintenant -->
+              <img src="img/notre-histoire/anh - maintenant.jpeg" alt="placeholder">
+            </div>
+          </div>
+          <div class="row inline">
+            <div class="caption">
+              <p>
+                <b>ahn lin</b> <br>
+              Conceptrice UI UX desingeuse <br>
+              Fan de découpage
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Fin de la quatrième card -->
+
+        <!-- Début de la cinquième card -->
+        <div class="carte-presentation">
+          <div class="lignepresentation">
+            <div class="illustration bg-teal">
+              <!-- titre -->
+              <div class="caption"><p>Avant</p></div>
+              <!-- Image avant -->
+              <img src="img/notre-histoire/celine-avant.jpeg" alt="placeholder">
+            </div>
+            <div class="illustration bg-yellow">
+              <!-- Titre -->
+              <div class="caption"><p>Aujourd'hui</p></div>
+              <!-- Image maintenant -->
+              <img src="img/notre-histoire/celine-maintenant.jpeg" alt="placeholder">
+            </div>
+          </div>
+          <div class="row inline">
+            <div class="caption">
+              <p>
+                <b>Céline Chevalier</b> <br>
+                Community Manager <br>
+                Juste un sourrire
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Fin de la cinquième card -->
+      </section>
+      
+    <div class="philosophie">
+      <!-- TITRE NOTRE PHILOSOPHIE -->
+      <div class="container-fluid">
+        <div class="row text-center">
+          <div class="col text-center m-5">
+            <h3> Notre Philosophie </h3>
+            <i class="deco deco-left"></i>
+          </div>
+        </div>
+      </div>     
+
+      <!-- TEXTE NOTRE PHILOSOPHIE -->
+      <div>
+
+        <p>
+          Réinventer ses souvenirs 
+        </p>
+
+        <p>Appelez-nous sentimentaux, mais il se trouve que nous pensons que les souvenirs et les     connexions passées sont importants.
+
+          Connaissez-vous les capsules temporelles ? Ces boîtes que les écoliers, les amoureux, les enfants en compagnie de leurs parents enterrent au pied d’un bosquet ou sous une pierre. Ils y cachent quelques secrets, lui confient aussi souvent une lettre.
+          
+          Dans un an, dix ans ou vingt ans, vous pourrez offrir ses émotions à votre être aimé, à vos enfants, les enfants de vos enfants.
+          INFINITY vous permet de préparer votre précieuse capsule ainsi que de permettre à vos proches de découvrir ou redécouvrir avec émotion et nostalgie le fil de votre vie.
+          
+          
+          “ Notre objectif est d’aider les gens à trouver de nouvelles façons de se connecter les uns avec les autres autour du passé. “</p>
+      </div> 
+      </div>       
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+</body>
+
+{% endblock %}

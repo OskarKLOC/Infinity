@@ -27,4 +27,14 @@ class HomeController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/notrehistoire', name: 'app_home_histoire')]
+    public function histoire(): Response
+    {
+        $user=$this->getUser();
+        
+        return $this->renderForm('home/notrehistoire.html.twig', [
+            'user' => $user,
+        ]);
+    }
 }
